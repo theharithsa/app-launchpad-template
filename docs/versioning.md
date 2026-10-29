@@ -1,26 +1,23 @@
 # Template versioning
 
-`TEMPLATE_VERSION` is the authoritative version of the reusable template foundation. The current requested label is **1.09.0**. README, `project.json` → `template.version`, and the newest versioned `docs/template-changelog.md` section must agree with that file; foundation CI checks consistency.
+`TEMPLATE_VERSION` is authoritative. README, project template metadata and the newest [template changelog](template-changelog.md) section agree with it under CI. Application/API and bundled upstream skill versions are independent.
 
-## Version policy
+## SemVer
 
-This template uses a three-part numeric release label `major.minor.patch`, preserving the requested `1.09.0` spelling. It is not strict SemVer because the minor component has a leading zero. Do not pass it to tooling that requires strict SemVer without an explicitly agreed mapping. The label's three numeric components communicate compatibility:
+Use [SemVer 2.0.0](https://semver.org/): patch for compatible fixes, minor for compatible additions, major for incompatible contracts requiring migration. Numeric identifiers have no leading zeros. Prerelease/build syntax is supported by the validator.
 
-- Patch: compatible fixes/documentation adjustments, for example `1.09.1`.
-- Minor: compatible new foundation capabilities, for example `1.10.0`.
-- Major: incompatible metadata/schema/workflow changes requiring consumer migration, for example `2.0.0`.
-
-Record compatibility and migration impact in the changelog. The initial recorded version is 1.09.0; earlier unversioned commits remain historical facts, not invented past releases. Bundled third-party skill versions and licenses remain independent.
+The first valid template release is **1.9.0**. Earlier source carried the explicitly requested custom label `1.09.0`; issue #18 replaces that convention. No tag/release was published under the old label. Record that correction without inventing historical releases.
 
 ## Update and release
 
-1. Create/reuse the issue and work through a PR. Choose the next label based on compatibility and user direction; update TEMPLATE_VERSION, README, project template metadata and the newest template changelog section together.
-2. Run foundation validation, relevant tests, skill and link checks. Document actual results and current-head CI. Preserve the last reviewed source revision and continuation pointers separately from the template version.
-3. Merge only when authorized and checks/review pass. A versioned source merge is not automatically a published GitHub release, deployed application or verified tenant signal.
-4. When tag/release publication is requested or otherwise authorized, create a new immutable tag `v<LABEL>` at the verified merge revision and publish reviewed release notes. Verify the remote tag/commit and release URL. Never move or reuse a published tag. This change records version 1.09.0 in source; tag/release publication is a separate state.
+- Follow the [delivery owner](../.agents/skills/app-launchpad/references/github-release.md) and [authorization owner](../.agents/skills/app-launchpad/references/safety.md).
+- Update TEMPLATE_VERSION, README, project template metadata and the newest template changelog together; record compatibility/migration impact.
+- Run `sh scripts/check.sh`, relevant app checks and current-head CI. Record inspected source revision and continuation evidence independently of version.
+- After an authorized verified merge, publish a new immutable tag `v<VERSION>` at that merge. Verify remote tag/commit and any separately requested release publication; never move/reuse a published tag.
 
-## Generated projects and upgrades
+## Consumer migration
 
-On generation record the source template version and exact source commit in `project.json`. TEMPLATE_VERSION tracks the copied foundation; application package versions, release tags and API contract versions have their own approved policies. Generated applications may keep their own release history in root CHANGELOG.md; foundation checks read the separate docs/template-changelog.md to avoid mixing those histories. Do not overwrite the template provenance with an app version.
-
-Template updates do not automatically synchronize consumers. Apply selected changes through an issue-linked PR, preserve product/service-specific instructions, record migrations, and update template version/provenance only after adoption. Keep README/changelog provenance consistent with the copied foundation. Use `docs/release-plan.md` and each service's continuation to distinguish source adoption from app deployment.
+- Record source template version/commit on generation; retain provenance when app versions change.
+- Adopt selected template updates through a reviewed PR, preserving product/service-specific decisions, data and skill content. Update provenance only for changes actually adopted.
+- Root CHANGELOG.md may become the app history; retain template history separately in docs/template-changelog.md.
+- This baseline removes `.agents/skills/app-launchpad/scripts/bootstrap.py` and its partial assets. Replace old callers with GitHub template generation or explicitly pending adoption. Other metadata stays schemaVersion 1 with published schemas; no application deployment or data migration is implied.

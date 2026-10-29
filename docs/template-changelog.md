@@ -1,19 +1,17 @@
 # Template changelog
 
-## [1.09.0] - 2026-10-29
+## [1.9.0] - 2026-10-29
 
-### Added
+- Consolidate first-party instruction routing and shared policy owners; retain technical requirements in linked references.
+- Remove the partial bootstrap and duplicated assets; add multi-agent-tool pointers, agent briefs and synthetic examples.
+- Publish schemaVersion 1 JSON Schemas; collect deterministic diagnostics, add JSON output and one CI/local check entrypoint with Markdown link validation.
+- Add MIT template licensing, CODEOWNERS and an opt-in dry-run-first main ruleset procedure. Consumer application license remains a separate decision.
+- Normalize the previously requested `1.09.0` source label to valid SemVer `1.9.0`; reject leading-zero identifiers. No old release tag existed.
+- Retain per-service continuation, Ian illustration integration/attribution and explicit Dynatrace observability direction.
+- Migration: bootstrap callers must switch to full GitHub template generation; repository settings apply only through the separately authorized procedure.
 
-- Bundled Ian Xiaohei Illustrations 0.1.1 with its references, calibration examples, MIT license and attribution.
-- Documentation workflow and shared illustration policy for useful explanatory images in docs, websites and app content.
-- TEMPLATE_VERSION and source-provenance metadata, version policy and consistency validation. The exact requested 1.09.0 label is preserved; it is not strict SemVer.
+## Earlier unversioned source
 
-### Changed
-
-- Installed and bundled app-launchpad, project design, agent routing and README now select Ian/Xiaohei illustrations where useful, preserving explicit branding and accessible alternatives.
-
-## Earlier unversioned foundation
-
-- Stack-neutral app-launchpad foundation, issue/PR templates and foundation CI.
-- Workflow/service skills catalog with ownership and continuation metadata, safe registration tooling and validation.
-- No application deployment or live Dynatrace integration was performed by these template changes.
+- Stack-neutral project foundation, issue-linked delivery, service/workflow catalog, safe service registration and foundation CI.
+- Bundled Ian Xiaohei Illustrations 0.1.1 with MIT notice, calibration examples and a documentation workflow.
+- Historical source label 1.09.0 was a custom label, not a valid SemVer release. These template changes did not deploy an application or establish tenant telemetry.

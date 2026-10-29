@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "App Launchpad project",
+  "required": [
+    "schemaVersion",
+    "name",
+    "template",
+    "decisions"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": 1,
+      "type": "integer"
+    },
+    "name": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "template": {
+      "type": "object",
+      "required": [
+        "repository",
+        "version",
+        "revision"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-((?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$"
+        },
+        "revision": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "decisions": {
+      "type": "object",
+      "required": [
+        "product",
+        "stack",
+        "hosting",
+        "privacy",
+        "observability",
+        "license"
+      ],
+      "properties": {
+        "product": {
+          "$ref": "#/$defs/decision"
+        },
+        "stack": {
+          "$ref": "#/$defs/decision"
+        },
+        "hosting": {
+          "$ref": "#/$defs/decision"
+        },
+        "privacy": {
+          "$ref": "#/$defs/decision"
+        },
+        "observability": {
+          "$ref": "#/$defs/decision"
+        },
+        "license": {
+          "$ref": "#/$defs/decision"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "decision": {
+      "type": "object",
+      "required": [
+        "status",
+        "value",
+        "approval"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "needs-user-input",
+            "proposed",
+            "approved",
+            "not-applicable"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approval": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

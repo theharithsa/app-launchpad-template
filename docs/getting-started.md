@@ -1,18 +1,11 @@
-# Adopt the foundation
+# Getting started
 
-1. Confirm the product, audience, first journey, scope, GitHub identity/visibility and access. Create or reuse the issue before implementation. Preserve any existing work.
-2. Record approved choices in the brief and decision log. Fill `project.json` with a name and a source template commit SHA from GitHub. Each decision has status, value and approval source. `not-applicable` requires a reason in value and an accountable approval source, for example no backend telemetry on a static site. Keep unresolved choices as `needs-user-input`.
-3. Run the foundation validator and safety tests from README. The optional `--ready` flag fails until discovery decisions and provenance are recorded; a pass does not prove application or release readiness.
-4. Select framework/runtime versions from current official docs, scaffold the actual app in this repository using its conventions, and add the lockfile. Python here is only tooling; it is not a backend choice.
-5. Implement a real vertical slice. Add actual domain, contract, integration and browser tests as applicable. Add their commands and CI jobs, preserving failure/skipped/blocked states. Record exclusions for irrelevant layers.
-6. Resolve hosting/project/region/cost, environments, secure secret configuration, deployment trigger, approval and rollback before creating cloud resources. Implement provider-specific CI for the tested immutable artifact. The template intentionally ships no deployment workflow.
-7. Configure approved Dynatrace instrumentation and lifecycle observation using the bundled skill references. Do not copy another project's identities or emit invented success events. No active telemetry integration is included.
-8. Open the linked PR, run current-head checks, satisfy repository review policy, merge when authorized, and verify remote merge/issue closure. Deploy only under the applicable authorization and record exact release evidence.
-
-The bundled `scripts/bootstrap.py` copies planning files only into a confirmed target and refuses collisions. It is optional; generated template repositories already contain those files. Never run it over an existing app to overwrite its instructions.
-
-## Service skills before code
-
-Read `skills/catalog.json` and the relevant shared workflows. Register each actual service or independently maintained module with `scripts/add_service_skill.py` before implementing it. Complete its generated skill, metadata and continuation from inspected code; set it active when implemented. See [skills catalog](../skills/README.md) and [service inventory](services.md). Update those records in every relevant PR so future agents can resume from verified context.
-
-Record the source template version from `TEMPLATE_VERSION` alongside the source commit; keep application/API versions separate under [versioning](versioning.md). For docs/sites/app explanatory visuals use the cataloged documentation/design workflows and [Ian illustration policy](illustrations.md) where images clarify meaning.
+1. Read [AGENTS.md](../AGENTS.md), the [catalog](../skills/README.md) and the task's [policy owner](policy-map.md).
+2. Generate from the confirmed GitHub template destination; the partial bootstrap no longer exists. Record source TEMPLATE_VERSION and exact source commit in `project.json`.
+3. Complete the brief and [decisions](decisions.md). See [synthetic examples](../examples/README.md) for shape, never actual facts. Run `sh scripts/check.sh` and the `--ready` discovery gate documented in README.
+4. Review licensing: root LICENSE covers inherited template material; keep that notice and all third-party notices. Choose the new application's license separately before distribution; `project.json.decisions.license` starts needs-user-input. An app-specific root license must not discard inherited notices.
+5. Replace `.github/CODEOWNERS` with the confirmed owner/team for the new repository and review inherited tooling ownership in the catalog. Template author attribution and current maintenance ownership are separate.
+6. Register each real service/module with `scripts/add_service_skill.py`, populate its skill from actual source, and maintain the [inventory](services.md). The [service contract](../.agents/skills/app-launchpad/references/services.md) owns upkeep and continuation requirements.
+7. Select current stack/runtime versions from official docs, scaffold the actual app and lock dependencies. Python in this template is tooling, not a selected application backend.
+8. Follow [build](../.agents/skills/app-launchpad/references/build.md), [tests](../.agents/skills/app-launchpad/references/testing.md), [Dynatrace](../.agents/skills/app-launchpad/references/observability.md), [illustration](illustrations.md) and [delivery](delivery.md) procedures for the accepted vertical slice.
+9. Repository protection, provider configuration and telemetry destinations require their own authorized setup. Use the [opt-in ruleset procedure](repository-ruleset.md); it never runs on generation or in CI.
