@@ -3,7 +3,8 @@
   "name": null,
   "template": {
     "repository": "theharithsa/app-launchpad-template",
-    "revision": null
+    "revision": null,
+    "version": "1.09.0"
   },
   "decisions": {
     "product": {
