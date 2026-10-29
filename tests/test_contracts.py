@@ -43,6 +43,7 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(validate_shape(1.0,{'type':'integer','const':1}),[])
         self.assertTrue(validate_shape(True,{'type':'integer','const':1}))
         self.assertTrue(validate_shape(float('nan'),{'type':'number'}))
+        self.assertEqual(validate_shape(10**1000,{'type':'number','minimum':0}),[])
 
     def test_synthetic_evidence_and_sample_schema_pointers(self):
         value=json.loads((ROOT/'examples/evidence.json').read_text())

@@ -30,7 +30,7 @@ def validate_shape(value, schema, location='$', document=None):
     types = {'object': lambda v: isinstance(v, dict), 'array': lambda v: isinstance(v, list),
              'string': lambda v: isinstance(v, str), 'null': lambda v: v is None,
              'integer': lambda v: type(v) is int or (type(v) is float and math.isfinite(v) and v.is_integer()),
-             'number': lambda v: type(v) in (int, float) and math.isfinite(v),
+             'number': lambda v: type(v) is int or (type(v) is float and math.isfinite(v)),
              'boolean': lambda v: type(v) is bool}
     expected = schema.get('type')
     expected = [expected] if isinstance(expected, str) else expected
