@@ -1,11 +1,12 @@
 # Foundation tooling continuation
 
-- Scope: add visible workflow/service skills, machine-readable routing and validation; issue #5.
+- Scope: visible workflow/service skills, machine-readable routing, per-service continuation and safe registration; issue #5.
 - Issue: https://github.com/theharithsa/app-launchpad-template/issues/5
-- PR: pending.
-- Last reviewed baseline: 2330da6b6076769b9bcd79415530468fc04fe845; new catalog/tooling changes are not part of that baseline.
-- Work state: initial catalog and generator implemented; current-head CI and merge verification pending.
-- Tests/evidence: local foundation checks and all 11 bootstrap/catalog safety tests passed during development; current-head CI pending. This note does not certify a later head.
-- Release/deployment: no application deployment applies; template source delivery pending.
+- PR and live delivery authority: https://github.com/theharithsa/app-launchpad-template/pull/6 — inspect current state rather than inferring merge from this note.
+- Last reviewed implementation revision: 3028bf77d97c8f7aaad37ac0448211ff2f432e93. This record was updated afterward; verify newer changes independently.
+- Implemented: six shared workflow skills; foundation-tooling service skill; catalog routing, ownership/dependencies and active-service validation; registration CLI; agent and PR instructions.
+- Actual evidence for that implementation revision: all 11 tests passed in GitHub foundation CI, https://github.com/theharithsa/app-launchpad-template/actions/runs/40873655540 . GitGuardian check also passed. Local skill validation and Markdown links passed during development. None certifies a later head.
+- Release/deployment: source merge state is available in PR #6; no application/provider deployment applies to this local tooling module.
 - Dynatrace: no configured observer or tenant verification.
-- Next action: finish negative-path tests, validate skill files and links, run CI and deliver issue #5 through its PR. On later resumes verify Git/PR/check state before relying on this note.
+- Known limits: validator cannot infer undeclared services or semantic freshness; concurrent manual catalog edits must be avoided during generator execution. Review architecture inventory and skill content alongside each change.
+- Next action on project adoption: register every actual application service/module, fill its skill from inspected implementation, then maintain service metadata and continuation in each relevant PR. On tooling enhancement, reproduce the request against the current source, create/reuse its issue, add focused tests and update this skill/record.
