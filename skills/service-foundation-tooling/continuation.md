@@ -10,3 +10,7 @@
 - Dynatrace: no configured observer or tenant verification.
 - Known limits: validator cannot infer undeclared services or semantic freshness; concurrent manual catalog edits must be avoided during generator execution. Review architecture inventory and skill content alongside each change.
 - Next action on project adoption: register every actual application service/module, fill its skill from inspected implementation, then maintain service metadata and continuation in each relevant PR. On tooling enhancement, reproduce the request against the current source, create/reuse its issue, add focused tests and update this skill/record.
+
+## Illustration and versioning update
+
+Issue: https://github.com/theharithsa/app-launchpad-template/issues/7 . Current work adds the bundled Ian skill/attribution, design/documentation routing and template label 1.09.0 with consistency checks. Local foundation validation, 12 safety/version tests, all skill checks and relative Markdown links passed during this update. Source baseline: 91e4e88812cbe3edf28ee839d9d670991701ee63; these new changes were validated in the working tree. The evidence above belongs to the earlier implementation revision; verify this update's linked PR and current-head CI independently. No new artwork, application deployment or tenant verification is claimed by this workflow update.

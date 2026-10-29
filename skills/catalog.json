@@ -14,7 +14,8 @@
       "path": "skills/project-design/SKILL.md",
       "description": "Design product journeys, UI and service contracts before changing application behavior.",
       "dependsOn": [
-        "app-launchpad"
+        "app-launchpad",
+        "ian-xiaohei-illustrations"
       ]
     },
     {
@@ -72,6 +73,23 @@
         "project-testing",
         "project-deployment",
         "project-observability"
+      ]
+    },
+    {
+      "id": "ian-xiaohei-illustrations",
+      "kind": "workflow",
+      "path": "skills/ian-xiaohei-illustrations/SKILL.md",
+      "description": "Ian/Xiaohei explanatory illustrations for useful documentation and website visuals; select by content need.",
+      "dependsOn": []
+    },
+    {
+      "id": "project-documentation",
+      "kind": "workflow",
+      "path": "skills/project-documentation/SKILL.md",
+      "description": "Maintain project and user documentation with accurate examples, useful illustrations and versioned handoff context.",
+      "dependsOn": [
+        "app-launchpad",
+        "ian-xiaohei-illustrations"
       ]
     }
   ],

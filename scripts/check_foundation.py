@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from skill_catalog import validate_catalog
 
 DECISIONS = ('product', 'stack', 'hosting', 'privacy', 'observability', 'license')
-REQUIRED = ('AGENTS.md', 'docs/project-brief.md', 'docs/decisions.md',
+REQUIRED = ('TEMPLATE_VERSION', 'README.md', 'CHANGELOG.md', 'docs/template-changelog.md', 'docs/versioning.md', 'AGENTS.md', 'docs/project-brief.md', 'docs/decisions.md',
             'docs/coverage.md', 'docs/release-plan.md', 'docs/testing.md',
             'docs/delivery.md', 'SECURITY.md', 'qa/evidence.json',
             '.agents/skills/app-launchpad/SKILL.md')
@@ -19,10 +19,25 @@ def validate(root, ready=False):
     for name in REQUIRED:
         if not (root / name).is_file():
             errors.append('Missing required file: ' + name)
+    version = None
+    try:
+        version = (root / 'TEMPLATE_VERSION').read_text().strip()
+        if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', version):
+            raise ValueError('Expected three-part numeric template release label')
+        if f'Template version: **{version}**' not in (root / 'README.md').read_text():
+            errors.append('README template version differs from TEMPLATE_VERSION')
+        headings = re.findall(r'^## \[([^\]]+)\]', (root / 'docs/template-changelog.md').read_text(), re.MULTILINE)
+        if not headings or headings[0] != version:
+            errors.append('Newest changelog version differs from TEMPLATE_VERSION')
+    except (OSError, ValueError) as error:
+        errors.append('Invalid template version: ' + str(error))
     try:
         project = json.loads((root / 'project.json').read_text())
         if not isinstance(project, dict) or project.get('schemaVersion') != 1:
             raise ValueError('Expected schemaVersion 1 object')
+        template = project.get('template')
+        if not isinstance(template, dict) or template.get('version') != version:
+            errors.append('Project template version differs from TEMPLATE_VERSION')
         decisions = project.get('decisions')
         if not isinstance(decisions, dict):
             raise ValueError('decisions must be an object')
