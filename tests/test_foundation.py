@@ -25,6 +25,9 @@ class FoundationTests(unittest.TestCase):
             output = root / name
             output.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, output)
+        shutil.copytree(ROOT / 'scripts', root / 'scripts', ignore=shutil.ignore_patterns('__pycache__'))
+        shutil.copytree(ROOT / 'skills', root / 'skills')
+        shutil.copytree(ROOT / '.agents', root / '.agents', dirs_exist_ok=True)
         return root
 
     def bootstrap(self, target, name='Synthetic app', *flags):

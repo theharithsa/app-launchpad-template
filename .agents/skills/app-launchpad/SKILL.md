@@ -43,7 +43,7 @@ Adapt to scope; omit irrelevant components with a recorded reason. A static webs
 - GitHub repository details, branch workflow, PR checks, least-privilege release automation and rollback.
 - RUM where approved; backend OTel logs/metrics/traces; committed business events where applicable; runtime/export/outbox health; GitHub issue/development/review/check/merge/release/deployment events correlated with runtime signals.
 - Release impact plan, changelog, version metadata, user guide and honest pre/post-deployment evidence.
-- Repository `skills/` for meaningful modules plus observability, testing and release procedures; maintain discoverability through a small index. Logical skills do not authorize agent delegation.
+- Visible repository `skills/` with design, implementation, testing, deployment, observability and handoff workflow skills, plus a separate skill and continuation record for every real service or independently maintained module. Maintain `skills/catalog.json` with skill routing/dependencies and service owner, source paths, entrypoints, contracts, actual test commands, state and last reviewed revision. Register services before implementation; update skills/metadata/continuation alongside code and review architecture coverage for undeclared services. Read the catalog and affected continuation records on resume, verifying stored notes against current source/CI. Logical skills do not authorize agent delegation.
 
 ## Delivery boundaries
 

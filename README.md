@@ -19,10 +19,12 @@ Choose `--public` only when approved. Work on an issue-linked feature branch. Fi
 python3 scripts/check_foundation.py --ready
 ```
 
-Follow [getting started](docs/getting-started.md). Ask Codex to read `AGENTS.md` and apply the bundled app-launchpad skill. The template provides planning and workflow files; choose and build the actual application for its requirements.
+Start agents at the [skills catalog](skills/README.md) and follow [getting started](docs/getting-started.md). Ask Codex to read `AGENTS.md` and apply the bundled app-launchpad skill. The template provides planning and workflow files; choose and build the actual application for its requirements.
 
 ## What is included
 
+- Visible [`skills/` catalog](skills/README.md) with design, implementation, testing, deployment, observability and handoff skills.
+- Machine-readable skill/service metadata, per-service continuation records, a safe service-skill generator and CI validation.
 - Self-contained app-launchpad skill in `.agents/skills/`, plus project agent instructions.
 - Project brief, decision, coverage, release-impact and evidence records.
 - GitHub change/bug issue forms, PR template and foundation CI.

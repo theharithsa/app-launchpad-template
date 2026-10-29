@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "skills": [
+    {
+      "id": "app-launchpad",
+      "kind": "workflow",
+      "path": ".agents/skills/app-launchpad/SKILL.md",
+      "description": "Overall project discovery and issue-to-release workflow",
+      "dependsOn": []
+    },
+    {
+      "id": "project-design",
+      "kind": "workflow",
+      "path": "skills/project-design/SKILL.md",
+      "description": "Design product journeys, UI and service contracts before changing application behavior.",
+      "dependsOn": [
+        "app-launchpad"
+      ]
+    },
+    {
+      "id": "project-implementation",
+      "kind": "workflow",
+      "path": "skills/project-implementation/SKILL.md",
+      "description": "Implement or enhance application code using the affected service skills and verified contracts.",
+      "dependsOn": [
+        "app-launchpad"
+      ]
+    },
+    {
+      "id": "project-testing",
+      "kind": "workflow",
+      "path": "skills/project-testing/SKILL.md",
+      "description": "Select and execute meaningful project and service tests, preserving actual results and limitations.",
+      "dependsOn": [
+        "app-launchpad"
+      ]
+    },
+    {
+      "id": "project-deployment",
+      "kind": "workflow",
+      "path": "skills/project-deployment/SKILL.md",
+      "description": "Prepare, execute when authorized, and verify project-specific releases, deployments and rollback.",
+      "dependsOn": [
+        "app-launchpad"
+      ]
+    },
+    {
+      "id": "project-observability",
+      "kind": "workflow",
+      "path": "skills/project-observability/SKILL.md",
+      "description": "Maintain service runtime and development lifecycle observability with bounded verification evidence.",
+      "dependsOn": [
+        "app-launchpad"
+      ]
+    },
+    {
+      "id": "project-handoff",
+      "kind": "workflow",
+      "path": "skills/project-handoff/SKILL.md",
+      "description": "Resume work or leave a verified continuation record for the next AI agent.",
+      "dependsOn": [
+        "app-launchpad"
+      ]
+    },
+    {
+      "id": "service-foundation-tooling",
+      "kind": "service",
+      "path": "skills/service-foundation-tooling/SKILL.md",
+      "description": "Maintain the foundation-tooling service; read its implementation and continuation context.",
+      "dependsOn": [
+        "project-implementation",
+        "project-testing",
+        "project-deployment",
+        "project-observability"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "id": "foundation-tooling",
+      "skillId": "service-foundation-tooling",
+      "sourcePaths": [
+        "scripts"
+      ],
+      "entrypoints": [
+        "scripts/check_foundation.py",
+        "scripts/add_service_skill.py"
+      ],
+      "owner": "theharithsa",
+      "status": "active",
+      "dependsOn": [],
+      "contracts": [
+        "skills/README.md"
+      ],
+      "testCommands": [
+        "python3 scripts/check_foundation.py",
+        "python3 -m unittest discover -s tests -v"
+      ],
+      "continuation": "skills/service-foundation-tooling/continuation.md",
+      "lastReviewedRevision": "2330da6b6076769b9bcd79415530468fc04fe845"
+    }
+  ]
+}
