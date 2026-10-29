@@ -6,6 +6,8 @@ Agents: read [catalog.json](catalog.json), choose the relevant workflow and serv
 | --- | --- |
 | Overall lifecycle | [App Launchpad](../.agents/skills/app-launchpad/SKILL.md) |
 | Product/UI/contracts | [Design](project-design/SKILL.md) |
+| Documentation and README | [Documentation](project-documentation/SKILL.md) |
+| Useful explanatory illustrations | [Ian Xiaohei Illustrations](ian-xiaohei-illustrations/SKILL.md) |
 | Code and enhancements | [Implementation](project-implementation/SKILL.md) |
 | Test strategy and execution | [Testing](project-testing/SKILL.md) |
 | Releases, deployment, rollback | [Deployment](project-deployment/SKILL.md) |

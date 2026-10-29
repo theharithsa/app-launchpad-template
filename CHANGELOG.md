@@ -1,6 +1,5 @@
 # Changelog
 
-## Unreleased
+Template history is maintained in [docs/template-changelog.md](docs/template-changelog.md), currently **1.09.0**. See [versioning](docs/versioning.md).
 
-- Initial stack-neutral app-launchpad foundation. No application release or deployment has occurred.
-- Visible workflow/service skills catalog with per-service ownership and continuation metadata, safe registration tooling, and validation in foundation CI.
+Applications generated from this template may use this root file for their own release history. Retain the dedicated template history and provenance separately when adopting foundation updates.

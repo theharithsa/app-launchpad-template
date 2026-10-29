@@ -59,6 +59,22 @@ class FoundationTests(unittest.TestCase):
         self.assertTrue(any('Missing required' in error for error in foundation.validate(root)))
         self.assertTrue(any('evidence' in error for error in foundation.validate(root)))
 
+    def test_version_metadata_and_release_notes_must_agree(self):
+        root = self.fixture()
+        (root / 'CHANGELOG.md').write_text('# Application changelog\n\n## [7.0.0]')
+        self.assertEqual(foundation.validate(root), [])
+        for name, replacement in [('TEMPLATE_VERSION', 'invalid'), ('README.md', 'stale version'),
+                                  ('docs/template-changelog.md', '# Template changelog\n\n## [0.0.0]')]:
+            file = root / name
+            before = file.read_text()
+            file.write_text(replacement)
+            self.assertTrue(foundation.validate(root), name)
+            file.write_text(before)
+        project = json.loads((root / 'project.json').read_text())
+        project['template']['version'] = '0.0.0'
+        (root / 'project.json').write_text(json.dumps(project))
+        self.assertTrue(foundation.validate(root))
+
     def test_bootstrap_dry_run_and_json_escaping(self):
         target = self.base / 'new'
         self.assertEqual(self.bootstrap(target, 'App "quoted" \\ example', '--dry-run').returncode, 0)
