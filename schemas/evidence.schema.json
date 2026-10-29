@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Execution evidence (plans are separate)",
+  "required": [
+    "schemaVersion",
+    "application",
+    "revision",
+    "release",
+    "checks",
+    "limits",
+    "lifecycle"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "application": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "revision": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "release": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "revision",
+          "command",
+          "observedAt",
+          "environment",
+          "artifact"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "status": {
+            "enum": [
+              "passed",
+              "failed",
+              "skipped",
+              "not-run",
+              "blocked"
+            ]
+          },
+          "revision": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "command": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "observedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$"
+          },
+          "environment": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "artifact": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "durationMs": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": [
+        "issueUrl",
+        "pullRequestUrl",
+        "checkedHeadSha",
+        "mergeSha",
+        "issueResolution",
+        "deploymentId",
+        "artifactDigest",
+        "sdlcEvidence"
+      ],
+      "properties": {
+        "issueUrl": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pullRequestUrl": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "checkedHeadSha": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "mergeSha": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "issueResolution": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "deploymentId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "artifactDigest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sdlcEvidence": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

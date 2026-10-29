@@ -53,40 +53,24 @@ def main():
                 created = True
                 (destination / 'SKILL.md').write_text(f'''---
 name: {name}
-description: Maintain the {a.id} service using its source, contracts, operations and continuation record.
+description: Maintain the {a.id} service from actual source and operations context.
 ---
 
 # {a.id} service
 
-Status: planned. Read [continuation](continuation.md) and this service's entry in [catalog](../catalog.json). Verify current source and Git/CI before trusting old notes. Apply the relevant shared workflow skills in the catalog.
+Status: planned. Read [catalog](../catalog.json), [continuation](continuation.md) and the [service contract](../../.agents/skills/app-launchpad/references/services.md).
 
-## Purpose, boundaries and owner
+| Area | Actual service facts to complete |
+| --- | --- |
+| Purpose/owner | Pending responsibilities, boundaries and accountable owner |
+| Source/entrypoints | Planned `{a.source_path}`; runtime entrypoints pending |
+| Design/contracts | Pending approved journeys/UI states, API/schema, permissions/data, migrations and dependencies |
+| Code/invariants | Pending actual modules, extension points and compatibility constraints |
+| Tests | Pending real suite files, commands, prerequisites and gaps |
+| Deployment/rollback | Pending approved provider/environment, secret names, commands, artifact and recovery ordering |
+| Dynatrace/recovery | Pending identity, initialization, signals, correlation, tests and delivery health |
 
-Needs implementation context. Define responsibilities, exclusions, source paths (`{a.source_path}`), actual runtime entrypoints and accountable owner. Keep catalog metadata consistent.
-
-## Design, contracts and data
-
-Pending: approved user journeys/UI states; API/schema versions; authorization/tenant scope; data ownership, concurrency, migrations; dependencies and failure behavior. Link real contracts and architecture decisions. Mark irrelevant layers with reasons.
-
-## Code and safe enhancement
-
-Pending: entrypoints, important modules and invariants, extension points and compatibility constraints. Inspect actual code before documenting these. Update this skill in the same PR as behavior changes.
-
-## Tests
-
-Pending: actual test files, commands, prerequisites and coverage gaps. Register real commands in the catalog; documentation is not execution evidence.
-
-## Deployment and rollback
-
-Pending: approved provider/environment/resource mapping, secure secret names, build/deploy commands, artifact identity, migration ordering, health verification and rollback. No deployment authorization is implied.
-
-## Observability and recovery
-
-Pending: service identity, initialization and signal paths, safe field contracts, runtime/SDLC correlation, telemetry tests, delivery/export health and recovery. Distinguish acceptance, tenant searchability and native linkage.
-
-## Continuation
-
-Update continuation.md with verified revision, issue/PR, actual check/deployment evidence, known gaps and next action before handoff. Never include credentials or customer data.
+Use the task's shared workflow skill; keep this file about the actual service. Continuation owns the current work/evidence/next action.
 ''')
                 (destination / 'continuation.md').write_text(f'''# {a.id} continuation
 

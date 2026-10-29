@@ -1,4 +1,5 @@
 {
+  "$schema": "../schemas/catalog.schema.json",
   "schemaVersion": 1,
   "skills": [
     {
@@ -108,14 +109,16 @@
       "status": "active",
       "dependsOn": [],
       "contracts": [
-        "skills/README.md"
+        "schemas/catalog.schema.json",
+        "schemas/project.schema.json",
+        "schemas/evidence.schema.json",
+        "docs/policy-map.md"
       ],
       "testCommands": [
-        "python3 scripts/check_foundation.py",
-        "python3 -m unittest discover -s tests -v"
+        "sh scripts/check.sh"
       ],
       "continuation": "skills/service-foundation-tooling/continuation.md",
-      "lastReviewedRevision": "3028bf77d97c8f7aaad37ac0448211ff2f432e93"
+      "lastReviewedRevision": "f3d497930c732c557b2cbbd12c04450584fa0813"
     }
   ]
 }

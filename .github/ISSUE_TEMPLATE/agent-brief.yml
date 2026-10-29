@@ -1,0 +1,29 @@
+name: Agent brief
+description: An actionable task with decisions and completion criteria
+title: "[Task] "
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+    validations:
+      required: true
+  - type: textarea
+    id: approved-decisions
+    attributes:
+      label: Approved decisions
+      description: Link trusted decisions and identify unknowns. Never paste secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+    validations:
+      required: true
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: Definition of done
+    validations:
+      required: true

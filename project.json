@@ -1,10 +1,11 @@
 {
+  "$schema": "schemas/project.schema.json",
   "schemaVersion": 1,
   "name": null,
   "template": {
     "repository": "theharithsa/app-launchpad-template",
     "revision": null,
-    "version": "1.09.0"
+    "version": "1.9.0"
   },
   "decisions": {
     "product": {

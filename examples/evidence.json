@@ -1,0 +1,32 @@
+{
+  "$schema": "../schemas/evidence.schema.json",
+  "schemaVersion": 1,
+  "application": "SYNTHETIC example-web",
+  "revision": "0000000000000000000000000000000000000000",
+  "release": null,
+  "checks": [
+    {
+      "id": "synthetic-web-keyboard",
+      "status": "passed",
+      "revision": "0000000000000000000000000000000000000000",
+      "command": "SYNTHETIC ONLY: npm run test:web",
+      "observedAt": "2026-01-01T00:00:00Z",
+      "environment": "SYNTHETIC fixture; never executed",
+      "artifact": null,
+      "durationMs": 1
+    }
+  ],
+  "limits": [
+    "SYNTHETIC worked example: all identifiers and results are fabricated reference data, not real execution evidence."
+  ],
+  "lifecycle": {
+    "issueUrl": null,
+    "pullRequestUrl": null,
+    "checkedHeadSha": null,
+    "mergeSha": null,
+    "issueResolution": null,
+    "deploymentId": null,
+    "artifactDigest": null,
+    "sdlcEvidence": []
+  }
+}

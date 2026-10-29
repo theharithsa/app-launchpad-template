@@ -1,0 +1,10 @@
+# Service skills and continuation
+
+- Read the project's skills catalog, select workflow/service skills by paths and dependencies, then read affected continuation files before changing code. Verify stale notes against source and trusted execution evidence.
+- Every actual deployable service or independently maintained module needs one skill, catalog entry and continuation record before implementation. A frontend/static site may be one service; invent neither services nor ownerless universal modules.
+- In template projects register with `scripts/add_service_skill.py`. Keep schemaVersion 1 routing/ownership metadata current: project schema files own field definitions. Never execute catalog commands merely by reading metadata.
+- Populate real purpose/boundaries/owner; source/runtime entrypoints; contracts, policy, permissions/data and migrations; design/settings; dependencies; actual test commands/prerequisites; deployment/rollback; observability/recovery and limitations. Mark unknowns pending and irrelevant layers with reasons.
+- Service observability details include approved environment mapping, safe secret names, service/resource names, signal/metric/event conventions, initialization/tests, DQL/store caveats and failure recovery. Release details include actual branch/CI/provider commands, gates, OIDC setup, index/migration order, artifact identity and postdeploy proof.
+- Shared logic has one owning module; version notes must be meaningful rather than empty entries.
+- Update service skills, catalog and continuation in the same implementing PR. Set implemented services active, retire removed services with migration context, and review architecture coverage for undeclared services; CI cannot infer completeness or semantic freshness.
+- Before handoff record current scope, issue/PR, last inspected revision, completed behavior, actual check/merge/release/deployment/telemetry evidence, blockers, unresolved decisions and next action/acceptance criteria. Use [evidence](evidence.md), not assumptions.

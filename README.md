@@ -1,54 +1,46 @@
 # App Launchpad Template
 
-Template version: **1.09.0** · [versioning policy](docs/versioning.md)
+Template version: **1.9.0** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
 
-A stack-neutral foundation for building apps with explicit decisions, issue-linked PRs, meaningful tests, and separate source, deployment, and observability evidence.
+A stack-neutral, **Dynatrace-opinionated** foundation for building and enhancing apps. Choose each product's stack and hosting deliberately; Dynatrace is the chosen observability platform. No tenant or application deployment is preconfigured.
 
 ## Create a project
 
-Use **Use this template → Create a new repository**, or run the following after confirming the new project's owner, name, and visibility:
+Confirm the new owner, name, visibility and empty local destination, then use **Use this template → Create a new repository**, or:
 
 ```sh
 gh repo create OWNER/PROJECT --template theharithsa/app-launchpad-template --private --clone
 cd PROJECT
-python3 scripts/check_foundation.py
-python3 -m unittest discover -s tests -v
+sh scripts/check.sh
 ```
 
-Choose `--public` only when approved. Work on an issue-linked feature branch. Fill in `project.json`, `docs/project-brief.md`, and `docs/decisions.md` with approved choices, then run:
+Use public visibility only when approved. Follow [getting started](docs/getting-started.md): record source template version/revision, complete discovery decisions and register each actual service before implementation. Then run the discovery gate:
 
 ```sh
-python3 scripts/check_foundation.py --ready
+python3 scripts/check_foundation.py --ready --json
 ```
 
-Start agents at the [skills catalog](skills/README.md) and follow [getting started](docs/getting-started.md). Ask Codex to read `AGENTS.md` and apply the bundled app-launchpad skill. The template provides planning and workflow files; choose and build the actual application for its requirements.
+The gate checks decisions, not application/release readiness. Add real stack-specific build, test and deployment checks for the selected app.
 
 ## What is included
 
-- Visible [`skills/` catalog](skills/README.md) with design, implementation, testing, deployment, observability and handoff skills.
-- Machine-readable skill/service metadata, per-service continuation records, a safe service-skill generator and CI validation.
-- Self-contained app-launchpad skill in `.agents/skills/`, plus project agent instructions.
-- Project brief, decision, coverage, release-impact and evidence records.
-- GitHub change/bug issue forms, PR template and foundation CI.
-- Python standard-library validation and bootstrap safety tests.
-- Testing, release, security, and Dynatrace adoption procedures with explicit pending states.
+- [Agent entrypoint](AGENTS.md), tool-specific pointer files and [policy ownership map](docs/policy-map.md).
+- [Visible skills catalog](skills/README.md): design, implementation, tests, deployment, Dynatrace observability, documentation and handoff.
+- Per-service skills/continuation, safe registration tooling and [JSON Schemas](schemas/README.md).
+- [Synthetic worked examples](examples/README.md) for decisions, execution evidence, continuation and a service skill.
+- Issue/agent-brief forms, PR checklist, CI, CODEOWNERS and an opt-in [repository ruleset procedure](docs/repository-ruleset.md).
+- [Ian Xiaohei Illustrations](skills/ian-xiaohei-illustrations/SKILL.md) for useful explanatory images under the [illustration policy](docs/illustrations.md).
 
-No application framework, hosting provider, auth, database, tenant, ingestion credentials, or production deployment has been selected. No app tests or telemetry are claimed by the template's CI.
+## Checks and maintenance
 
-## Illustrations and documentation
+Run **`sh scripts/check.sh`** locally and in CI: metadata validation, local Markdown links and safety/contract tests. For machine-readable diagnostics use `python3 scripts/check_foundation.py --json`; `--ready` adds discovery checks. Foundation success does not certify an application's behavior, deployment or tenant signals.
 
-Use the bundled [Ian Xiaohei Illustrations skill](skills/ian-xiaohei-illustrations/SKILL.md) by Ian wherever an explanatory image materially improves docs, websites, onboarding or application content. [Design](skills/project-design/SKILL.md) and [documentation](skills/project-documentation/SKILL.md) skills route agents to it automatically through project instructions. Prefer the smallest useful set; preserve product branding, accurate diagrams and accessible text alternatives. See [illustration policy and attribution](docs/illustrations.md).
+GitHub template generation copies files, not repository settings or future updates. Adopt upgrades through reviewed PRs and retain project-specific choices. See [versioning and migration](docs/versioning.md), [delivery](docs/delivery.md) and [service inventory](docs/services.md). The partial planning bootstrap was removed; use GitHub template generation or record adoption pending.
 
-## Template version and upgrades
+## Licensing
 
-Current template label: **1.09.0**, recorded in [TEMPLATE_VERSION](TEMPLATE_VERSION), [project metadata](project.json) and [template changelog](docs/template-changelog.md). It is separate from application/API versions and from the bundled Ian skill's upstream version. The exact label is preserved as requested; its leading zero means it is not strict SemVer. See [version policy, checks and release procedure](docs/versioning.md).
+The template is MIT-licensed by Vishruth Harithsa. Bundled Ian Xiaohei Illustrations retains its own [MIT license](skills/ian-xiaohei-illustrations/LICENSE) and [attribution](skills/ian-xiaohei-illustrations/NOTICE.md).
 
-## Maintenance and scope
-
-GitHub generates a new repository from the template's files; later template changes do not automatically update generated projects. Record the source template revision in `project.json` when adopting it. Bring later changes through an issue and reviewed PR; preserve project-specific choices and existing instructions.
-
-Repository protection, required checks, environments, secrets, webhooks and provider projects require separate configuration in each new repository. Instructions and CI do not enforce branch protection by themselves. Read [delivery](docs/delivery.md).
-
-The source is public. A reuse license for the template itself has not been selected; the bundled Ian skill retains its own MIT license and attribution. Visibility alone is not an open-source license grant. Resolve licensing before distributing a generated product.
+A generated application's license is a separate `needs-user-input` decision. Preserve the template and third-party copyright/license notices for inherited material; when selecting the app's license, retain those notices (for example under `LICENSES/`) and document the app's chosen terms separately. Copying the template does not record an approved license choice for new application code.
 
 [GitHub template documentation](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository)

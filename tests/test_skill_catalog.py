@@ -112,3 +112,25 @@ class CatalogTests(unittest.TestCase):
         self.assertFalse((root / 'skills/.catalog.lock').exists())
         self.assertEqual(temporary.read_text(), 'preserve external work')
         self.assertEqual((root / 'skills/catalog.json').read_bytes(), before)
+
+    def test_multiple_errors_are_reported_together_in_stable_order(self):
+        root = self.fixture()
+        self.catalog(root, lambda d: (d['skills'][0].update(dependsOn=['missing-one']),
+                                     d['services'][0].update(owner=None, entrypoints=['missing-entrypoint.py'],
+                                                             continuation='missing-continuation.md')))
+        errors = validate_catalog(root)
+        self.assertEqual(errors, sorted(set(errors)))
+        for marker in ('missing-one', 'owner', 'missing-entrypoint.py', 'missing-continuation.md'):
+            self.assertTrue(any(marker in error for error in errors), (marker, errors))
+        self.assertEqual(errors, validate_catalog(root))
+        self.catalog(root, lambda d: d['skills'][0].update(id=None, path='missing-skill.md'))
+        errors = validate_catalog(root)
+        self.assertTrue(any('missing-skill.md' in error for error in errors), errors)
+        self.assertTrue(any('skills[0].id' in error for error in errors), errors)
+
+    def test_examples_are_not_discovered_as_live_skills(self):
+        root = self.fixture()
+        file = root / 'examples/web/SKILL.md'
+        file.parent.mkdir(parents=True)
+        file.write_text('---\nname: example-only\ndescription: Synthetic fixture.\n---\n')
+        self.assertEqual(validate_catalog(root), [])
