@@ -1,0 +1,17 @@
+# Secrets and local evidence
+.env
+.env.*
+!.env.example
+qa/raw/
+qa/local/
+*.pem
+*.key
+# OS and runtimes
+.DS_Store
+._*
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
+coverage/
+dist/

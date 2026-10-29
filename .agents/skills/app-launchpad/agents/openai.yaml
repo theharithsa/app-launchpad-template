@@ -1,0 +1,4 @@
+interface:
+  display_name: "App Launchpad"
+  short_description: "Build apps with issues, PRs and observable delivery"
+  default_prompt: "Use $app-launchpad to turn my idea into an app; ask me about unresolved requirements before choosing or inventing details."

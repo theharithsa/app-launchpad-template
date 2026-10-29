@@ -1,0 +1,21 @@
+name: Bug report
+description: Safe reproduction and expected behavior
+title: "[Bug] "
+body:
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction and actual behavior
+      description: Synthetic examples only. Use a private channel for vulnerabilities.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior and acceptance criteria
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact, version and environment
