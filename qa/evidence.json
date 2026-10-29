@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "application": "New application (needs-user-input)",
+  "revision": null,
+  "release": null,
+  "checks": [],
+  "limits": [
+    "No checks have been executed by this template."
+  ],
+  "lifecycle": {
+    "issueUrl": null,
+    "pullRequestUrl": null,
+    "checkedHeadSha": null,
+    "mergeSha": null,
+    "issueResolution": null,
+    "deploymentId": null,
+    "artifactDigest": null,
+    "sdlcEvidence": []
+  }
+}

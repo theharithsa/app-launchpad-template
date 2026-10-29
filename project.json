@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "name": null,
+  "template": {
+    "repository": "theharithsa/app-launchpad-template",
+    "revision": null
+  },
+  "decisions": {
+    "product": {
+      "status": "needs-user-input",
+      "value": null,
+      "approval": null
+    },
+    "stack": {
+      "status": "needs-user-input",
+      "value": null,
+      "approval": null
+    },
+    "hosting": {
+      "status": "needs-user-input",
+      "value": null,
+      "approval": null
+    },
+    "privacy": {
+      "status": "needs-user-input",
+      "value": null,
+      "approval": null
+    },
+    "observability": {
+      "status": "needs-user-input",
+      "value": null,
+      "approval": null
+    },
+    "license": {
+      "status": "needs-user-input",
+      "value": null,
+      "approval": null
+    }
+  }
+}
