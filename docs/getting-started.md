@@ -10,3 +10,7 @@
 8. Open the linked PR, run current-head checks, satisfy repository review policy, merge when authorized, and verify remote merge/issue closure. Deploy only under the applicable authorization and record exact release evidence.
 
 The bundled `scripts/bootstrap.py` copies planning files only into a confirmed target and refuses collisions. It is optional; generated template repositories already contain those files. Never run it over an existing app to overwrite its instructions.
+
+## Service skills before code
+
+Read `skills/catalog.json` and the relevant shared workflows. Register each actual service or independently maintained module with `scripts/add_service_skill.py` before implementing it. Complete its generated skill, metadata and continuation from inspected code; set it active when implemented. See [skills catalog](../skills/README.md) and [service inventory](services.md). Update those records in every relevant PR so future agents can resume from verified context.

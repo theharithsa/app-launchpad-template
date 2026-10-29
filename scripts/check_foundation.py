@@ -4,6 +4,9 @@ import argparse
 import json
 from pathlib import Path
 import re
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from skill_catalog import validate_catalog
 
 DECISIONS = ('product', 'stack', 'hosting', 'privacy', 'observability', 'license')
 REQUIRED = ('AGENTS.md', 'docs/project-brief.md', 'docs/decisions.md',
@@ -50,6 +53,7 @@ def validate(root, ready=False):
             raise ValueError('Expected schemaVersion 1 and checks array')
     except (OSError, ValueError, TypeError) as error:
         errors.append('Invalid evidence record: ' + str(error))
+    errors.extend(validate_catalog(root))
     return errors
 
 def main():
