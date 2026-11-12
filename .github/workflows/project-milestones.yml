@@ -1,0 +1,78 @@
+name: Assign project milestones
+on:
+  issues:
+    types: [opened, reopened, closed, demilestoned]
+  pull_request_target:
+    types: [opened, reopened, closed, demilestoned]
+  schedule:
+    - cron: '23 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: project-milestone-assignment
+  cancel-in-progress: false
+
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Assign missing repository milestones
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Scan the repository so coalesced events and the daily run repair missed assignments.
+          # This job uses GitHub metadata only. It never checks out or runs PR code.
+          repo="repos/$GH_REPO"
+          items=$(gh api --paginate "$repo/issues?state=all&milestone=none&per_page=100" \
+            --jq '.[] | [.number, (has("pull_request") and .user.login == "dependabot[bot]")] | @tsv')
+          if [[ -z "$items" ]]; then
+            echo 'Every issue and pull request already has a milestone.'
+            exit 0
+          fi
+
+          milestones=$(gh api --paginate "$repo/milestones?state=open&per_page=100" \
+            --jq '.[] | [.title, .number] | @tsv')
+          milestone_number() {
+            local title="$1" description="$2" number
+            number=$(awk -F '\t' -v title="$title" '$1 == title { print $2 }' <<< "$milestones")
+            if [[ -z "$number" ]]; then
+              number=$(gh api --method POST "$repo/milestones" -f "title=$title" \
+                -f "description=$description" --jq '.number')
+            fi
+            if [[ ! "$number" =~ ^[0-9]+$ ]]; then
+              echo "Could not identify the open milestone $title." >&2
+              return 1
+            fi
+            printf '%s\n' "$number"
+          }
+          backlog=''
+          dependencies=''
+
+          while IFS=$'\t' read -r number is_dependabot; do
+            current=$(gh api "$repo/issues/$number" --jq '.milestone.number // empty')
+            if [[ -n "$current" ]]; then
+              continue
+            fi
+            if [[ "$is_dependabot" == 'true' ]]; then
+              if [[ -z "$dependencies" ]]; then
+                dependencies=$(milestone_number 'Dependency maintenance' 'Rolling milestone for dependency PRs.')
+              fi
+              milestone="$dependencies"
+            else
+              if [[ -z "$backlog" ]]; then
+                backlog=$(milestone_number 'Backlog triage' 'Unplanned work awaiting a release or discovery milestone.')
+              fi
+              milestone="$backlog"
+            fi
+            gh api --method PATCH "$repo/issues/$number" -F "milestone=$milestone" --silent
+            echo "Assigned #$number to milestone #$milestone."
+            sleep 1
+          done <<< "$items"
