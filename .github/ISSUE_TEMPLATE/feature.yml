@@ -1,0 +1,18 @@
+name: Feature request
+description: A new or improved capability
+title: "[Feature] "
+type: Feature
+labels: ["type: feature"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Who needs this and what should they be able to do?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria and scope
+    validations:
+      required: true

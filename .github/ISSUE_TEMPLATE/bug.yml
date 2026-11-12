@@ -1,6 +1,8 @@
 name: Bug report
 description: Safe reproduction and expected behavior
 title: "[Bug] "
+type: Bug
+labels: ["type: bug"]
 body:
   - type: textarea
     id: reproduction
