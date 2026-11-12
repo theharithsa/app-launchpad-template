@@ -1,0 +1,65 @@
+name: Assign project issue types
+on:
+  issues:
+    types: [opened, reopened, unlabeled]
+  schedule:
+    - cron: '41 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+concurrency:
+  group: project-issue-type-assignment
+  cancel-in-progress: false
+
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Classify untyped issues on personal repositories
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          repo="repos/$GH_REPO"
+          if [[ "$(gh api "$repo" --jq '.owner.type')" != 'User' ]]; then
+            exit 0
+          fi
+
+          # GitHub template generation does not copy repository labels.
+          labels=$(gh api --paginate "$repo/labels?per_page=100" --jq '.[].name')
+          ensure_label() {
+            if ! grep -Fxiq "$1" <<< "$labels"; then
+              gh label create "$1" --repo "$GH_REPO" --color "$2" --description "$3"
+            fi
+          }
+          ensure_label 'type: bug' d73a4a 'A defect in existing behavior'
+          ensure_label 'type: feature' a2eeef 'New or improved product capability'
+          ensure_label 'type: task' 0075ca 'Maintenance, delivery, research, or operational work'
+
+          # Reconcile missed events, including items opened from the board or API.
+          missing=$(gh api --paginate "$repo/issues?state=all&per_page=100" --jq '
+            .[] | select(has("pull_request") | not)
+            | select(all(.labels[]; (.name | test("^type: (bug|feature|task)$"; "i") | not)))
+            | .number')
+          while read -r number; do
+            [[ -n "$number" ]] || continue
+            label=$(gh api "$repo/issues/$number" --jq '
+              [.labels[].name | ascii_downcase] as $labels
+              | (.title | ascii_downcase) as $title
+              | if any($labels[]; test("^type: (bug|feature|task)$")) then empty
+                elif ($title | startswith("[bug]")) or ($labels | index("bug")) then "type: bug"
+                elif ($title | startswith("[feature]")) then "type: feature"
+                elif ($title | startswith("[task]")) then "type: task"
+                elif ($labels | index("enhancement")) then "type: feature"
+                else "type: task" end')
+            if [[ -n "$label" ]]; then
+              gh api --method POST "$repo/issues/$number/labels" -f "labels[]=$label" --silent
+              echo "Assigned $label to #$number."
+              sleep 1
+            fi
+          done <<< "$missing"

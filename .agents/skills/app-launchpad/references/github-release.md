@@ -8,7 +8,7 @@ Shared boundaries: [safety](safety.md), [evidence](evidence.md), [service owners
 - Prefer OIDC/workload identity and narrow environment secrets over service-account keys.
 - Branch protection/environment approvals are separate authorized settings changes; propose them without silently granting access.
 
-Use [GitHub Project tracking](github-projects.md) to select the project, plan milestones and sprints, and verify membership before starting or closing tracked work.
+Use [GitHub Project tracking](github-projects.md) to select the Project, classify issues, plan milestones and sprints, and verify membership before starting or closing tracked work.
 
 ## Issue-to-merge delivery
 

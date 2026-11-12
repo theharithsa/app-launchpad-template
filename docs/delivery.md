@@ -5,3 +5,7 @@
 - [Evidence states](../.agents/skills/app-launchpad/references/evidence.md)
 - [Baseline repository ruleset](repository-ruleset.md)
 - [Template versions and consumer upgrades](versioning.md)
+
+## App Launchpad template maintenance
+
+Track changes to this template in the [App Launchpad Template Project](https://github.com/users/theharithsa/projects/3). Use its [Milestones](https://github.com/users/theharithsa/projects/3/views/7), [Roadmap](https://github.com/users/theharithsa/projects/3/views/4), and [Kanban](https://github.com/users/theharithsa/projects/3/views/8) views. When generating an application from the template, record that application's own Project and view links here.

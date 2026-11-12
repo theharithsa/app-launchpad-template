@@ -1,5 +1,10 @@
 # Template changelog
 
+## [1.11.0] - 2026-11-12
+
+- Classify new issues through Bug, Feature, and Task forms. Personal repositories reconcile missing types with repository labels.
+- Save sprint or date-based Roadmap and Status-based Kanban views and surface the type on issues and Project cards.
+
 ## [1.10.0] - 2026-11-12
 
 - Require a linked GitHub Project, public by default, and milestone coverage for every issue and PR, including Dependabot.

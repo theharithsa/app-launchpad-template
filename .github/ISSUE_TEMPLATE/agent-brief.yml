@@ -1,6 +1,8 @@
 name: Agent brief
 description: An actionable task with decisions and completion criteria
 title: "[Task] "
+type: Task
+labels: ["type: task"]
 body:
   - type: textarea
     id: goal
