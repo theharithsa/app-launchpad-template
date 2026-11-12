@@ -1,5 +1,10 @@
 # Template changelog
 
+## [1.10.0] - 2026-11-12
+
+- Require a linked GitHub Project, public by default, and milestone coverage for every issue and PR, including Dependabot.
+- Document milestone and sprint views, native intake, historical backfill, and orphan checks for template consumers.
+
 ## [1.9.0] - 2026-10-29
 
 - Consolidate first-party instruction routing and shared policy owners; retain technical requirements in linked references.
