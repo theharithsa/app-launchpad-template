@@ -1,5 +1,9 @@
 # Template changelog
 
+## [1.12.2] - 2026-11-12
+
+- Document Project workflow defaults for closing issues, completing merged PRs, and returning reopened work to triage.
+
 ## [1.12.1] - 2026-11-12
 
 - Make GitHub's automatic deletion of merged head branches an App Launchpad repository setup default and document how to verify it.
