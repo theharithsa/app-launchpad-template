@@ -1,5 +1,11 @@
 # Template changelog
 
+## [1.13.0] - 2026-11-12
+
+- Bundle a product README example, contribution and security guides, screenshot and `/brag` video guidance, and a responsive GitHub Pages starter.
+- Package site changes on pull requests and publish from the default branch when GitHub Pages is enabled.
+- Existing apps can adopt the workflow and launch guidance while retaining their own copy, links, and media.
+
 ## [1.12.2] - 2026-11-12
 
 - Document Project workflow defaults for closing issues, completing merged PRs, and returning reopened work to triage.
