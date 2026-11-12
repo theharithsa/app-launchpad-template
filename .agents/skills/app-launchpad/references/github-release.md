@@ -10,6 +10,14 @@ Shared boundaries: [safety](safety.md), [evidence](evidence.md), [service owners
 
 Use [GitHub Project tracking](github-projects.md) to select the Project, classify issues, plan milestones and sprints, and verify membership before starting or closing tracked work.
 
+## Automatic branch cleanup
+
+Enable **Automatically delete head branches** in **Settings → General → Pull Requests** during authorized repository setup. GitHub template generation copies files and requires this repository setting to be applied separately.
+
+Run `gh repo edit OWNER/REPO --delete-branch-on-merge` with repository admin access. Confirm `gh api repos/OWNER/REPO --jq .delete_branch_on_merge` returns `true`. Verify the setting after setup with the next eligible same-repository PR merge.
+
+Let GitHub remove eligible merged head branches. Branch protection and rulesets can prevent deletion. For fork PRs, GitHub uses the fork's setting and requires write access to the fork. [GitHub automatic branch deletion](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-the-automatic-deletion-of-branches)
+
 ## Issue-to-merge delivery
 
 - Apply this workflow to every actionable feature, bug, maintenance/refactor, documentation, dependency, security or infrastructure report, including requests made in chat.
