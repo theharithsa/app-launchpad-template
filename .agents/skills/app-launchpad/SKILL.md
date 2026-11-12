@@ -1,6 +1,8 @@
 ---
 name: app-launchpad
 description: Build or enhance apps using the project template, issue-linked delivery and Dynatrace observability.
+metadata:
+  version: "1.12.0"
 ---
 
 # App Launchpad
@@ -31,4 +33,4 @@ description: Build or enhance apps using the project template, issue-linked deli
 | Per-service skills and continuation | [Services](references/services.md) |
 | Useful Ian/Xiaohei images in docs/sites/app content | [Illustrations](references/illustrations.md) |
 
-The stack is project-specific; Dynatrace is the chosen observability platform. If installed, use dt-obs and its relevant references for instrumentation; bundled guidance remains usable independently. Discover available tools and verify current official runtime/provider docs before choosing APIs, versions or scopes.
+The stack is project-specific. Use the bundled [dt-obs skill](../dt-obs/SKILL.md) for Dynatrace instrumentation and Thoth for GitHub Actions telemetry. Verify current official runtime and provider documentation before choosing APIs, versions or scopes.

@@ -2,8 +2,10 @@
 """Validate repository structure and metadata; --ready also checks discovery decisions."""
 import argparse
 import json
+import os
 from pathlib import Path
 import re
+import subprocess
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from contracts import DECISIONS, SEMVER_PATTERN
@@ -13,7 +15,38 @@ from skill_catalog import validate_catalog
 REQUIRED = ('TEMPLATE_VERSION', 'README.md', 'CHANGELOG.md', 'docs/template-changelog.md',
             'docs/versioning.md', 'AGENTS.md', 'docs/project-brief.md', 'docs/decisions.md',
             'docs/coverage.md', 'docs/release-plan.md', 'docs/testing.md', 'docs/delivery.md',
-            'SECURITY.md', 'LICENSE', 'qa/evidence.json', '.agents/skills/app-launchpad/SKILL.md')
+            'SECURITY.md', 'LICENSE', 'qa/evidence.json', '.agents/skills/app-launchpad/SKILL.md',
+            '.agents/skills/dt-obs/SKILL.md')
+APP_LAUNCHPAD = '.agents/skills/app-launchpad/'
+DT_OBS = '.agents/skills/dt-obs/'
+
+
+def skill_version(source):
+    frontmatter = source.split('---', 2)
+    if len(frontmatter) != 3 or frontmatter[0]:
+        return None
+    version = re.search(r'^metadata:\s*\n  version: "([^"]+)"$', frontmatter[1], re.MULTILINE)
+    return version[1] if version else None
+
+
+def check_skill_release(root, base):
+    def git(*args, check=True):
+        return subprocess.run(['git', *args], cwd=root, check=check, capture_output=True, text=True,
+                              encoding='utf-8')
+
+    changed = git('diff', '--name-only', base, 'HEAD', '--', APP_LAUNCHPAD, DT_OBS).stdout.splitlines()
+    if not changed:
+        return []
+    errors = []
+    old_template = git('show', f'{base}:TEMPLATE_VERSION').stdout.strip()
+    if (root / 'TEMPLATE_VERSION').read_text(encoding='utf-8').strip() == old_template:
+        errors.append('Bump TEMPLATE_VERSION when changing a bundled skill')
+    if any(path.startswith(DT_OBS) for path in changed):
+        before = git('show', f'{base}:{DT_OBS}SKILL.md', check=False)
+        after = (root / DT_OBS / 'SKILL.md').read_text(encoding='utf-8')
+        if before.returncode == 0 and skill_version(before.stdout) == skill_version(after):
+            errors.append('Bump dt-obs metadata.version when changing the bundled dt-obs skill')
+    return errors
 
 
 def read_record(root, filename, name, errors):
@@ -42,6 +75,12 @@ def validate(root, ready=False):
         headings = re.findall(r'^## \[([^\]]+)\]', (root / 'docs/template-changelog.md').read_text(), re.MULTILINE)
         if not headings or headings[0] != version:
             errors.append('Newest template changelog version differs from TEMPLATE_VERSION')
+        app_version = skill_version((root / APP_LAUNCHPAD / 'SKILL.md').read_text(encoding='utf-8'))
+        if app_version != version:
+            errors.append('App Launchpad skill version differs from TEMPLATE_VERSION')
+        dt_version = skill_version((root / DT_OBS / 'SKILL.md').read_text(encoding='utf-8'))
+        if dt_version is None or not re.fullmatch(SEMVER_PATTERN, dt_version):
+            errors.append('dt-obs metadata.version must be valid SemVer')
     except (OSError, ValueError) as error:
         errors.append('Invalid template version: ' + str(error))
     project = read_record(root, 'project.json', 'project', errors)
@@ -75,8 +114,14 @@ def main():
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument('--ready', action='store_true')
     parser.add_argument('--json', action='store_true', dest='json_output')
+    parser.add_argument('--skill-base', default=os.environ.get('APP_LAUNCHPAD_RELEASE_BASE'))
     args = parser.parse_args()
     errors = validate(args.root, args.ready)
+    if args.skill_base and not errors:
+        try:
+            errors = sorted(check_skill_release(args.root, args.skill_base))
+        except (OSError, subprocess.CalledProcessError):
+            errors = ['Could not compare bundled skill changes against the base revision']
     if args.json_output:
         print(json.dumps({'ok': not errors, 'errors': errors, 'ready': args.ready}, indent=2))
     else:

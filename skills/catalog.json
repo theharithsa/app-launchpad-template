@@ -10,6 +10,13 @@
       "dependsOn": []
     },
     {
+      "id": "dt-obs",
+      "kind": "workflow",
+      "path": ".agents/skills/dt-obs/SKILL.md",
+      "description": "Instrument and verify Dynatrace signals and Thoth execution telemetry.",
+      "dependsOn": []
+    },
+    {
       "id": "project-design",
       "kind": "workflow",
       "path": "skills/project-design/SKILL.md",
@@ -52,7 +59,8 @@
       "path": "skills/project-observability/SKILL.md",
       "description": "Maintain service runtime and development lifecycle observability with bounded verification evidence.",
       "dependsOn": [
-        "app-launchpad"
+        "app-launchpad",
+        "dt-obs"
       ]
     },
     {

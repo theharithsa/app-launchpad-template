@@ -9,6 +9,7 @@ Read [catalog.json](catalog.json), choose relevant workflow/service skills, then
 | Code | [Implementation](project-implementation/SKILL.md) |
 | Tests | [Testing](project-testing/SKILL.md) |
 | Release/rollback | [Deployment](project-deployment/SKILL.md) |
+| Portable Dynatrace and Thoth instrumentation | [dt-obs](../.agents/skills/dt-obs/SKILL.md) |
 | Dynatrace | [Observability](project-observability/SKILL.md) |
 | Resume/continue | [Handoff](project-handoff/SKILL.md) |
 | README/docs | [Documentation](project-documentation/SKILL.md) |
