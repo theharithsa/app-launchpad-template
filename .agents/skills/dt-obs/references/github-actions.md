@@ -1,0 +1,34 @@
+# GitHub Actions observability
+
+For issue/development/PR/review/merge coverage and the full event/correlation contract, read [software development lifecycle](sdlc.md). Carry verified issue/PR relationships through original checked head, merge SHA, immutable artifact, deployment and runtime identity.
+
+Use [Thoth](https://github.com/plengauer/Thoth) for GitHub Actions execution telemetry. Read the upstream workflow action and installer at the chosen release and the target repository's CI and release contracts. Correlate CI execution, application traces, and browser RUM by verified revision or deployment identity. Preserve actual trace ancestry.
+
+## Integrate Thoth
+
+- Use `plengauer/Thoth/actions/instrument/workflow` in a separate `workflow_run` observer on `completed` for explicitly named workflows. Start with trusted default-branch push runs. Give the observer only `actions: read` and any other read scope shown to be necessary. Keep export failures in the observer's own result.
+- Pin the action to a verified commit SHA. Inspect the pinned installer for mutable release fallbacks. If it falls back unless the SDK is already installed, install the matching release package in a secret-free step, verify its SHA-256 or trusted attestation, and confirm `otel.sh` is on `PATH`. Advance the action pin and verified package together. Use job-level instrumentation only when deeper spans are needed and the runner, inputs, and credential boundaries have been reviewed.
+- Set a CI-specific `OTEL_SERVICE_NAME`, `OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf`, and `OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=delta`. For direct SaaS export use the approved `https://<environment-id>.live.dynatrace.com/api/v2/otlp` base URL and a Platform Token in `OTEL_EXPORTER_OTLP_HEADERS` as `Authorization=Bearer%20<token>`. Grant the token `openpipeline:traces:ingest` and `openpipeline:metrics:ingest` for those signals. Add `openpipeline:logs:ingest` only when log export is explicitly in scope. Keep the token in the GitHub Actions secret store. [Dynatrace OTLP API](https://docs.dynatrace.com/docs/ingest-from/opentelemetry/otlp-api)
+- Default to `OTEL_LOGS_EXPORTER=none` and turn off maintainer self-monitoring and debug. Inspect how the pinned release interprets the debug input. Thoth v5.67.0 tests whether it is nonempty and therefore needs `debug: ''`. The workflow observer can still read source run logs for timing and trace context artifacts. Audit exported actor, step, action, and repository attributes and their cardinality before expanding coverage.
+
+## Choose signals and owners
+
+- Workflow, job and step spans and count and duration metrics: use the Thoth observer. Approve any log export separately after verifying redaction and data handling. Trace timestamps and GitHub step statuses describe workflow execution.
+- Test events: generate structured reports from the real test runner, retain failed runs with `if: always()`, and export case name/suite/status/duration plus run/attempt/revision. Do not parse console words like PASS to infer every assertion passed. A script containing many assertions is an integration scenario unless it emits actual individual case results. Missing, partial, cancelled and skipped reports cannot establish success. Omit assertion bodies, stdout, expected/actual values and fixture data.
+- Deployment events: the deploy and verification stages own their outcomes. Distinguish failed-before-deploy, partially deployed, deployed-but-unverified and verified. Emit a native CUSTOM_DEPLOYMENT only for a real successful deployment; do not turn a failed build into a deployment success. A later telemetry failure must not undo that fact. A workflow conclusion alone cannot distinguish a deployment failure from a notification failure.
+- Changelog events: use published release metadata and release notes, match the immutable tag commit to the source revision, and include the version, release URL and notes digest. Do not label an Unreleased markdown section as published. Bound notes and redact tokens/emails/private data; retain a source link for omitted text.
+- Workflow/test/release facts can be structured BizEvents under a CI-specific provider, but their authority is CI-reported. They do not prove an application business transaction or customer tenant write.
+
+## Protect the privilege boundary
+
+An after-completion workflow runs with its own privileges. Check out only its trusted workflow definition revision, never a PR head or source-run artifact as executable code. Keep contents/actions read permissions and credentials only in the observer; do not add OIDC/deployment/write permissions. Separate main-only log/span export from PR test metadata. For PR reports, explicitly decide same-repository/fork policy, verify run/attempt/repository/event/workflow and treat every artifact as untrusted input. A trusted parser must enforce archive path/size/entry/record limits and a small report schema; never source, eval, install or execute artifact content. Avoid caches shared with untrusted code. Do not export broad PR logs or command inputs by default.
+
+Use encrypted secret references, not VITE values or plaintext variables. Keep raw secrets maskable in GitHub, construct headers only at use, and never print rejection bodies or report content. Workflow mode can still include actor/revision dimensions; review cardinality before broader rollout. This skill supplies no tenant, token, deployment authority or IAM grant.
+
+## Delivery and proof
+
+Use stable event IDs incorporating repository/run/attempt/case; publication identity may instead use immutable release ID. At-least-once retries/replays can duplicate ingestion: consumers deduplicate event.id. Retain source reports and run URLs for recovery, bound retry delays/batches and isolate observer failures from original test/deploy results. Workflow artifacts have finite retention; disclose this rather than promising a permanent outbox. Re-exporting upstream OTLP can also duplicate metrics/logs.
+
+Verify the real reporter with passed, failed, skipped and missing results, archive limits, duplicate identities, failed or partial deployments, and tag mismatch. Run the observer on the trusted default branch and match the source run ID, attempt, revision, and outcome to searchable spans and actual metric points. Verify logs, test events, deployments, and releases independently when in scope. An HTTP acceptance response and a green exporter are separate from tenant search evidence. Retry the observer without replaying the deployment. Check generated trace links against the tenant's apps hostname.
+
+Maintain a local CI observability contract with service identity, endpoint/secret names (no values), trust policy, report schema, event types, retry/retention/recovery, duplication semantics and actual evidence. Use the repository's branch/PR/review policy for all workflow and skill changes.

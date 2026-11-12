@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dynatrace App and SDLC Observability"
+  short_description: "RUM, OTel, business events and full SDLC tracking"
+  default_prompt: "Use $dt-obs to plan and implement end-to-end Dynatrace observability for this application, including issue intake, development, linked PRs, review, checks, merge, release, deployment and runtime events, then verify each signal and correlation path."

@@ -25,7 +25,7 @@ Use [GitHub Project tracking](github-projects.md) to select the Project, classif
 5. **Merge:** Once requirements, checks, approvals and applicable authorization are satisfied, merge through GitHub using the repository's permitted method and verify the remote merged state and resulting commit. Do not stop at a draft/green PR when merging is already authorized. Do not bypass protection. If authorization is missing, present the concrete green PR and state the remaining approval; never treat this skill as blanket merge/deploy permission.
 6. **Issue resolution and release:** Verify closure and resolution reason against completed acceptance criteria after merge. Close manually only when appropriate and authorized if automatic closure does not apply; leave partially addressed issues open. Record the merge SHA, release/deployment links and verification result. Merged, released, deployed and runtime-verified are separate states. Track rollback, regression/reopen and follow-up issues without rewriting the original history.
 
-- Implement Dynatrace tracking alongside this workflow, using [observability](observability.md) and dt-obs's SDLC contract when available.
+- Implement Dynatrace tracking alongside this workflow, using [observability](observability.md) and the bundled [dt-obs SDLC contract](../../dt-obs/references/sdlc.md).
 - Source confirmed GitHub transitions from trusted webhooks/observers or APIs, and explicitly instrument development/block/resume milestones; preserve source time and authority.
 - Never infer development activity from the absence of commits.
 

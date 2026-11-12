@@ -6,6 +6,7 @@ Read only the owner relevant to the task; entrypoints and workflow skills route 
 | --- | --- |
 | Authority, decisions to ask about, local-only holds, existing work, secrets, trust, delegation, collaboration tone | [Safety](../.agents/skills/app-launchpad/references/safety.md) |
 | Product and architecture discovery | [Discovery](../.agents/skills/app-launchpad/references/discovery.md) |
+| GitHub Project setup, views, issue types, and sprint planning | [Project tracking](../.agents/skills/app-launchpad/references/github-projects.md) |
 | Issues, PR/check/review, merge, release/deployment, retry and rollback | [Delivery](../.agents/skills/app-launchpad/references/github-release.md) |
 | Shared evidence stages and source authority | [Evidence](../.agents/skills/app-launchpad/references/evidence.md) |
 | API/policy/data, UI and settings implementation | [Build](../.agents/skills/app-launchpad/references/build.md) |
