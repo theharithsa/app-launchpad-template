@@ -1,0 +1,36 @@
+:root {
+  color-scheme: light;
+  color: #241b34;
+  background: #f9f7f1;
+  font-family: system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body, figure, h1, h2, h3, p { margin: 0; }
+a { color: inherit; text-underline-offset: 4px; }
+a:focus-visible, video:focus-visible { outline: 3px solid #514089; outline-offset: 5px; }
+.wrap { width: min(100% - 64px, 1120px); margin-inline: auto; }
+.skip-link { position: absolute; left: 12px; top: 12px; padding: 8px; transform: translateY(-150%); background: white; }
+.skip-link:focus { transform: none; }
+.header { min-height: 72px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid #ded6e3; }
+.brand { font-size: 1.18rem; font-weight: 700; text-decoration: none; }
+nav { display: flex; flex-wrap: wrap; gap: 18px; }
+.hero { padding-block: clamp(48px, 9vw, 108px); }
+.eyebrow { color: #514089; text-transform: uppercase; font-weight: 700; letter-spacing: .13em; font-size: .78rem; }
+h1, h2 { font-family: Georgia, serif; font-weight: 400; letter-spacing: -.05em; }
+h1 { font-size: clamp(3rem, 8vw, 6rem); line-height: 1; margin-block: 14px 20px; }
+h2 { font-size: clamp(2.25rem, 5vw, 3.8rem); line-height: 1.03; margin-bottom: 24px; }
+.lead { color: #574e62; max-width: 40ch; font-size: 1.22rem; line-height: 1.55; }
+.launch { border-top: 1px solid #ded6e3; padding-block: clamp(32px, 6vw, 70px); }
+.gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.gallery.screenshots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+article, figure { padding: 20px; border: 1px solid #ded6e3; border-radius: 18px; background: #eee8f7; }
+article:nth-child(2) { background: #f7eadf; }
+article:nth-child(3) { background: #e8eee4; }
+article p, figcaption { color: #574e62; margin-top: 9px; line-height: 1.5; }
+img, video { display: block; width: 100%; border-radius: 12px; }
+video { max-width: 840px; aspect-ratio: 16 / 9; background: #29203c; }
+@media (max-width: 660px) {
+  .wrap { width: calc(100% - 32px); }
+  .header { padding-block: 12px; }
+  .gallery, .gallery.screenshots { grid-template-columns: 1fr; }
+}

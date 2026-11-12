@@ -8,6 +8,7 @@ Read only the owner relevant to the task; entrypoints and workflow skills route 
 | Product and architecture discovery | [Discovery](../.agents/skills/app-launchpad/references/discovery.md) |
 | GitHub Project setup, views, issue types, and sprint planning | [Project tracking](../.agents/skills/app-launchpad/references/github-projects.md) |
 | Issues, PR/check/review, merge, release/deployment, retry and rollback | [Delivery](../.agents/skills/app-launchpad/references/github-release.md) |
+| Public README, screenshots, video, and product site | [Product launch](../.agents/skills/app-launchpad/references/product-launch.md) |
 | Shared evidence stages and source authority | [Evidence](../.agents/skills/app-launchpad/references/evidence.md) |
 | API/policy/data, UI and settings implementation | [Build](../.agents/skills/app-launchpad/references/build.md) |
 | Actual test coverage and case/result handling | [Testing](../.agents/skills/app-launchpad/references/testing.md) |

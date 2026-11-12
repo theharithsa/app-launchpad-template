@@ -1,0 +1,49 @@
+name: Publish product site
+
+on:
+  pull_request:
+    paths:
+      - 'site/**'
+      - '.github/workflows/product-pages.yml'
+  push:
+    paths:
+      - 'site/**'
+      - '.github/workflows/product-pages.yml'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: product-pages
+  cancel-in-progress: false
+
+jobs:
+  package:
+    if: github.event_name == 'pull_request' || github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: site
+
+  publish:
+    if: github.event.repository.has_pages && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    needs: package
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy product site
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

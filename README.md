@@ -1,6 +1,6 @@
 # App Launchpad Template
 
-Template version: **1.12.2** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
+Template version: **1.13.0** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
 
 A stack-neutral, **Dynatrace-opinionated** foundation for building and enhancing apps. Choose each product's stack and hosting deliberately; Dynatrace is the chosen observability platform. No tenant or application deployment is preconfigured.
 
@@ -30,6 +30,12 @@ The gate checks decisions, not application/release readiness. Add real stack-spe
 - [Synthetic worked examples](examples/README.md) for decisions, execution evidence, continuation and a service skill.
 - Issue/agent-brief forms, PR checklist, CI, CODEOWNERS and an opt-in [repository ruleset procedure](docs/repository-ruleset.md).
 - [Ian Xiaohei Illustrations](skills/ian-xiaohei-illustrations/SKILL.md) for useful explanatory images under the [illustration policy](docs/illustrations.md).
+
+## Prepare a public product launch
+
+Use the [product README example](examples/product-readme.md), [contribution guide](CONTRIBUTING.md), [security guide](SECURITY.md), and [landing page starter](site/index.html). Follow the [launch procedure](.agents/skills/app-launchpad/references/product-launch.md) to capture real screenshots with synthetic data, make a short `/brag` video, and publish through GitHub Pages.
+
+Preview the starter with `python3 -m http.server 8080 --directory site`. Configure GitHub Pages in the generated repository when the page and its media are ready.
 
 ## Checks and maintenance
 
