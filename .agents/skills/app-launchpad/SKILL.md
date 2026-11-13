@@ -2,7 +2,7 @@
 name: app-launchpad
 description: Build or enhance apps using the project template, issue-linked delivery and Dynatrace observability.
 metadata:
-  version: "1.13.0"
+  version: "1.13.1"
 ---
 
 # App Launchpad

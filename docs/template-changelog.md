@@ -1,5 +1,9 @@
 # Template changelog
 
+## [1.13.1] - 2026-11-13
+
+- Schedule dependent pilots and rollouts after their prerequisite gates, then verify the sequence across issues, milestones, and the Project roadmap. Existing apps can adopt the guidance without changing their project schema.
+
 ## [1.13.0] - 2026-11-12
 
 - Bundle a product README example, contribution and security guides, screenshot and `/brag` video guidance, and a responsive GitHub Pages starter.
