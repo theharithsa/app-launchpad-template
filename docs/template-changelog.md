@@ -1,5 +1,9 @@
 # Template changelog
 
+## [1.13.2] - 2026-11-13
+
+- Document how to publish a public roadmap and backfill versioned release notes with verified dates, clear pilot gates, and accessible diagrams. Existing projects can adopt the guidance without a schema migration.
+
 ## [1.13.1] - 2026-11-13
 
 - Schedule dependent pilots and rollouts after their prerequisite gates, then verify the sequence across issues, milestones, and the Project roadmap. Existing apps can adopt the guidance without changing their project schema.
