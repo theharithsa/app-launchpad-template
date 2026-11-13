@@ -1,6 +1,6 @@
 # App Launchpad Template
 
-Template version: **1.13.0** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
+Template version: **1.13.1** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
 
 A stack-neutral, **Dynatrace-opinionated** foundation for building and enhancing apps. Choose each product's stack and hosting deliberately; Dynatrace is the chosen observability platform. No tenant or application deployment is preconfigured.
 
