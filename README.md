@@ -2,6 +2,8 @@
 
 Template version: **1.14.0** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
 
+See the [production documentation checklist](docs/release-plan.md#production-documentation-review). [SalesDrone](https://github.com/theharithsa/SalesDrone) is an existing app that uses App Launchpad delivery practices.
+
 A stack-neutral, **Dynatrace-opinionated** foundation for building and enhancing apps. Choose each product's stack and hosting deliberately; Dynatrace is the chosen observability platform. No tenant or application deployment is preconfigured.
 
 ## Create a project

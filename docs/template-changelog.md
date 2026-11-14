@@ -4,6 +4,7 @@
 
 - Require a documentation impact decision in pull requests. The foundation check also builds the public handbook and checks local links.
 - Add reusable product, technical, settings, SDLC and CI/CD guides to the GitHub Pages starter. Existing projects can adopt the PR check and keep their current docs generator. No project schema migration is required.
+- Documentation clarification for v1.14.0. The production release plan and public SDLC guide now collect the README, changelog, security policy and affected guide checks in one place.
 
 ## [1.13.3] - 2026-11-14
 
