@@ -2,7 +2,7 @@
 name: app-launchpad
 description: Build, improve, or adopt a delivery workflow for an app using App Launchpad, issue-linked PRs, risk-based checks, and Dynatrace observability.
 metadata:
-  version: "1.13.3"
+  version: "1.14.0"
 ---
 
 # App Launchpad
@@ -25,7 +25,7 @@ metadata:
 | Dynatrace RUM/OTel/events/SDLC | [Observability](references/observability.md) |
 | GitHub Project, issue types, roadmap, Kanban, milestones and sprints | [Project tracking](references/github-projects.md) |
 | Solo or team delivery, adoption, PRs, release cadence and recovery | [Delivery](references/github-release.md) |
-| Public README, launch media, and GitHub Pages | [Product launch](references/product-launch.md) |
+| PR documentation, public guides, launch media, and GitHub Pages | [Documentation and launch](references/product-launch.md) |
 | Trust, secrets, cost, authorization, delegation | [Safety](references/safety.md) |
 | Evidence states and signal authority | [Evidence](references/evidence.md) |
 | Per-service skills and continuation | [Services](references/services.md) |

@@ -1,6 +1,29 @@
-# Public product launch
+# Documentation and public product launch
 
 Use this procedure for a public product launch or a refresh of its public materials. Start with the template's README structure, contributor and security guides, and static starter in `site/`. Confirm the live app and demo links, the intended audience, and the public scope with existing project decisions.
+
+## Documentation on every PR
+
+Update affected documentation alongside the change, before merge. In the PR's
+**Documentation impact** section, give one decision line. Use `Updated:` with the
+affected guides or links. Use `No change:` with the reason when existing docs
+still apply. Review what the change actually affects. A green check confirms
+the entry exists and that the site builds, while the PR review checks accuracy.
+
+| Guide | Update when |
+| --- | --- |
+| Product handbook | A user workflow, feature, permission outcome, or troubleshooting step changes. |
+| Technical guide | Architecture, services, API contracts, integration, or setup changes. |
+| Settings reference | A setting's location, default, scope, permission, or timing changes. |
+| SDLC guide | Intake, release authority, branch routing, promotion, or recovery policy changes. |
+| CI/CD pipeline | A workflow trigger, job dependency, environment, gate, or publication step changes. Keep a readable ordered flow aligned with the real pipeline. |
+
+Use project facts and mark proposed capabilities clearly. Apps with existing
+guides should retain their generator and sources. Wire their actual docs build,
+generated-reference consistency checks if used, and link checks into required
+PR CI. Projects using the template starter edit `docs/public-guides.json` and
+run `python3 scripts/build_public_docs.py`. Maintainers add an impact decision
+to bot-authored PRs before merge too.
 
 ## Repository guides
 
@@ -18,6 +41,8 @@ Use this procedure for a public product launch or a refresh of its public materi
 
 - Use the static `site/` directory for the product page unless the project has selected another host. Replace the starter copy with product-specific content and link to the app, demo, help, and repository as applicable. Use relative paths for local assets so the page works under the repository URL. Include a responsive gallery and a video player with controls and a poster.
 - The bundled `product-pages.yml` packages site changes on PRs with read-only access. When the project is ready to publish, select **GitHub Actions** as the Pages source and allow the default branch in the `github-pages` environment. The publish job uses Pages and OIDC permissions only after packaging and runs from the default branch with Pages enabled. [GitHub Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
+- Publish the curated build output only. Keep credentials, customer records, sensitive operational details, and private runbooks out of the artifact. If public docs describe features available only after production deployment, publish those docs from the verified production revision. A staged candidate can produce its own private review evidence.
+- Verify the changed public URLs and source revision after publication. The starter stamps generated guides with the Actions revision. A Pages failure has its own status even when the product deploy succeeded.
 - Open the deployed URL at desktop and phone widths. Verify the screenshots, video, and app or demo links. Record the public URL and successful workflow run. A generated repository needs its own Pages settings and product assets.
 
 ## Roadmap and release history

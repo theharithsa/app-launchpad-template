@@ -4,10 +4,14 @@ on:
   pull_request:
     paths:
       - 'site/**'
+      - 'docs/public-guides.json'
+      - 'scripts/build_public_docs.py'
       - '.github/workflows/product-pages.yml'
   push:
     paths:
       - 'site/**'
+      - 'docs/public-guides.json'
+      - 'scripts/build_public_docs.py'
       - '.github/workflows/product-pages.yml'
   workflow_dispatch:
 
@@ -28,9 +32,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Build and validate curated public documentation
+        run: python3 scripts/build_public_docs.py --output dist/public-docs
       - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         with:
-          path: site
+          path: dist/public-docs
 
   publish:
     if: github.event.repository.has_pages && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)

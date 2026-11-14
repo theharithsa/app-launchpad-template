@@ -1,0 +1,47 @@
+{
+  "project": "App Launchpad",
+  "guides": {
+    "product": {
+      "intro": "App Launchpad is a GitHub template for starting a project and shipping reviewed changes.",
+      "sections": [
+        ["Start a project", "Create a repository from the template, record the template version, and agree on one user workflow before selecting services."],
+        ["Review a change", "Open an issue with the intended outcome and acceptance criteria. Link the implementation PR and use its checks to see what was verified."]
+      ]
+    },
+    "technical": {
+      "intro": "The template provides repository tooling and a static site. Generated projects choose their own application stack.",
+      "sections": [
+        ["Repository checks", "Python scripts validate project metadata, repository links, and the public documentation build. GitHub Actions runs those checks through the foundation workflow."],
+        ["Publication", "GitHub Releases stores tagged template versions. GitHub Pages can publish the curated site once enabled on the repository."]
+      ]
+    },
+    "settings": {
+      "intro": "App Launchpad has repository configuration. It has no in-app settings panel.",
+      "sections": [
+        ["GitHub Pages", "The repository owner enables Pages and selects GitHub Actions as the publishing source. Publication runs from the default branch."],
+        ["Repository protection", "Repository maintainers set the required check and review policy. The foundation check is the template baseline. Update the policy when the project adds its own application checks."],
+        ["Settings in generated apps", "For each real setting, document its default, who can change it, whether it applies to one account or the whole workspace, and when changes take effect."]
+      ]
+    },
+    "sdlc": {
+      "intro": "The software development life cycle takes a change from an issue to a verified release.",
+      "sections": [
+        ["Plan and implement", "Set the expected outcome in an issue. Work on a short-lived branch. Update the affected product, technical, settings, or delivery guide in the same PR."],
+        ["Review and release", "Record the documentation decision and test evidence in the PR. The template uses a checked implementation PR to the default branch. Applications with deployed pre-production verify the release candidate there before a separate promotion PR."],
+        ["Verify the result", "Confirm the published tag or live revision. Verify public documentation separately and record where recovery instructions live."]
+      ]
+    },
+    "pipeline": {
+      "intro": "Follow the GitHub Actions stages from proposed change to published documentation.",
+      "stages": [
+        ["Pull request", "The foundation check validates the documentation decision, builds the public site and checks internal links alongside the repository tests."],
+        ["Review and merge", "The maintainer reviews the current evidence and merges the approved PR into the default branch."],
+        ["Publish", "On an eligible default-branch change, the Pages workflow builds the curated artifact and publishes it if Pages is enabled."],
+        ["Verify", "Open the live guides and check the expected revision and changed links."]
+      ],
+      "sections": [
+        ["When a check fails", "Fix the issue in the PR and check the new revision. If a Pages job fails after merge, review that publishing run and verify the live docs separately."]
+      ]
+    }
+  }
+}
