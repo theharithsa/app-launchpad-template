@@ -11,7 +11,7 @@ Shared boundaries: [safety](safety.md), [evidence](evidence.md), [service owners
 - Experience: public site vs authenticated app, mobile/desktop usage, brand/assets, accessibility, languages/time zones, examples to follow or avoid.
 - Data and trust: entities, ownership, roles, tenant boundaries, sensitive data, retention/export/deletion, regulatory constraints, demo policy.
 - Platform: preferred stack or constraints, existing repository/organization, hosting/cloud, domain, region, budget, local/offline requirements, integrations.
-- Operations: Dynatrace environment and access route, RUM identity/consent, GitHub ownership/visibility, who authorizes merge/deployment, reliability expectations.
+- Operations: maintainer count, [delivery path](github-release.md#choose-the-delivery-path), who authorizes sensitive releases, acceptable data loss and downtime, Dynatrace environment and access route, and RUM identity/consent.
 
 - Apply [safety](safety.md) for secret handling.
 - A user may choose to defer an integration: record it disabled/pending, not silently simulated as real.
@@ -34,7 +34,7 @@ Shared boundaries: [safety](safety.md), [evidence](evidence.md), [service owners
 - For static content map authoring → build → accessible public page → deployment instead.
 
 - Design a minimal topology.
-- Separate dev/test/staging/prod resource identities and credentials; never choose a cloud project, GitHub org or Dynatrace tenant merely because it is accessible.
+- Give each deployed environment its own scoped identities and credentials. Confirm the intended cloud project, GitHub organization and Dynatrace tenant.
 - Confirm repository visibility/license rather than defaulting to public publication.
 - Record external resource creation and deployment permissions separately.
 

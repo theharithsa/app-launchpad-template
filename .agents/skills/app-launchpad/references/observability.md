@@ -80,10 +80,11 @@ Shared boundaries: [safety](safety.md), [evidence](evidence.md), [service owners
 
 ## GitHub signals
 
-- Use references/github-release.md for actual workflow/job/check/test/release observations.
 - Use [Thoth](../../dt-obs/references/github-actions.md) for GitHub Actions execution telemetry.
-- CI is automation-confirmed, not a domain commit.
-- Keep report-processing spans distinct from original test execution.
+- Use a trusted reporting job that runs after applicable jobs settle. Read allowlisted runner artifacts or trusted GitHub APIs for actual workflow, check and leaf-case outcomes, including failures and skips.
+- Key events by repository, revision, run, originating attempt and check/case ID as applicable. Include actual status, occurrence time and available duration. Test report parsing against real passed, failed, skipped and nested cases. Exclude free text and command output from exports. Keep high-cardinality IDs out of metric dimensions.
+- Preserve the original execution attempt through reporting retries. Use stable event IDs, bounded backoff and sanitized receipts. Stop retrying persistent authorization or schema rejections. Keep report-processing spans distinct from original test execution.
+- Record deployment or publication outcome with actual version, commit, run, environment when applicable, and time. Check acceptance and partial rejection separately for each signal and query tenant evidence where available.
 
 ## Verification
 

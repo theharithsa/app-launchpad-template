@@ -6,6 +6,25 @@ Shared boundaries: [safety](safety.md), [evidence](evidence.md), [service owners
 - Select commands for the actual stack; do not copy npm commands into a Python/Go project.
 - Record exact commands and prerequisites in docs/testing.md.
 
+## Checks by change risk
+
+| Change | Evidence before release |
+| --- | --- |
+| Copy, docs or presentational UI | Run affected build/link or regression checks. Inspect affected screens at relevant widths for visible changes. |
+| Behavior, workflows or API | Exercise the primary path and relevant failures with domain, API and integration checks. Add a regression for the reported failure when existing tests miss it. |
+| Permissions, exports, private files, data deletion, migrations, IAM or workflow credentials | Verify permitted and denied access, revocation and cross-scope behavior where relevant. Use synthetic data in an isolated test environment. Show recovery evidence for affected data and configuration, and follow the [owner decision](github-release.md#solo-maintainer-and-team-review). |
+
+Use required CI as the baseline. Missing, skipped and failed checks are distinct.
+If a required check could not run, record the gap and resolve it before release.
+Treat emulators as evidence of application behavior and query the provider for
+effective deployed IAM and configuration.
+
+## Access and recovery
+
+- Verify the intended human, deployment and runtime identities. Include inherited role grants, secret access and resource scope. Where staging exists, use provider policy evaluation or authorized non-destructive checks to prove its identities cannot act on production data or files. Keep production credentials out of staging and PR runs.
+- Check that one user, role or tenant cannot browse, export, or retrieve another's data through alternate surfaces such as files or search. Test revocation at the next authorized request and record any client display-cache delay.
+- For apps with persistent customer data, record acceptable data loss and restore time. Verify backup coverage and retention, then rehearse a restore into isolated, access-controlled resources. Validate database records and their associated files together. Test with synthetic data by default. Record the actual restore time, integrity results and any uncovered stores. Git and release rollback cover source and artifacts. Data recovery requires its own evidence.
+
 ## Coverage layers
 
 - Unit/domain: validation, state transitions/reversals, calculations, idempotency, policy and rollback.
@@ -15,8 +34,7 @@ Shared boundaries: [safety](safety.md), [evidence](evidence.md), [service owners
 - Telemetry: independently decode emitted OTLP where practical, prove real trace/log context, bounded labels/units/temporality, payload allowlists, event identity/retry, transaction rollback, exporter failure/timeout isolation and real queue drops under a controlled bound.
 - Release: build/type/lint as relevant, secret/dependency scan, docs/contracts/skills/version checks, fixture exclusion, artifact integrity, postdeploy version/SHA and safe authorization probes.
 
-- Add real test commands before wiring CI.
-- Missing prerequisites mean blocked/not-run; never create an always-green placeholder workflow.
+- Wire CI to real test commands and report missing prerequisites as blocked or not run.
 - Avoid tests that merely assert implementation strings.
 - Review snapshots visually.
 - Avoid rerunning the full matrix after each small reversible UI adjustment: use a targeted check/visual review, then the integrated release gate once.
