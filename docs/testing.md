@@ -8,7 +8,7 @@ python3 scripts/check_foundation.py --json
 python3 scripts/check_foundation.py --ready --json
 ```
 
-The shared entrypoint runs metadata/version/skill validation, local Markdown links and unit tests. README, catalog and CI use that same entrypoint. JSON output has `ok`, deterministic `errors`, and `ready` (whether discovery checks were requested); failures exit nonzero in either mode.
+The shared entrypoint validates metadata, versions, skills, local Markdown links, the public documentation build and its HTML links, and unit tests. In PR CI it also requires a documentation impact decision in the PR body. README, catalog and CI use the same entrypoint. Foundation validator JSON includes `ok`, deterministic `errors`, and `ready` (whether discovery checks were requested). Failures exit nonzero.
 
 The [schemas](../schemas/README.md) own field shapes. The Python gate adds internal-path/reference/dependency checks and ready/active semantics. Tests cover multi-error diagnostics, malformed structures, schema/constant parity, SemVer, service generation and rollback, link failures, CI command agreement and ruleset dry-run behavior.
 

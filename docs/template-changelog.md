@@ -1,5 +1,10 @@
 # Template changelog
 
+## [1.14.0] - 2026-11-14
+
+- Require a documentation impact decision in pull requests. The foundation check also builds the public handbook and checks local links.
+- Add reusable product, technical, settings, SDLC and CI/CD guides to the GitHub Pages starter. Existing projects can adopt the PR check and keep their current docs generator. No project schema migration is required.
+
 ## [1.13.3] - 2026-11-14
 
 - Document an opt-in weekly production cadence with frequent staging builds, checked promotion, release milestones and an urgent patch path. Existing projects can adopt the guidance without a schema migration.

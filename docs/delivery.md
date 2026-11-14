@@ -3,6 +3,7 @@
 - [Issue-to-merge and release procedure](../.agents/skills/app-launchpad/references/github-release.md)
 - [Authorization and safety](../.agents/skills/app-launchpad/references/safety.md)
 - [Evidence states](../.agents/skills/app-launchpad/references/evidence.md)
+- [PR documentation and Pages workflow](../.agents/skills/app-launchpad/references/product-launch.md#documentation-on-every-pr)
 - [Baseline repository ruleset](repository-ruleset.md)
 - [Template versions and consumer upgrades](versioning.md)
 
