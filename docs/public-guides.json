@@ -28,7 +28,8 @@
       "sections": [
         ["Plan and implement", "Set the expected outcome in an issue. Work on a short-lived branch. Update the affected product, technical, settings, or delivery guide in the same PR."],
         ["Review and release", "Record the documentation decision and test evidence in the PR. The template uses a checked implementation PR to the default branch. Applications with deployed pre-production verify the release candidate there before a separate promotion PR."],
-        ["Verify the result", "Confirm the published tag or live revision. Verify public documentation separately and record where recovery instructions live."]
+        ["Review production documentation", "Before the production release, reconcile the README with the shipped changes and live links. Complete the dated changelog. Confirm that SECURITY.md still describes supported versions, access boundaries and private reporting. Update affected product, technical, settings, SDLC, pipeline and operator guides in the release PR."],
+        ["Verify the result", "Confirm the published tag or live revision. Verify public guide links and source revision separately and record where recovery instructions live."]
       ]
     },
     "pipeline": {
