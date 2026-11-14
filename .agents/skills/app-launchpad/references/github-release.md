@@ -92,3 +92,39 @@ Let GitHub remove eligible merged head branches. Branch protection and rulesets 
 - Emit deployment success/failure events and marker with actual version/commit/run/environment/time.
 - Check each OTLP signal response and partial rejection count separately from business-event/marker receipts.
 - Then follow observability.md for tenant verification and save evidence.
+
+### Weekly production releases with frequent staging
+
+Use this cadence when the project owner chooses it. Record the release window
+and time zone, owner, approval, and urgent-fix criteria in the project SDLC.
+Agree on the app version policy separately from the calendar. Strict SemVer
+keeps patch increments for fixes and minor increments for compatible features.
+A project may instead use the app minor number for each weekly release and
+give its public API a separate compatibility version.
+
+1. Plan one versioned production milestone with the issues intended to ship.
+   Keep the candidate app version stable through development and staging.
+2. Deploy reviewed changes to staging as often as needed. Record the environment,
+   source commit, CI run and attempt, and artifact digest when available. For
+   example, `2.14.0 · build 3` shows a build of the `2.14.0` candidate.
+   Reserve `2.14.1` for an actual patch release. Separate environment resources,
+   access and synthetic test data from production.
+3. Use a checked promotion PR for the weekly production window. Require
+   successful staging evidence for the source or immutable artifact being
+   promoted. If environment-specific builds are necessary, verify the same
+   source and record each environment's resulting artifact identity. Recheck
+   after changes and confirm the live version and revision after deployment.
+4. Publish one immutable tag, release and changelog entry for the verified
+   production release. Skip empty or unready windows and explicitly reschedule
+   unfinished issues. Keep pre-release build records in CI and deployment
+   history. Attach the app version and run/attempt to delivery telemetry.
+5. For an incident that cannot wait, branch from the production release,
+   exclude unfinished weekly work, and verify the patch through a staging
+   path that can test it in isolation. Apply the same promotion checks and
+   approvals. Record the patch and incident and bring the fix back into the
+   next regular candidate.
+
+Treat cadence as an operating policy until workflow checks enforce it. A
+calendar trigger alone supplies neither a reviewed candidate nor authorization
+to deploy. A staging-only change must leave production untouched until its
+approved promotion succeeds.

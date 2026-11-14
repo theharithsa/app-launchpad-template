@@ -1,5 +1,9 @@
 # Template changelog
 
+## [1.13.3] - 2026-11-14
+
+- Document an opt-in weekly production cadence with frequent staging builds, checked promotion, release milestones and an urgent patch path. Existing projects can adopt the guidance without a schema migration.
+
 ## [1.13.2] - 2026-11-13
 
 - Document how to publish a public roadmap and backfill versioned release notes with verified dates, clear pilot gates, and accessible diagrams. Existing projects can adopt the guidance without a schema migration.
