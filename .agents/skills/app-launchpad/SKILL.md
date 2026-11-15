@@ -2,7 +2,7 @@
 name: app-launchpad
 description: Build, improve, or adopt a delivery workflow for an app using App Launchpad, issue-linked PRs, risk-based checks, and Dynatrace observability.
 metadata:
-  version: "1.14.0"
+  version: "1.14.1"
 ---
 
 # App Launchpad
@@ -13,7 +13,7 @@ metadata:
 2. For a new repository, confirm the owner, name, visibility and empty destination. Generate from [app-launchpad-template](https://github.com/theharithsa/app-launchpad-template) by default and record the source version and commit. For an existing repository, follow [adoption](references/github-release.md#adopt-or-audit-the-workflow). Record pending adoption when GitHub is unavailable or the work is local-only.
 3. Follow the [delivery path that matches the project](references/github-release.md#choose-the-delivery-path). Use issue-linked PRs and checks sized to the risk. Use the [selected GitHub Project](references/github-projects.md) when the project tracks work there.
 4. Select the relevant references below. In template projects, read `skills/catalog.json` and the affected service skills. For new app work, prove an end-to-end slice with real checks for the chosen stack.
-5. Use [completion](references/completion.md) to record results and remaining dependencies.
+5. For new or materially changed public guides, complete the [first-time reader walkthrough](references/product-launch.md#first-time-reader-walkthrough). Use [completion](references/completion.md) to record results and remaining dependencies.
 
 ## Task routing
 

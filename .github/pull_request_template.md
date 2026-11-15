@@ -19,4 +19,5 @@
 <!-- Replace this comment with one line.
 Updated: name the affected guides or link to their changes.
 No change: explain why the existing documentation still applies.
+For new or materially changed public guides, link the first-time reader walkthrough evidence. Include the applicable user and developer paths, tested source, and observed outcomes.
 -->

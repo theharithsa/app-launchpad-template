@@ -1,6 +1,6 @@
 # App Launchpad Template
 
-Template version: **1.14.0** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
+Template version: **1.14.1** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
 
 See the [production documentation checklist](docs/release-plan.md#production-documentation-review). [SalesDrone](https://github.com/theharithsa/SalesDrone) is an existing app that uses App Launchpad delivery practices.
 

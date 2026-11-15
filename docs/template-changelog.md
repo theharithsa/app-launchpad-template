@@ -1,5 +1,10 @@
 # Template changelog
 
+## [1.14.1] - 2026-11-15
+
+- Require first-time reader walkthroughs for new or materially changed public guides. Cover exact user steps, permissions, expected results, clean-checkout developer setup, and troubleshooting.
+- Check changed guides on the candidate and the published site. Record what was tried, what happened, and any remaining verification gaps. Existing projects can keep their docs generator and adopt the updated skill and review guidance.
+
 ## [1.14.0] - 2026-11-14
 
 - Require a documentation impact decision in pull requests. The foundation check also builds the public handbook and checks local links.

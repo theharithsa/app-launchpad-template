@@ -25,6 +25,45 @@ PR CI. Projects using the template starter edit `docs/public-guides.json` and
 run `python3 scripts/build_public_docs.py`. Maintainers add an impact decision
 to bot-authored PRs before merge too.
 
+## First-time reader walkthrough
+
+For new or materially changed public guides, review the content against the
+actual app, source and deployed contracts. Use the template as a structure.
+Write for each audience using project-specific behaviour:
+
+- **Product handbook**. Explain the entry point, prerequisites, exact controls,
+  who can perform the task, what the user should see or what changes after the
+  step, and what to do if it fails. Cover changed workflows and the common tasks
+  needed to use them. Make demo, signed-in, permission-restricted and planned
+  functionality clear where those distinctions affect the task.
+- **Technical guide**. Identify the components, service and data boundaries,
+  prerequisites and configuration. Run the published setup commands from a
+  clean checkout and state how the reader can tell they worked. Where there is
+  a public API, start with an unauthenticated read if one exists, then show a
+  scoped request and its success response and likely error cases. Use isolated
+  accounts or emulators for authenticated verification and writes.
+- **Settings, delivery and planning**. Explain defaults, scope and access for
+  affected settings. For delivery and pipeline changes, identify what enters
+  each gate, what passing proves and what to inspect on failure. Link roadmap
+  gates to their source issues or milestones. Use recorded target windows and
+  label unscheduled work accordingly.
+
+Follow the affected paths as a first-time reader. Start from the app, product
+site or repository entry point a reader would use. Find the guide without an
+internal link, follow its steps without relying on prior setup, and compare the
+observed result with what it promises. If the owner supplies a published
+reference, open it and compare task coverage, permission details and the
+depth of troubleshooting. Use that comparison to identify content gaps.
+
+Record the path, tested revision or environment, commands or actions, expected
+and observed outcomes, and any unresolved gap in the PR or linked evidence.
+Fix inaccurate or unclear instructions and repeat the affected path on the
+candidate before merge. After authorized publication, open the live guides at
+desktop and phone widths and repeat the public entry-point and task checks.
+Keep clean-checkout, demo, synthetic and live observations distinct. Mark
+live verification as pending when publication or access is outside scope.
+A successful build or link check alone does not complete this review.
+
 ## Repository guides
 
 - Lead the README with the product name, audience, and main job it does. Link to the app, demo when available, and product page. Show a few real screenshots with descriptive alt text. Explain the actual stack, service boundaries, API and deployment where applicable, and give working local setup and test commands. Keep the template version marker and provenance.
@@ -43,7 +82,7 @@ to bot-authored PRs before merge too.
 - The bundled `product-pages.yml` packages site changes on PRs with read-only access. When the project is ready to publish, select **GitHub Actions** as the Pages source and allow the default branch in the `github-pages` environment. The publish job uses Pages and OIDC permissions only after packaging and runs from the default branch with Pages enabled. [GitHub Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
 - Publish the curated build output only. Keep credentials, customer records, sensitive operational details, and private runbooks out of the artifact. If public docs describe features available only after production deployment, publish those docs from the verified production revision. A staged candidate can produce its own private review evidence.
 - Verify the changed public URLs and source revision after publication. The starter stamps generated guides with the Actions revision. A Pages failure has its own status even when the product deploy succeeded.
-- Open the deployed URL at desktop and phone widths. Verify the screenshots, video, and app or demo links. Record the public URL and successful workflow run. A generated repository needs its own Pages settings and product assets.
+- Follow the [first-time reader walkthrough](#first-time-reader-walkthrough) after publication. Verify screenshots, video and app or demo links when affected. Record the public URL and successful workflow run. A generated repository needs its own Pages settings and product assets.
 
 ## Roadmap and release history
 

@@ -19,7 +19,7 @@ Review these files in the release PR and record the decision under **Documentati
 - **Affected guides** — update product, technical, settings, SDLC, CI/CD, contribution, and operator Markdown when the release changes their instructions. Verify generated references and public-site links.
 
 Record why an unaffected guide still applies. Build and check the curated docs
-before approval, then verify the public URLs and source revision after publishing.
+before approval. Follow the [first-time reader walkthrough](../.agents/skills/app-launchpad/references/product-launch.md#first-time-reader-walkthrough) on the candidate and verify the public URLs and source revision after publishing.
 
 Record the applicable [risk-based checks](../.agents/skills/app-launchpad/references/testing.md#checks-by-change-risk),
 approval and release/restore evidence. Record explicit exclusions for layers the project does not use.
