@@ -26,7 +26,7 @@ class FoundationTests(unittest.TestCase):
             output = root / name
             output.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, output)
-        for name in ('scripts', 'skills', '.agents', 'schemas', 'docs'):
+        for name in ('scripts', 'skills', '.agents', '.github', 'schemas', 'docs'):
             shutil.copytree(ROOT / name, root / name, dirs_exist_ok=True,
                             ignore=shutil.ignore_patterns('__pycache__'))
         return root

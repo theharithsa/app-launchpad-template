@@ -62,6 +62,10 @@
         [
           "Verify the result",
           "Confirm the published tag or live revision. Follow the changed guides from their live entry points at desktop and phone widths. Record the steps, observed results, source revision, and any gaps. Keep clean-checkout and live evidence separate."
+        ],
+        [
+          "Reconcile released work",
+          "After the tag and release are verified, assign shipped issues and merged PRs to that release milestone. Close the milestone when all intended work is resolved, and verify the state on GitHub. Keep unfinished work visible in its next agreed milestone."
         ]
       ]
     },

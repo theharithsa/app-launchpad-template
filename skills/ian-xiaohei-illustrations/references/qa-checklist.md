@@ -32,7 +32,7 @@ If any of the following appear, regenerate or edit locally:
 - There is a real UI screenshot or tech-interface look.
 - English spelling mistakes are severe or labels are unreadable.
 - The image feels stiff and has no absurd metaphor.
-- It looks too similar to the old examples in `assets/examples/`.
+- It looks too similar to the old examples in [upstream calibration examples](https://github.com/jobelshaji95/ian-xiaohei-illustrations-en/tree/90f82caeb2b21138222f2bfd50a49bbe14f2a78e/ian-xiaohei-illustrations/assets/examples).
 - The agent combines multiple requested images into one grid or collage.
 - The generated file is handed off without a saved path when the user expected workspace files.
 - A destination asset is overwritten without explicit replacement permission.

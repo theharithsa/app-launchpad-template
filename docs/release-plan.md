@@ -25,4 +25,10 @@ Record the applicable [risk-based checks](../.agents/skills/app-launchpad/refere
 approval and release/restore evidence. Record explicit exclusions for layers the project does not use.
 After an app deployment, verify version/SHA, service revisions, public/protected routes, and docs separately. For a template release, verify the published tag, commit and release page. For enabled telemetry, record transport and tenant evidence separately. Do not write customer data for verification without authorization.
 
+After tag/release verification, check that shipped issues and merged PRs use the
+release milestone, including items previously in backlog triage. Close released
+milestones only after all intended work is resolved; record unfinished work in its
+next agreed milestone. Verify GitHub state rather than treating a local changelog
+as milestone-closure evidence.
+
 Track SDLC events from intake/development through review/checks/merge, release/deployment, runtime verification and rollback. Document source authority, stable IDs, safe fields, delivery/recovery, and source-to-tenant proof separately from application signal evidence.

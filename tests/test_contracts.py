@@ -90,6 +90,20 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(bad.returncode,3)
         self.assertEqual(len(calls.read_text(encoding='utf-8').splitlines()),2)
 
+    def test_documentation_skill_routes_to_existing_policy_anchors(self):
+        import re
+        from urllib.parse import urlsplit
+        skill = ROOT / 'skills/project-documentation/SKILL.md'
+        links = [urlsplit(link) for link in re.findall(r'\]\(([^)]+)\)', skill.read_text(encoding='utf-8'))]
+        policy_links = [link for link in links if link.path.endswith('/product-launch.md')]
+        self.assertEqual({link.fragment for link in policy_links},
+                         {'documentation-on-every-pr', 'first-time-reader-walkthrough'})
+        for link in policy_links:
+            target = skill.parent / link.path
+            headings = re.findall(r'^## (.+)$', target.read_text(encoding='utf-8'), re.MULTILINE)
+            anchors = {re.sub(r'[^\w\- ]', '', heading.lower()).replace(' ', '-') for heading in headings}
+            self.assertIn(link.fragment, anchors, str(target))
+
     def test_ruleset_default_preview_never_calls_github(self):
         import contextlib,io
         output=io.StringIO()

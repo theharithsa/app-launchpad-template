@@ -11,9 +11,22 @@ Configure server-side secret injection, environment, stable service name/namespa
 ```text
 OTEL_EXPORTER_OTLP_ENDPOINT=https://<environment-id>.live.dynatrace.com/api/v2/otlp
 OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=delta
 OTEL_SERVICE_NAME=<service>
-OTEL_RESOURCE_ATTRIBUTES=service.namespace=<namespace>,deployment.environment.name=<environment>,service.version=<release>
+OTEL_RESOURCE_ATTRIBUTES=service.namespace=<namespace>,deployment.environment.name=<environment>,service.version=<release>,service.instance.id=<unique-runtime-instance>
 ```
+
+Dynatrace metric ingestion requires delta aggregation for monotonic sums and
+histograms. Set the preference explicitly; SDKs commonly default to cumulative.
+Check that the installed SDK honors the environment variable. If it does not,
+configure its metric reader/exporter for delta or use a supported Collector
+cumulative-to-delta processor. UpDownCounters keep their applicable cumulative
+semantics; do not relabel cumulative payloads as delta. Decode an exported
+Counter/Histogram and verify its aggregation temporality before tenant ingest.
+Use a per-process/container `service.instance.id`, stable for that runtime's life,
+so concurrent instances are distinguishable; it is not a request or user ID.
+See [Dynatrace aggregation requirements](https://docs.dynatrace.com/docs/ingest-from/opentelemetry/otlp-api/about-metrics-ingest)
+and [OTel temporality preference semantics](https://opentelemetry.io/docs/specs/otel/metrics/sdk_exporters/otlp/).
 
 Never place authorization in `VITE_*`, public runtime config, Firestore client documents, ZIP artifacts or screenshots. Secret rotation must update all consumers; some serverless providers require redeploying functions bound to a new secret version. Respect existing variable precedence to avoid silently retaining an old token.
 

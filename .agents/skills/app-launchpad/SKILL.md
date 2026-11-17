@@ -2,7 +2,7 @@
 name: app-launchpad
 description: Build, improve, or adopt a delivery workflow for an app using App Launchpad, issue-linked PRs, risk-based checks, and Dynatrace observability.
 metadata:
-  version: "1.14.1"
+  version: "1.14.2"
 ---
 
 # App Launchpad

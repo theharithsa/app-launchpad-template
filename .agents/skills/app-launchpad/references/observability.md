@@ -13,7 +13,7 @@ Shared boundaries: [safety](safety.md), [evidence](evidence.md), [service owners
 - Include admin/security/settings, cancellation/reversal/deletion, scheduled recovery and external integration failures.
 - A static site may have browser/build telemetry only: record backend/business-event exclusions instead of inventing services.
 
-- Use consistent service.name, namespace, service.version, build.commit and deployment.environment.name; include a per-process instance identifier where appropriate.
+- Use consistent service.name, namespace, service.version, build.commit and deployment.environment.name; include a per-runtime `service.instance.id` where appropriate. Follow the [OTel transport and delta configuration](../../dt-obs/references/otel.md#transport-and-configuration).
 - Maintain a naming/unit/attribute contract.
 - Release identity has bounded operational retention; do not put request/user/case IDs, URLs or arbitrary free text into metric dimensions.
 - Cost/cardinality must be assessed, including commit/resource attributes.
