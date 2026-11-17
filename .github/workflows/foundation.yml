@@ -10,18 +10,37 @@ concurrency:
   group: foundation-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  foundation:
-    runs-on: ubuntu-latest
+  platform:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-          fetch-depth: 2
+          fetch-depth: 0
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.12'
       - name: Check foundation, links and tests
         env:
           APP_LAUNCHPAD_RELEASE_BASE: ${{ github.repository == 'theharithsa/app-launchpad-template' && github.event.pull_request.base.sha || '' }}
+          PYTHON: python
+          PYTHONWARNDEFAULTENCODING: '1'
+          PYTHONWARNINGS: error::EncodingWarning
+        shell: bash
         run: sh scripts/check.sh
+
+  foundation:
+    if: always()
+    needs: platform
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Require successful Linux and Windows checks
+        env:
+          PLATFORM_RESULT: ${{ needs.platform.result }}
+        run: test "$PLATFORM_RESULT" = success

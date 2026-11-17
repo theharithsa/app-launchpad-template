@@ -46,7 +46,7 @@ class Page(HTMLParser):
 
 
 def validate_links(output):
-    pages = {file: Page(file.read_text()) for file in output.rglob('*.html')}
+    pages = {file: Page(file.read_text(encoding='utf-8')) for file in output.rglob('*.html')}
     for file, page in pages.items():
         for link in page.links:
             url = urlsplit(link)
@@ -106,7 +106,7 @@ def render(slug, data):
 
 
 def build(root, output):
-    config = json.loads((root / 'docs/public-guides.json').read_text())
+    config = json.loads((root / 'docs/public-guides.json').read_text(encoding='utf-8'))
     if not config['project'].strip() or set(config['guides']) != set(GUIDES):
         raise ValueError('Public guides must cover product, technical, settings, SDLC and pipeline.')
     revision = os.getenv('GITHUB_SHA')
@@ -143,7 +143,7 @@ def build(root, output):
             page = render(slug, {**data, 'project': config['project']})
             if revision:
                 page = page.replace('</head>', f'  <meta name="source-revision" content="{revision}">\n</head>')
-            (guides / (slug + '.html')).write_text(page)
+            (guides / (slug + '.html')).write_text(page, encoding='utf-8', newline='\n')
         validate_links(staged)
         if output.exists() and (not output.is_dir() or any(output.iterdir())):
             raise ValueError(f'Use an empty build output directory: {output}')

@@ -1,22 +1,45 @@
 """Validate declared skill/service ownership, accumulating deterministic diagnostics."""
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 import re
+import subprocess
+import warnings
 from schema_validation import load_json, validate_record
 
 
 def safe_path(root, value):
-    if (not isinstance(value, str) or not value or Path(value).is_absolute()
+    if (not isinstance(value, str) or not value or PurePosixPath(value).is_absolute()
+            or PureWindowsPath(value).drive or PureWindowsPath(value).root
             or '..' in Path(value).parts or '\\' in value or any(ord(c) < 32 for c in value)):
         raise ValueError('Expected safe repository-relative path')
     root = root.resolve()
     candidate = root / value
+    candidate.relative_to(root)
     cursor = candidate
-    while cursor != root:
+    while cursor != root and cursor != cursor.parent:
         if cursor.is_symlink():
             raise ValueError('Symlink path is not allowed')
         cursor = cursor.parent
     candidate.resolve().relative_to(root)
     return candidate
+
+
+def warn_unavailable_revision(root, service, revision):
+    """Warn about unavailable history only in this repo, not copied fixtures."""
+    if not isinstance(revision, str) or not re.fullmatch('[0-9a-f]{40}', revision):
+        return
+    try:
+        repository = subprocess.run(['git', 'rev-parse', '--show-toplevel'], cwd=root,
+                                    capture_output=True, text=True, encoding='utf-8', timeout=5)
+        if repository.returncode or Path(repository.stdout.strip()).resolve() != root.resolve():
+            return
+        result = subprocess.run(['git', 'cat-file', '-e', revision + '^{commit}'], cwd=root,
+                                capture_output=True, text=True, encoding='utf-8', timeout=5)
+    except (OSError, subprocess.TimeoutExpired):
+        return  # Git/history availability is not required for generated copies.
+    if result.returncode:
+        warnings.warn(f'{service}: lastReviewedRevision {revision} does not resolve locally; '
+                      'fetch the source history or refresh the continuation after review',
+                      RuntimeWarning, stacklevel=2)
 
 
 def validate_catalog(root):
@@ -73,7 +96,7 @@ def validate_catalog(root):
             errors.append('Duplicate skill path: ' + normalized)
         listed.add(normalized)
         try:
-            parts = target.read_text().split('---', 2)
+            parts = target.read_text(encoding='utf-8').split('---', 2)
             frontmatter = parts[1] if len(parts) == 3 and not parts[0].strip() else ''
             name = re.search(r'^name:\s*[\'"]?([a-z][a-z0-9-]*)[\'"]?\s*$', frontmatter, re.MULTILINE)
             if target.name != 'SKILL.md' or not name or name.group(1) != item['id']:
@@ -88,6 +111,7 @@ def validate_catalog(root):
         errors.append('Uncataloged skill: ' + filename)
     used = set()
     for item in services:
+        warn_unavailable_revision(root, item['id'], item.get('lastReviewedRevision'))
         sid = item.get('skillId')
         if not isinstance(sid, str) or sid not in skill_map or skill_map[sid].get('kind') != 'service':
             errors.append(f'{item["id"]}: needs a registered service skill')

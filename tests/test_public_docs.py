@@ -27,12 +27,12 @@ class PublicDocsTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as scratch:
             parent = Path(scratch)
             root = self.scaffold(parent)
-            (root / 'site/internal.html').write_text('Private fixture')
-            (root / 'docs/private-runbook.md').write_text('Private fixture')
+            (root / 'site/internal.html').write_text('Private fixture', encoding='utf-8', newline='\n')
+            (root / 'docs/private-runbook.md').write_text('Private fixture', encoding='utf-8', newline='\n')
             config = root / 'docs/public-guides.json'
-            data = json.loads(config.read_text())
+            data = json.loads(config.read_text(encoding='utf-8'))
             data['guides']['settings']['intro'] = '<b>Example</b>'
-            config.write_text(json.dumps(data))
+            config.write_text(json.dumps(data), encoding='utf-8', newline='\n')
             output = parent / 'out'
             with patch.dict(os.environ, {'GITHUB_SHA': 'a' * 40}):
                 build(root, output)
@@ -42,7 +42,7 @@ class PublicDocsTests(unittest.TestCase):
             )
             self.assertFalse((output / 'internal.html').exists())
             self.assertFalse((output / 'docs/private-runbook.md').exists())
-            guide = (output / 'docs/settings.html').read_text()
+            guide = (output / 'docs/settings.html').read_text(encoding='utf-8')
             self.assertIn('&lt;b&gt;Example&lt;/b&gt;', guide)
             self.assertIn('name="source-revision" content="' + 'a' * 40, guide)
 
@@ -51,7 +51,7 @@ class PublicDocsTests(unittest.TestCase):
             parent = Path(scratch)
             root = self.scaffold(parent)
             landing = root / 'site/index.html'
-            landing.write_text(landing.read_text().replace('docs/settings.html', 'docs/settings.html#unknown'))
+            landing.write_text(landing.read_text(encoding='utf-8').replace('docs/settings.html', 'docs/settings.html#unknown'), encoding='utf-8', newline='\n')
             output = parent / 'out'
             with self.assertRaisesRegex(ValueError, 'missing anchor'):
                 build(root, output)
@@ -74,10 +74,10 @@ class PublicDocsTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as scratch:
             event = Path(scratch) / 'event.json'
             for body, code in [(None, 1), ('## Documentation impact\nUpdated: Settings guide', 0)]:
-                event.write_text(json.dumps({'pull_request': {'body': body}}))
+                event.write_text(json.dumps({'pull_request': {'body': body}}), encoding='utf-8', newline='\n')
                 result = subprocess.run(
                     [sys.executable, ROOT / 'scripts/check_docs_impact.py'],
                     env={**os.environ, 'GITHUB_EVENT_NAME': 'pull_request', 'GITHUB_EVENT_PATH': str(event)},
                     capture_output=True, text=True,
-                )
+                timeout=10, encoding='utf-8')
                 self.assertEqual(result.returncode, code, result.stderr)

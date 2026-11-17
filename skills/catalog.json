@@ -111,7 +111,11 @@
       ],
       "entrypoints": [
         "scripts/check_foundation.py",
-        "scripts/add_service_skill.py"
+        "scripts/check_links.py",
+        "scripts/check_docs_impact.py",
+        "scripts/build_public_docs.py",
+        "scripts/add_service_skill.py",
+        "scripts/repository_ruleset.py"
       ],
       "owner": "theharithsa",
       "status": "active",
@@ -126,7 +130,7 @@
         "sh scripts/check.sh"
       ],
       "continuation": "skills/service-foundation-tooling/continuation.md",
-      "lastReviewedRevision": "953717c787dd37d1500c04767f818f4e0a0faffd"
+      "lastReviewedRevision": "aabff5c415e37b0d446f5998ecff760206a2ca4d"
     }
   ]
 }

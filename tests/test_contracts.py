@@ -14,7 +14,7 @@ class ContractTests(unittest.TestCase):
     setUp = fixtures.FoundationTests.setUp
 
     def test_schema_keys_statuses_and_patterns_match_constants(self):
-        schema = lambda name: json.loads((ROOT/'schemas'/f'{name}.schema.json').read_text())
+        schema = lambda name: json.loads((ROOT/'schemas'/f'{name}.schema.json').read_text(encoding='utf-8'))
         project, catalog, evidence = (schema(name) for name in ('project','catalog','evidence'))
         for document, required in ((project,PROJECT_REQUIRED),(catalog,CATALOG_REQUIRED),(evidence,EVIDENCE_REQUIRED)):
             self.assertEqual(document['properties']['schemaVersion']['const'],SCHEMA_VERSION)
@@ -46,49 +46,49 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(validate_shape(10**1000,{'type':'number','minimum':0}),[])
 
     def test_synthetic_evidence_and_sample_schema_pointers(self):
-        value=json.loads((ROOT/'examples/evidence.json').read_text())
+        value=json.loads((ROOT/'examples/evidence.json').read_text(encoding='utf-8'))
         self.assertEqual(validate_record(ROOT,'evidence',value),[])
         self.assertIn('SYNTHETIC',value['application'])
         for name in ('project.json','skills/catalog.json','qa/evidence.json','examples/evidence.json'):
             file=ROOT/name
-            pointer=json.loads(file.read_text())['$schema']
+            pointer=json.loads(file.read_text(encoding='utf-8'))['$schema']
             self.assertTrue((file.parent/pointer).is_file(),name)
 
     def test_links_check_hidden_files_spaces_references_and_code_fences(self):
         root=self.base/'links';(root/'.github').mkdir(parents=True)
-        (root/'with space.md').write_text('# Target')
+        (root/'with space.md').write_text('# Target', encoding='utf-8', newline='\n')
         file=root/'.github/instructions.md'
-        file.write_text('[ok](../with%20space.md)\n[bad][x]\n[x]: ../missing.md\n```sh\n[example](../not-real.md)\n```\n')
+        file.write_text('[ok](../with%20space.md)\n[bad][x]\n[x]: ../missing.md\n```sh\n[example](../not-real.md)\n```\n', encoding='utf-8', newline='\n')
         errors=check_links(root)
         self.assertEqual(len(errors),1,errors)
         self.assertIn('missing.md',errors[0])
-        (root/'missing.md').write_text('resolved')
+        (root/'missing.md').write_text('resolved', encoding='utf-8', newline='\n')
         self.assertEqual(check_links(root),[])
 
     def test_ci_and_catalog_share_the_check_entrypoint(self):
-        data=json.loads((ROOT/'skills/catalog.json').read_text())
+        data=json.loads((ROOT/'skills/catalog.json').read_text(encoding='utf-8'))
         service=next(s for s in data['services'] if s['id']=='foundation-tooling')
         import re
-        executed=re.findall(r'^\s+run:\s*(.+)$',(ROOT/'.github/workflows/foundation.yml').read_text(),re.MULTILINE)
+        executed=re.findall(r'^\s+run:\s*(.+)$',(ROOT/'.github/workflows/foundation.yml').read_text(encoding='utf-8').split('\n  foundation:', 1)[0],re.MULTILINE)
         self.assertEqual(service['testCommands'],executed)
         self.assertEqual(executed,['sh scripts/check.sh'])
         # Exercise the entrypoint's execution/early-exit contract without recursively running tests.
         import os,subprocess
         bin_dir=self.base/'bin';bin_dir.mkdir();calls=self.base/'calls'
-        fake=bin_dir/'python3'
-        fake.write_text('#!/bin/sh\nprintf "%s\\n" "$*" >> "$CHECK_CALLS"\ncase "$*" in *check_links*) exit "${CHECK_LINK_EXIT:-0}";; esac\n')
+        fake=bin_dir/'chosen-python'
+        fake.write_text('#!/bin/sh\nprintf "%s\\n" "$*" >> "$CHECK_CALLS"\ncase "$*" in *check_links*) exit "${CHECK_LINK_EXIT:-0}";; esac\n', encoding='utf-8', newline='\n')
         fake.chmod(0o755)
-        env={**os.environ,'PATH':str(bin_dir)+os.pathsep+os.environ['PATH'],'CHECK_CALLS':str(calls)}
-        good=subprocess.run(['sh',str(ROOT/'scripts/check.sh')],env=env,capture_output=True)
+        env={**os.environ,'PYTHON':fake.as_posix(),'CHECK_CALLS':calls.as_posix()}
+        good=subprocess.run(['sh',str(ROOT/'scripts/check.sh')],env=env,capture_output=True, timeout=10)
         self.assertEqual(good.returncode,0)
-        self.assertEqual(calls.read_text().splitlines(), [
+        self.assertEqual(calls.read_text(encoding='utf-8').splitlines(), [
             'scripts/check_foundation.py', 'scripts/check_links.py', 'scripts/check_docs_impact.py',
             'scripts/build_public_docs.py', '-m unittest discover -s tests -v',
         ])
-        calls.write_text('');env['CHECK_LINK_EXIT']='3'
-        bad=subprocess.run(['sh',str(ROOT/'scripts/check.sh')],env=env,capture_output=True)
+        calls.write_text('', encoding='utf-8', newline='\n');env['CHECK_LINK_EXIT']='3'
+        bad=subprocess.run(['sh',str(ROOT/'scripts/check.sh')],env=env,capture_output=True, timeout=10)
         self.assertEqual(bad.returncode,3)
-        self.assertEqual(len(calls.read_text().splitlines()),2)
+        self.assertEqual(len(calls.read_text(encoding='utf-8').splitlines()),2)
 
     def test_ruleset_default_preview_never_calls_github(self):
         import contextlib,io

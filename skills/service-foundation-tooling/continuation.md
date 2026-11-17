@@ -1,12 +1,11 @@
 # Foundation tooling continuation
 
-- Scope: resolve template issues #9–#18: instruction owners, schemas/tooling, examples, agent intake, license, protection, bootstrap removal and SemVer.
-- Reviewed implementation revision: 953717c787dd37d1500c04767f818f4e0a0faffd. The continuation/catalog pointer was updated afterward; verify current-head CI separately.
-- Original source baseline inspected: f3d497930c732c557b2cbbd12c04450584fa0813. Subsequent reviewed action upgrades are PRs #3 and #4 (merged); the maintenance PR is linked from issues #9–#18.
-- Implemented locally: canonical policy routing; schemas and accumulated diagnostics; shared check command/JSON mode/link checker; synthetic fixtures; MIT license; agent pointers/forms; safe ruleset preview/apply; valid template version 1.9.0.
-- Local execution: `sh scripts/check.sh` passed all 21 tests and local Markdown links during implementation; all bundled skills and installed app-launchpad validate. These are working-tree results, not an assertion about a later head. Inspect the maintenance PR's live current-head CI before relying on a committed revision.
-- Repository settings: active main ruleset 26130401 verified via GitHub read-back (PR, foundation check/up-to-date base, no force push/deletion, no bypass actors). Procedure: [repository ruleset](../../docs/repository-ruleset.md).
-- Source delivery: inspect live issue/PR and remote merge state; tag v1.9.0 must point to the verified maintenance merge. Application/provider deployment is inapplicable to these local tools.
-- Dynatrace: chosen platform for consumers; no live observer/tenant integration or signal verification is configured here.
-- Remaining review responsibility: enumerate actual services and keep instructions semantically fresh. Validation cannot infer undeclared architecture. After interrupted generation, inspect locks/catalog/files before recovery.
-- Next consumer action: generate the full template, record version/revision, decide the app's license and architecture, register actual services, and replace pending service facts with inspected implementation details. The removed partial bootstrap is not a supported adoption path.
+- Scope: Iteration 2 issues #46, #47, #52, #53, #58 and #74; Windows portability, encoding, version consistency and reviewed tooling inventory.
+- Source reviewed: the full `origin/main` commit recorded as `lastReviewedRevision` in [catalog](../catalog.json), the v1.14.1 baseline. It is an inspected source pointer, not proof of this candidate's CI.
+- Implemented: cross-platform relative-path rejection and bounded traversal; lock handle closed before deletion; explicit UTF-8/LF I/O; configurable Python executable; bounded test subprocesses; isolated privilege-sensitive symlink test; root changelog version guard; Git-backed review-revision warnings.
+- CI: Linux and Windows run the shared check command with encoding warnings as errors. The required `foundation` gate waits for both jobs. PR evidence must identify the checked head and actual run; inspect it before merge.
+- Verification: local candidate checks and remote CI are recorded in the implementing PR. A passing foundation gate covers repository tooling and curated docs, not a generated application's behavior or runtime telemetry.
+- Delivery: issue-linked implementation PR; merge, release and any resulting Pages publication are separate evidence states. No application runtime, database migration, ingestion credentials or tenant writes are involved.
+- Recovery: revert the implementing commit through a PR. After interrupted generation inspect active processes, catalog and output before removing a stale `.catalog.lock` or `.catalog.next`. Never delete another process's lock or existing output.
+- Remaining: the later CI/lint expansion (#54), validator/link-checker hardening and skill-quality epics remain outside this patch. Consumer projects adopt selected updates through reviewed PRs and preserve their own configuration.
+- Next action: check the implementing PR's current-head Windows/Linux results, then perform the authorized merge/release procedure. Do not infer publication from a local check or an open PR.
