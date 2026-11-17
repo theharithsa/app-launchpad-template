@@ -32,7 +32,7 @@ def skill_version(source):
 def check_skill_release(root, base):
     def git(*args, check=True):
         return subprocess.run(['git', *args], cwd=root, check=check, capture_output=True, text=True,
-                              encoding='utf-8')
+                              encoding='utf-8', timeout=15)
 
     changed = git('diff', '--name-only', base, 'HEAD', '--', APP_LAUNCHPAD, DT_OBS).stdout.splitlines()
     if not changed:
@@ -67,12 +67,16 @@ def validate(root, ready=False):
             errors.append('Missing required file: ' + name)
     version = None
     try:
-        version = (root / 'TEMPLATE_VERSION').read_text().strip()
+        version = (root / 'TEMPLATE_VERSION').read_text(encoding='utf-8').strip()
         if not re.fullmatch(SEMVER_PATTERN, version):
             errors.append('TEMPLATE_VERSION: invalid SemVer (numeric identifiers cannot have leading zeros)')
-        if f'Template version: **{version}**' not in (root / 'README.md').read_text():
+        if f'Template version: **{version}**' not in (root / 'README.md').read_text(encoding='utf-8'):
             errors.append('README template version differs from TEMPLATE_VERSION')
-        headings = re.findall(r'^## \[([^\]]+)\]', (root / 'docs/template-changelog.md').read_text(), re.MULTILINE)
+        changelog = (root / 'CHANGELOG.md').read_text(encoding='utf-8')
+        named_versions = re.findall(r'Template version\s+\*\*([^*]+)\*\*', changelog)
+        if any(named != version for named in named_versions):
+            errors.append('Root changelog template version differs from TEMPLATE_VERSION')
+        headings = re.findall(r'^## \[([^\]]+)\]', (root / 'docs/template-changelog.md').read_text(encoding='utf-8'), re.MULTILINE)
         if not headings or headings[0] != version:
             errors.append('Newest template changelog version differs from TEMPLATE_VERSION')
         app_version = skill_version((root / APP_LAUNCHPAD / 'SKILL.md').read_text(encoding='utf-8'))

@@ -25,7 +25,7 @@ if __name__ == '__main__':
     if os.getenv('GITHUB_EVENT_NAME') != 'pull_request':
         print('Documentation impact is checked on pull requests.')
     else:
-        event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
+        event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text(encoding='utf-8'))
         body = event['pull_request']['body'] or ''
         if not has_decision(body):
             raise SystemExit(

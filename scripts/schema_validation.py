@@ -13,7 +13,7 @@ import re
 def load_json(path):
     def reject_constant(value):
         raise ValueError('Invalid JSON numeric constant: ' + value)
-    return json.loads(path.read_text(), parse_constant=reject_constant)
+    return json.loads(path.read_text(encoding='utf-8'), parse_constant=reject_constant)
 
 
 def validate_shape(value, schema, location='$', document=None):

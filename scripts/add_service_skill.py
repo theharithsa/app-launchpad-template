@@ -26,7 +26,7 @@ def main():
         registry = root / 'skills/catalog.json'
         if registry.is_symlink():
             raise ValueError('Catalog must not be a symlink')
-        before = registry.read_text()
+        before = registry.read_text(encoding='utf-8')
         data = json.loads(before)
         name = 'service-' + a.id
         destination = safe_path(root, 'skills/' + name)
@@ -44,10 +44,13 @@ def main():
             return
         # Exclusive lock coordinates this tool; never replace external edits detected during generation.
         lock = root / 'skills/.catalog.lock'
-        with lock.open('x'):
+        # Close the exclusive handle before cleanup (Windows cannot unlink an open file).
+        with lock.open('x', encoding='utf-8', newline='\n'):
+            pass
+        try:
             created = False
             try:
-                if registry.read_text() != before:
+                if registry.read_text(encoding='utf-8') != before:
                     raise ValueError('Catalog changed; retry after reviewing it')
                 destination.mkdir()
                 created = True
@@ -71,7 +74,7 @@ Status: planned. Read [catalog](../catalog.json), [continuation](continuation.md
 | Dynatrace/recovery | Pending identity, initialization, signals, correlation, tests and delivery health |
 
 Use the task's shared workflow skill; keep this file about the actual service. Continuation owns the current work/evidence/next action.
-''')
+''', encoding='utf-8', newline='\n')
                 (destination / 'continuation.md').write_text(f'''# {a.id} continuation
 
 Status: planned; no service implementation or deployment has been verified.
@@ -84,11 +87,11 @@ Status: planned; no service implementation or deployment has been verified.
 - Telemetry acceptance / searchability / native linkage: not-run.
 - Blockers and unresolved decisions: inspect approved scope and architecture.
 - Next action: implement the agreed service slice, populate the skill from real code and register entrypoints, owner, tests and dependencies. Mark active only when those fields are valid.
-''')
-                if registry.read_text() != before:
+''', encoding='utf-8', newline='\n')
+                if registry.read_text(encoding='utf-8') != before:
                     raise ValueError('Catalog changed; generated files rolled back')
                 temporary = root / 'skills/.catalog.next'
-                with temporary.open('x') as output:
+                with temporary.open('x', encoding='utf-8', newline='\n') as output:
                     output.write(json.dumps(data, indent=2) + '\n')
                 try:
                     temporary.replace(registry)
@@ -98,8 +101,8 @@ Status: planned; no service implementation or deployment has been verified.
                 if created:
                     shutil.rmtree(destination)
                 raise
-            finally:
-                lock.unlink(missing_ok=True)
+        finally:
+            lock.unlink(missing_ok=True)
     except (OSError, ValueError) as error:
         p.error(str(error))
 

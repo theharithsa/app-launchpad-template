@@ -28,7 +28,7 @@ def build_ruleset(branch='main'):
 
 def gh_json(arguments, payload=None):
     result = subprocess.run(['gh', 'api', *arguments], input=None if payload is None else json.dumps(payload),
-                            text=True, capture_output=True, check=True)
+                            text=True, capture_output=True, check=True, timeout=15, encoding='utf-8')
     return json.loads(result.stdout)
 
 

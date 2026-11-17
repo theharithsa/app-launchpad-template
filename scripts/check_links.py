@@ -11,7 +11,7 @@ def check_links(root):
     files = sorted(p for p in root.rglob('*') if p.is_file() and p.suffix in ('.md', '.mdc')
                    and not any(part in ('.git', 'node_modules', '.venv', '__pycache__') for part in p.parts))
     for file in files:
-        content = re.sub(r'^```.*?^```[^\n]*$', '', file.read_text(), flags=re.MULTILINE | re.DOTALL)
+        content = re.sub(r'^```.*?^```[^\n]*$', '', file.read_text(encoding='utf-8'), flags=re.MULTILINE | re.DOTALL)
         inline = re.findall(r'\]\(\s*(<[^>]+>|[^\s)]+)', content)
         definitions = re.findall(r'^\s*\[[^\]]+\]:\s*(<[^>]+>|\S+)', content, re.MULTILINE)
         for value in inline + definitions:
