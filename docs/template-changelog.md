@@ -1,5 +1,14 @@
 # Template changelog
 
+## [1.14.2] - 2026-11-17
+
+- Fix Windows rooted-path hangs, catalog lock cleanup, Unicode/LF file handling and configurable Python execution. Linux and Windows now run strict encoding checks behind the required foundation gate.
+- Refresh the tooling inventory, resolvable review revision and continuation; warn when review history is unavailable. Catch stale explicit template versions in the root changelog.
+- State prerequisites and the absence of an application scaffold. Route the documentation skill to PR coverage and first-time reader walkthroughs, and add released-milestone reconciliation to the release checklist.
+- Correct the Dynatrace OTLP example with delta metric temporality and a per-runtime service.instance.id. Advance bundled dt-obs to 1.4.2.
+- Record Ian's original and Jobel Shaji's English-translation provenance. Remove redistributed example PNGs by owner decision and link to the upstream calibration examples; retain the skill, MIT license and attribution.
+- Compatibility: no schema or application data migration. Consumers can adopt the tooling and documentation through a reviewed PR. Python 3.11+ is unchanged; Windows users can select `PYTHON=python`. Calibration images now require following an upstream link rather than a local assets path. This entry describes the release candidate until its tag is published.
+
 ## [1.14.1] - 2026-11-15
 
 - Require first-time reader walkthroughs for new or materially changed public guides. Cover exact user steps, permissions, expected results, clean-checkout developer setup, and troubleshooting.

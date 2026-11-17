@@ -107,7 +107,8 @@
       "id": "foundation-tooling",
       "skillId": "service-foundation-tooling",
       "sourcePaths": [
-        "scripts"
+        "scripts",
+        ".github/workflows"
       ],
       "entrypoints": [
         "scripts/check_foundation.py",

@@ -1,0 +1,23 @@
+{
+  "original": {
+    "repository": "https://github.com/helloianneo/ian-xiaohei-illustrations",
+    "revision": "91b560849e8f883922cc2fa8a358a668caa94105",
+    "author": "Ian (helloianneo)"
+  },
+  "englishTranslation": {
+    "repository": "https://github.com/jobelshaji95/ian-xiaohei-illustrations-en",
+    "revision": "90f82caeb2b21138222f2bfd50a49bbe14f2a78e",
+    "author": "jobelshaji95"
+  },
+  "templateImportRevision": "f3d497930c732c557b2cbbd12c04450584fa0813",
+  "packageLabel": "0.1.1",
+  "verifiedOn": "2026-11-17",
+  "scope": "Upstream source and translation ancestry, not a claim of byte-for-byte equivalence or an upstream 0.1.1 release.",
+  "localAdaptations": [
+    "English instructions and host integration adapted in this template.",
+    "Example PNGs removed by owner decision; use pinned upstream calibration links."
+  ],
+  "licenseFile": "LICENSE",
+  "noticeFile": "NOTICE.md",
+  "bundledExampleImages": false
+}

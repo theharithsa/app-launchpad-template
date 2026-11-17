@@ -2,7 +2,7 @@
 name: dt-obs
 description: Plan, implement and verify Dynatrace observability across browser RUM, OpenTelemetry, canonical business events, GitHub development and release lifecycle, and GitHub Actions execution with Thoth. Use when instrumenting an app, backend, worker, or CI/CD workflow. For telemetry investigation, use the specialized query skills.
 metadata:
-  version: "1.4.1"
+  version: "1.4.2"
 ---
 
 # Dynatrace application and development lifecycle observability

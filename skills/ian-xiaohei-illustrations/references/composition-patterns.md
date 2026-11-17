@@ -74,7 +74,7 @@ Every time, reinvent the metaphor from the current article. Do not copy old imag
 
 ## Repetition Rules
 
-Do not open or reuse `assets/examples/` by default. These images are only for calibration, such as line density, whitespace, color restraint, and Xiaohei's presence.
+Do not open or reuse [upstream calibration examples](https://github.com/jobelshaji95/ian-xiaohei-illustrations-en/tree/90f82caeb2b21138222f2bfd50a49bbe14f2a78e/ian-xiaohei-illustrations/assets/examples) by default. These images are only for calibration, such as line density, whitespace, color restraint, and Xiaohei's presence.
 
 Unless the user explicitly says "copy this image", "recreate this composition", or "use this case", do not directly reuse these old compositions:
 

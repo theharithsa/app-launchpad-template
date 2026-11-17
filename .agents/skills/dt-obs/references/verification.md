@@ -6,7 +6,7 @@ Test representative journeys and failure invariants, not string matches against 
 
 | Area | Evidence |
 |---|---|
-| Export | Independent local OTLP protobuf receiver decodes traces, logs and metrics; resource names, units, temporality, histogram data and log trace context are correct |
+| Export | Independent local OTLP protobuf receiver decodes traces, logs and metrics; verify Counter/Histogram `aggregation_temporality=DELTA`, distinct per-runtime `service.instance.id`, resource names, units, histogram data and log trace context. See [export configuration](otel.md#transport-and-configuration) |
 | Concurrency | Two overlapping users/requests keep identity and transactions isolated, including awaited work, errors and retries |
 | Propagation | Valid W3C context continues or links correctly; malformed headers are bounded; third-party propagation remains restricted |
 | Gateway | Unauthenticated, disallowed-origin, spoofed-identity, invalid span IDs/time bounds, oversized batches and rate limits tested |
@@ -28,7 +28,7 @@ Build with intended flags and secret references; inspect artifacts for credentia
 
 Use an isolated identifiable transaction to verify:
 1. Each RUM script/helper loads, consent is respected, identity transitions occur and its beacon succeeds.
-2. Each OTLP signal independently passes transport/auth/payload validation, with no partial rejection. Logs working does not prove metrics/traces work.
+2. Each OTLP signal independently passes transport/auth/payload validation, with no partial rejection. Confirm metric Counter/Histogram payloads use delta temporality and check exporter/ingest rejection diagnostics; a configured variable alone does not prove the SDK used it. Logs working does not prove metrics/traces work.
 3. Each canonical event reaches outbox delivered status with stable event ID; duplicates remain safe.
 4. Authorized tenant queries locate the exact event/trace/log IDs and expected metrics within the time window; check sampling, retention and pipeline routing.
 5. Navigate an actual RUM action to its backend trace if supported/configured. A custom trace field or successful beacon is insufficient proof. Confirm the propagation header the browser sends is the one the server extracts, then join one action to one server span by `request.id` in a tenant query.

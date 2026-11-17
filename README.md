@@ -1,10 +1,22 @@
 # App Launchpad Template
 
-Template version: **1.14.1** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
+Template version: **1.14.2** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
 
 See the [production documentation checklist](docs/release-plan.md#production-documentation-review). [SalesDrone](https://github.com/theharithsa/SalesDrone) is an existing app that uses App Launchpad delivery practices.
 
 A stack-neutral, **Dynatrace-opinionated** foundation for building and enhancing apps. Choose each product's stack and hosting deliberately; Dynatrace is the chosen observability platform. No tenant or application deployment is preconfigured.
+
+This template contains repository tooling, agent skills and a static documentation
+starter. It contains no application scaffold. Build the first application slice
+with your chosen stack after [discovery](docs/getting-started.md).
+
+## Prerequisites
+
+- Python **3.11+**, Git, and a POSIX shell. On Windows, install Python and Git for Windows (including Git Bash), or use WSL with Python and Git installed inside it.
+- [GitHub CLI (`gh`)](https://cli.github.com/) for the repository-creation command below; authenticate with `gh auth login`. The GitHub web template button is an alternative to the CLI.
+- Check `python3 --version` and `git --version` in your shell. In Windows Git Bash, use `python --version` if Python is installed as `python`; run the checks with `PYTHON=python sh scripts/check.sh`. If the command is unavailable, install Python and reopen the shell before continuing.
+
+The foundation scripts use the Python standard library; no `pip install` is required.
 
 ## Create a project
 
@@ -47,7 +59,7 @@ GitHub template generation copies files, not repository settings or future updat
 
 ## Licensing
 
-The template is MIT-licensed by Vishruth Harithsa. Bundled Ian Xiaohei Illustrations retains its own [MIT license](skills/ian-xiaohei-illustrations/LICENSE) and [attribution](skills/ian-xiaohei-illustrations/NOTICE.md).
+The template is MIT-licensed by Vishruth Harithsa. Bundled Ian Xiaohei Illustrations retains its own [MIT license](skills/ian-xiaohei-illustrations/LICENSE) and [attribution/provenance](skills/ian-xiaohei-illustrations/NOTICE.md). Example PNGs are linked upstream rather than redistributed.
 
 A generated application's license is a separate `needs-user-input` decision. Preserve the template and third-party copyright/license notices for inherited material; when selecting the app's license, retain those notices (for example under `LICENSES/`) and document the app's chosen terms separately. Copying the template does not record an approved license choice for new application code.
 

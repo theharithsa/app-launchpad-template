@@ -17,6 +17,10 @@ Default visual IP: Xiaohei, a black solid creature with white dot eyes, thin leg
 
 ## Reference Files
 
+Example images are linked upstream and are not bundled. Follow them only when
+calibration is needed; do not assume a local assets directory exists. See the
+[provenance and license notice](NOTICE.md).
+
 Read only the files required for the selected mode:
 
 - `references/style-dna.md`: style DNA, colors, text, and bans.
@@ -24,7 +28,7 @@ Read only the files required for the selected mode:
 - `references/composition-patterns.md`: structure types, original metaphor rules, and repetition rules.
 - `references/prompt-template.md`: single-image prompt template.
 - `references/qa-checklist.md`: generation checks and iteration rules.
-- `assets/examples/`: low-frequency style calibration only. Do not copy these examples' compositions, objects, or labels.
+- [upstream calibration examples](https://github.com/jobelshaji95/ian-xiaohei-illustrations-en/tree/90f82caeb2b21138222f2bfd50a49bbe14f2a78e/ian-xiaohei-illustrations/assets/examples): low-frequency style calibration only. Do not copy these examples' compositions, objects, or labels.
 
 Mode loading matrix:
 
@@ -32,7 +36,7 @@ Mode loading matrix:
 - `generate`: read `references/style-dna.md`, `references/xiaohei-ip.md`, `references/composition-patterns.md`, `references/prompt-template.md`, and `references/qa-checklist.md` before the first image.
 - `edit`: read `references/prompt-template.md` and `references/qa-checklist.md`; read `references/xiaohei-ip.md` only for Xiaohei-involvement revisions.
 - `save`: use the save rules in this file; read `references/qa-checklist.md` only if the generated files still need visual QA.
-- `assets/examples/`: do not open by default. Open examples only when the user asks for style calibration, comparison, or a specific old case.
+- [upstream calibration examples](https://github.com/jobelshaji95/ian-xiaohei-illustrations-en/tree/90f82caeb2b21138222f2bfd50a49bbe14f2a78e/ian-xiaohei-illustrations/assets/examples): do not open by default. Open examples only when the user asks for style calibration, comparison, or a specific old case.
 
 ## Operating Modes
 
