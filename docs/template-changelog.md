@@ -1,5 +1,11 @@
 # Template changelog
 
+## [1.14.3] - 2026-11-25
+
+- Repair the public launch starter. The landing page, guides, policy pages and branded recovery screens use the same navigation. Generated applications can point visitors to their own sign-in and retain their host’s 404 status.
+- Make the existing public launch standard explicit about feature coverage, a complete captioned product tour, mobile walkthroughs and validating the real reporting channel.
+- Compatible with the existing project metadata and skill layout. To adopt, keep your app’s identity, policy facts and auth routes. The canonical template itself uses GitHub’s template action.
+
 ## [1.14.2] - 2026-11-17
 
 - Fix Windows rooted-path hangs, catalog lock cleanup, Unicode/LF file handling and configurable Python execution. Linux and Windows now run strict encoding checks behind the required foundation gate.

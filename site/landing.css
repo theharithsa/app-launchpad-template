@@ -34,3 +34,18 @@ video { max-width: 840px; aspect-ratio: 16 / 9; background: #29203c; }
   .header { padding-block: 12px; }
   .gallery, .gallery.screenshots { grid-template-columns: 1fr; }
 }
+
+body { min-height: 100svh; display: flex; flex-direction: column; }
+main { flex: 1; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; }
+.brand-mark, .recovery-mark { color: #514089; font-weight: 800; }
+.recovery-mark { display: inline-block; font-size: 5rem; }
+.footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding-block: 1.5rem; border-top: 1px solid #ded6e3; }
+.primary-action { margin-top: 1.5rem; }
+.cta { background: #514089; color: white; border-radius: 2rem; padding: .7rem 1.15rem; text-decoration: none; display: inline-block; }
+.header nav { align-items: center; }
+.gallery article a { display: inline-block; margin-top: 1rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .recovery-mark { animation: find-path .9s ease-in-out 2; }
+  @keyframes find-path { 50% { transform: translate(.35em, -.12em) rotate(12deg); } }
+}

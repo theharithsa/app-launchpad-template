@@ -38,7 +38,7 @@ class PublicDocsTests(unittest.TestCase):
                 build(root, output)
             self.assertEqual(
                 {path.name for path in (output / 'docs').iterdir()},
-                {'product.html', 'technical.html', 'settings.html', 'sdlc.html', 'pipeline.html'},
+                {'product.html', 'technical.html', 'settings.html', 'sdlc.html', 'pipeline.html', 'privacy.html', 'terms.html', 'security.html'},
             )
             self.assertFalse((output / 'internal.html').exists())
             self.assertFalse((output / 'docs/private-runbook.md').exists())
@@ -56,6 +56,25 @@ class PublicDocsTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'missing anchor'):
                 build(root, output)
             self.assertFalse(output.exists())
+
+    def test_hosting_and_pages_keep_their_sign_in_and_nested_error_destinations(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            parent = Path(scratch)
+            root = self.scaffold(parent)
+            config = root / 'docs/public-guides.json'
+            data = json.loads(config.read_text(encoding='utf-8'))
+            data['publicSite'].update(signInPath='/signin', appOrigin='https://weather.example', pagesBase='/forecast/')
+            config.write_text(json.dumps(data), encoding='utf-8', newline='\n')
+            for mode, mount, signin in [(False, '/forecast/', 'https://weather.example/signin'), (True, '/', '/signin')]:
+                out = parent / str(mode)
+                build(root, out, hosting=mode)
+                error = (out / '404.html').read_text(encoding='utf-8')
+                self.assertIn(f'href="{mount}docs/product.html"', error)
+                self.assertIn(f'href="{signin}"', error)
+                for page in ('index.html', 'docs/privacy.html', 'docs/terms.html', 'docs/security.html', 'errors/501.html'):
+                    self.assertIn('aria-label="Policies"', (out / page).read_text(encoding='utf-8'))
+            with self.assertRaisesRegex(ValueError, 'review the product'):
+                build(root, parent / 'other', publish_for='someone/other')
 
     def test_decision_must_appear_in_visible_impact_section(self):
         heading = '## Documentation impact\n\n'

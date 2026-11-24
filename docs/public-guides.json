@@ -95,6 +95,85 @@
           "Fix the issue in the PR and check the new revision. If a Pages job fails after merge, review that publishing run and verify the live docs separately."
         ]
       ]
+    },
+    "privacy": {
+      "intro": "You can read these pages without creating an App Launchpad account. GitHub hosts the website and the repository.",
+      "sections": [
+        [
+          "When you visit",
+          "These static pages load the published site files. GitHub Pages records visitor IP addresses for security. This starter adds no advertising trackers, analytics scripts or account database."
+        ],
+        [
+          "When you contribute",
+          "Public issues and pull requests display your GitHub profile and the content you submit. Use fictional data in examples. For a private question about personal data in this repository, contact the maintainer through the security reporting form. GitHub handles requests about your GitHub account through its privacy support."
+        ]
+      ],
+      "links": [
+        [
+          "GitHub Pages and visitor data",
+          "https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection"
+        ],
+        [
+          "GitHub privacy statement",
+          "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
+        ]
+      ]
+    },
+    "terms": {
+      "intro": "App Launchpad supplies a software template and documentation for maintaining your own repository.",
+      "sections": [
+        [
+          "Using the template",
+          "The repository is available under the MIT License. You can copy and adapt it under its license terms, including keeping the copyright and license notice with substantial copies. The license describes warranty and liability limits."
+        ],
+        [
+          "Your project",
+          "You choose your application’s services, permissions, policies and deployment. Creating a repository through GitHub uses your GitHub account and is subject to GitHub’s terms. Check the contribution guide before submitting changes."
+        ]
+      ],
+      "links": [
+        [
+          "Read the MIT License",
+          "https://github.com/theharithsa/app-launchpad-template/blob/main/LICENSE"
+        ],
+        [
+          "Contribution guide",
+          "https://github.com/theharithsa/app-launchpad-template/blob/main/CONTRIBUTING.md"
+        ],
+        [
+          "GitHub terms",
+          "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service"
+        ]
+      ]
+    },
+    "security": {
+      "intro": "Send a suspected vulnerability to the maintainer privately before sharing details publicly.",
+      "sections": [
+        [
+          "File a private report",
+          "Open the private reporting form below and sign in to GitHub. Include the affected version, the component and the impact. Use a synthetic example and remove credentials and personal information. The maintainer can follow up in the private advisory."
+        ],
+        [
+          "What is covered",
+          "Report problems in the starter, build scripts, workflows and published pages here. For an app created from this template, use that app’s own security contact. The contribution guide covers ordinary bugs and improvements."
+        ]
+      ],
+      "links": [
+        [
+          "Repository security policy",
+          "https://github.com/theharithsa/app-launchpad-template/security/policy"
+        ]
+      ]
     }
+  },
+  "publicSite": {
+    "repository": "theharithsa/app-launchpad-template",
+    "pagesBase": "/app-launchpad-template/",
+    "mark": "↗",
+    "actionLabel": "Use the template",
+    "actionUrl": "https://github.com/new?template_owner=theharithsa&template_name=app-launchpad-template",
+    "signInPath": null,
+    "appOrigin": null,
+    "securityReport": "https://github.com/theharithsa/app-launchpad-template/security/advisories/new"
   }
 }
