@@ -1,5 +1,7 @@
 # Foundation tooling continuation
 
+Issue #99 adds the shared public shell, verified private reporting link, same-host sign-in configuration and branded HTTP recovery documents. Run the public-docs tests for both hosting modes before publication.
+
 - Scope: Iteration 2 issues #46, #47, #52, #53, #58, #63, #67, #73, #74, #75 and #83; portability, tooling inventory, documentation/provenance and metric configuration.
 - Source reviewed: the full `origin/main` commit recorded as `lastReviewedRevision` in [catalog](../catalog.json), the v1.14.1 baseline. It is an inspected source pointer, not proof of this candidate's CI.
 - Implemented: cross-platform relative-path rejection and bounded traversal; lock handle closed before deletion; explicit UTF-8/LF I/O; configurable Python executable; bounded test subprocesses; isolated privilege-sensitive symlink test; root changelog version guard; Git-backed review-revision warnings.

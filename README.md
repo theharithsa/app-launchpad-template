@@ -1,6 +1,6 @@
 # App Launchpad Template
 
-Template version: **1.14.2** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
+Template version: **1.14.3** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
 
 See the [production documentation checklist](docs/release-plan.md#production-documentation-review). [SalesDrone](https://github.com/theharithsa/SalesDrone) is an existing app that uses App Launchpad delivery practices.
 
@@ -47,7 +47,7 @@ The gate checks decisions, not application/release readiness. Add real stack-spe
 
 ## Prepare a public product launch
 
-Use the [product README example](examples/product-readme.md), [contribution guide](CONTRIBUTING.md), [security guide](SECURITY.md), and [landing page starter](site/index.html). Follow the [launch procedure](.agents/skills/app-launchpad/references/product-launch.md) to capture real screenshots with synthetic data, make a short `/brag` video, and publish through GitHub Pages.
+Use the [product README example](examples/product-readme.md), [contribution guide](CONTRIBUTING.md), [security guide](SECURITY.md), and [public site starter](site/index.html) with common navigation, policy and recovery pages. Follow the [launch procedure](.agents/skills/app-launchpad/references/product-launch.md) to capture real screenshots with synthetic data, record a captioned end-to-end `/brag` tour, and publish through GitHub Pages.
 
 Build the starter and its five public guides with `python3 scripts/build_public_docs.py --output dist/public-docs` (use an empty output directory). Preview with `python3 -m http.server 8080 --directory dist/public-docs`. Configure GitHub Pages in the generated repository when the content is ready. See the [documentation workflow](.agents/skills/app-launchpad/references/product-launch.md#documentation-on-every-pr).
 

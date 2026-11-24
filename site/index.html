@@ -1,65 +1,18 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A starter for the public product page of an App Launchpad project.">
-  <title>Product site starter | App Launchpad</title>
-  <link rel="stylesheet" href="landing.css">
-</head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="wrap header">
-    <a class="brand" href="./">Product site starter</a>
-    <nav aria-label="Main"><a href="#overview">Overview</a><a href="#launch">Launch content</a><a href="#documentation">Documentation</a></nav>
-  </header>
-  <main id="main">
-    <section class="wrap hero" id="overview" aria-labelledby="title">
-      <p class="eyebrow">App Launchpad</p>
-      <h1 id="title">Introduce your product.</h1>
-      <p class="lead">Show visitors what the product does, who it serves, and how to try it.</p>
-    </section>
-    <section class="wrap launch" id="launch" aria-labelledby="launch-title">
-      <h2 id="launch-title">Build the public launch page</h2>
-      <div class="gallery">
-        <article><h3>Product overview</h3><p>Describe one real workflow and link to the app or demo.</p></article>
-        <article><h3>Screenshots and tour</h3><p>Use the approved screenshots and a short video from the running product.</p></article>
-        <article><h3>Project links</h3><p>Point visitors to the README, contribution guide, and private reporting route.</p></article>
-      </div>
-    </section>
-    <section class="wrap launch" id="documentation" aria-labelledby="documentation-title">
-      <h2 id="documentation-title">Documentation</h2>
-      <nav aria-label="Guides">
-        <a href="docs/product.html">Product handbook</a>
-        <a href="docs/technical.html">Technical guide</a>
-        <a href="docs/settings.html">Settings reference</a>
-        <a href="docs/sdlc.html">SDLC guide</a>
-        <a href="docs/pipeline.html">CI/CD pipeline</a>
-      </nav>
-    </section>
-    <!-- Insert this gallery and player into the published page after adding the approved media and updating the alt text. -->
-    <template id="product-media">
-      <section class="wrap launch" aria-labelledby="screenshots-title">
-        <h2 id="screenshots-title">See the workspace</h2>
-        <div class="gallery screenshots">
-          <figure>
-            <img src="media/workspace.jpg" alt="Product workspace at the start of the featured workflow" loading="lazy">
-            <figcaption>Workspace</figcaption>
-          </figure>
-          <figure>
-            <img src="media/result.jpg" alt="Result of the featured product workflow" loading="lazy">
-            <figcaption>Workflow result</figcaption>
-          </figure>
-        </div>
-      </section>
-      <section class="wrap launch" aria-labelledby="tour-title">
-        <h2 id="tour-title">Product tour</h2>
-        <video controls playsinline preload="none" poster="media/tour-poster.jpg" aria-label="Product tour">
-          <source src="media/product-tour.mp4" type="video/mp4">
-          <a href="media/product-tour.mp4">Download the product tour</a>
-        </video>
-      </section>
-    </template>
-  </main>
-</body>
-</html>
+<section class="wrap hero" aria-labelledby="title">
+  <p class="eyebrow">A GitHub repository template</p>
+  <h1 id="title">Ship your first change with a clear path to release.</h1>
+  <p class="lead">App Launchpad connects an issue, the code that solves it, the checks that prove it works and the guide a new user will read.</p>
+  <div class="primary-action"><!-- primary-action --></div>
+</section>
+<section class="wrap launch" aria-labelledby="workflow">
+  <h2 id="workflow">From an idea to a working release</h2>
+  <div class="gallery">
+    <article><h3>Start a project</h3><p>Create a repository from the template, choose the first user workflow and record the services it needs.</p><a href="docs/product.html">Follow the product handbook</a></article>
+    <article><h3>Make a change</h3><p>Link a pull request to its issue. Run the foundation checks on your machine and review the results on GitHub.</p><a href="docs/technical.html">Run the local checks</a></article>
+    <article><h3>Release and verify</h3><p>Follow the deployment path for your project. Open the published site and repeat the task a visitor would try.</p><a href="docs/pipeline.html">Follow the pipeline</a></article>
+  </div>
+</section>
+<section class="wrap launch"><h2>Choose how your team works</h2>
+  <p class="lead">Set repository protections, agree who can release changes, and give each service an owner and a working test command.</p>
+  <nav class="primary-action" aria-label="Maintainer guides"><a href="docs/settings.html">Settings reference</a><a href="docs/sdlc.html">Delivery guide</a></nav>
+</section>

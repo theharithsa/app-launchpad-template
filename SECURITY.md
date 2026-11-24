@@ -1,5 +1,7 @@
 # Security policy
 
+For App Launchpad, [report privately to the maintainer](https://github.com/theharithsa/app-launchpad-template/security/advisories/new).
+
 For public GitHub projects with private vulnerability reporting enabled, open the repository's **Security** tab, choose **Advisories**, and select **Report a vulnerability**. Confirm this route during repository setup. For other repository or hosting choices, document the maintainer's verified private reporting channel here before accepting reports.
 
 Include the affected version or commit, the component involved, the observed behavior, and the likely impact. Use synthetic data or an isolated test account. Keep suspected vulnerabilities, credentials, and private records out of public issues and attachments.

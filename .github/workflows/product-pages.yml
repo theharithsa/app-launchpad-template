@@ -36,7 +36,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Build and validate curated public documentation
-        run: python3 scripts/build_public_docs.py --output dist/public-docs
+        run: python3 scripts/build_public_docs.py --output dist/public-docs --publish-for "$GITHUB_REPOSITORY"
       - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         with:
           path: dist/public-docs

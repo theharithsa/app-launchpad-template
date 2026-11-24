@@ -2,6 +2,17 @@
 
 Use this procedure for a public product launch or a refresh of its public materials. Start with the template's README structure, contributor and security guides, and static starter in `site/`. Confirm the live app and demo links, the intended audience, and the public scope with existing project decisions.
 
+## Public entry and recovery
+
+1. Map each shipped user-facing workflow to its audience, starting control, input and visible result. Group related tasks around the user's day. Give each group a concrete example and a guide or demo link. Explain limits where they affect the user's choice. Mark planned features explicitly. Read the current routes and run the workflows before writing the copy.
+2. Serve the product landing at the signed-out root. Give sign-in its own reachable route and the workspace its own protected entry. Preserve bookmarked links, invitation or password-reset callbacks and existing sessions. If a public demo exists, open it directly with fictional data. For products without accounts, use their real primary action.
+3. Share the header, footer, type, colors, motion preferences and mobile navigation across the landing, help, technical docs and policies. Use the same vocabulary as the product. Link privacy, terms and security from every public page. Cover actual data, providers, retention/deletion options, terms of use, support and the verified private reporting route. Replace every template identity and contact before publishing. Check the form or mailbox with the owner. Keep policies specific to the product.
+4. Return a branded 404 with an actual HTTP 404 for an unknown nested URL. Provide branded 5xx recovery pages for the statuses the host can serve, with a plain-language next action. A published example is a preview until the host returns that status. On a failed save, help the user check what was recorded before retrying. Keep the brand animation brief and decorative. Essential text and navigation must work with animation and JavaScript disabled.
+5. When a product has both an application host and a Pages mirror, keep the public home, guides, policies, sign-in, demo and first-party API reachable from the application origin. Use relative staging links and the correct repository mount on Pages. Use a verified custom domain when available. Check HTTPS, the www redirect, allowed login domain, nested 404s and an existing deep link in the deployed environment. Change only the DNS records the hosting provider requests.
+6. Start a clean desktop and phone session at the public root. Read a real example, follow a guide, try the demo or sign-in, play and seek the tour, and recover from a mistyped nested URL. Also check keyboard focus, reduced motion, captions and the transcript. Record the tested URLs and outcomes.
+
+The starter stores its product and policy facts in `docs/public-guides.json` and its homepage copy in `site/index.html`. Set `publicSite.repository`, `pagesBase` and the primary action for the new project. An app with accounts sets `signInPath` to its local route and `appOrigin` to its verified HTTPS origin. Build with `--hosting` for same-host links and a root-mounted 404. The ordinary build targets the Pages mount. Point the application's host at the generated root and 404 file, and route only known app or auth paths to the application.
+
 ## Documentation on every PR
 
 Update affected documentation alongside the change, before merge. In the PR's
@@ -73,7 +84,7 @@ A successful build or link check alone does not complete this review.
 ## Screenshots and video
 
 - Capture the real product in its public demo or an isolated test account with fictional data. Check the images for identifiers, credentials, private URLs, and real records before publication. Use the same reviewed assets in the README and landing page.
-- Use the installed `/brag` skill to make a short product video. Use `/brag-slim` if that is the installed variant. Show the starting point, a representative action, and its result. Verify readable text, playback, and audio when used. Keep a poster and share copy with the launch deliverables.
+- Use the installed `/brag` skill to record the complete primary workflow. Start at the public entry, perform the main actions with fictional data and show the resulting persisted state or calculation. Include connected modules when they change the outcome. Choose a duration that lets a first-time viewer follow the controls, add chapters, captions and a text transcript, and verify playback and seeking on phone and desktop. A short teaser is an optional additional asset. Use `/brag-slim` if that is the installed variant. Show the starting point, a representative action, and its result. Verify readable text, playback, and audio when used. Keep a poster and share copy with the launch deliverables.
 - Put the approved screenshots, poster, and web-ready video under `site/media/`. Keep rendering inputs, intermediate files, and test data outside the public artifact. If product footage is pending, publish only the material that has been reviewed and record the missing deliverable.
 
 ## GitHub Pages
