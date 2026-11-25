@@ -51,7 +51,10 @@
 - Secret names and credential type/scopes (never values):
 - Gateway authentication, validation, body/batch/time/rate limits:
 - Queues, leases, retry/backoff, partial success, retention and recovery:
-- Sampling, cardinality/cost controls, diagnostics and bounded flush:
+- Sampling policy and rate, expected volume by signal, budget and measured usage:
+- Bucket, retention, read access, masking at capture and processing checks:
+- Collector/agent coexistence, selected owner per signal and duplicate check:
+- Config-as-code tool, pinned revision, resource IDs, plan/apply/read-back and recovery:
 - Deployment targets, required flags, rollback and shared resources preserved:
 
 ## Evidence

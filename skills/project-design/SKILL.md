@@ -9,3 +9,4 @@ description: Design product journeys, interfaces and service contracts. Use when
 - Record tokens/components, responsive/accessibility states and contract boundaries. [Build](../../.agents/skills/app-launchpad/references/build.md).
 - Select useful explanatory images. [Ian/Xiaohei policy](../../.agents/skills/app-launchpad/references/illustrations.md).
 - Leave the next approved slice in service continuation. [Service ownership](../../.agents/skills/app-launchpad/references/services.md).
+- Exercise the primary path, an empty or denied state, and a narrow viewport before recording acceptance.

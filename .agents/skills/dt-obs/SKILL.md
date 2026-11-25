@@ -2,7 +2,7 @@
 name: dt-obs
 description: Plan, implement and verify Dynatrace browser RUM, OpenTelemetry, business events and delivery telemetry. Use when instrumenting an app, service, worker or CI workflow. Do not use for routine telemetry investigation without instrumentation changes.
 metadata:
-  version: "1.6.0"
+  version: "1.7.0"
 ---
 
 # Dynatrace application and development lifecycle observability
@@ -20,18 +20,19 @@ Use [the plan template](assets/observability-plan.md). Resolve missing tenant/ta
 ## Select the implementation path
 
 - Browser/static/SPA: read [RUM and identity](references/rum.md).
-- API, Node.js, Firebase, serverless, collector or other backend runtime: read [OTel and correlation](references/otel.md). Use the native SDK for the actual runtime; Node is the worked pattern, not a restriction.
-- Scores, payments, votes, surveys, certificates or other durable domain outcomes: read [business events](references/business-events.md).
-- For sample boundaries in a static app, Node service and Firebase workspace, read the [worked patterns](references/worked-patterns.md).
+- API, service, worker, serverless or Collector: read [OTel and correlation](references/otel.md). Use the native SDK for the actual runtime; Node is the worked pattern, not a restriction.
+- Orders, accounts, subscriptions or other durable domain outcomes: read [business events](references/business-events.md).
+- For sample boundaries in a static app, backend service and managed data-store integration, read the [worked patterns](references/worked-patterns.md).
 - Issue intake, development milestones, PRs, reviews, merges, issue resolution and correlation to deployed runtime: read [software development lifecycle](references/sdlc.md).
 - GitHub Actions execution telemetry: follow [GitHub Actions observability](references/github-actions.md) to select an exporter, establish trust and verify execution, test and deployment evidence.
 - Auditing an already-instrumented app for what still blocks detection and log/trace/metric/event correlation: read [gap review](references/gap-review.md) and walk the code paths, not the observability document.
+- For [coexistence and configuration as code](references/coexistence-and-configuration.md) and [sampling, retention and cost](references/sampling-and-cost.md), use the selected environment's documented capabilities.
 - Before declaring completion, follow [verification and release](references/verification.md) and use the [bounded DQL recipes](references/dql-verification.md).
 
 ## Preserve these invariants
 
 1. RUM describes browser experience. Browser-reported success does not certify a database commit. Server-confirmed events come from durable domain state/outbox or committed-change capture.
-2. Verify backend identity independently. Browser tags and incoming trace headers grant no permission. Email tagging requires the target app's consent/privacy decision; workshop consent is not transferable.
+2. Verify backend identity independently. Browser tags and incoming trace headers grant no permission. Email tagging requires the target app's consent/privacy decision; consent applies to the selected app.
 3. Use real OTel context. Keep transaction IDs across the business operation and event delivery; request IDs identify attempts. Continue or link traces only where context is genuinely available. Never invent trace IDs merely to populate a field.
 4. Export credentials stay server-side. Use secret references and placeholders in artifacts. Never copy historical chat credentials into a skill, build, report or command log.
 5. Logs/spans/events may have bounded entity identifiers; metric dimensions must have bounded cardinality. No raw bodies, tokens, free-text feedback, join codes or uncontrolled error messages by default. Bounded does not mean uninformative: the application error code, dependency model/collection and from/to state are bounded and must reach spans, logs and (where finite) metric dimensions; a status code or catch-all `APPLICATION_ERROR` alone cannot separate failure causes.

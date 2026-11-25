@@ -1,5 +1,12 @@
 # Template changelog
 
+## [1.18.0] - Unreleased
+
+- Check Markdown fragments and ignore links inside fenced, indented and inline code. Exercise precise validator diagnostics and version-bump failures.
+- Use one canonical task routing table with project checklists. Add a product-video fallback for repositories without the optional recording skills.
+- Keep signal mechanics in dt-obs 1.7.0. Add Classic and latest RUM paths, portable examples, privacy and sampling choices, and configuration-as-code guidance.
+- Changed paths include the foundation tests, link checker, skill entrypoints, Project catalog and observability references. Review any local policy links and named owner references when adopting.
+
 ## [1.17.0] - Unreleased
 
 - Add a read-only template upgrade report and Claude Code skill entrypoints derived from the canonical descriptions.

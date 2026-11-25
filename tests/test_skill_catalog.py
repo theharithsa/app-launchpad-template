@@ -47,40 +47,55 @@ class CatalogTests(unittest.TestCase):
         skill = root / 'skills/project-design/SKILL.md'
         original = skill.read_text(encoding='utf-8')
         skill.unlink()
-        self.assertTrue(validate_catalog(root))
+        self.assertIn('project-design: Missing path: skills/project-design/SKILL.md', validate_catalog(root))
         skill.write_text(original.replace('name: project-design', 'name: mismatched'), encoding='utf-8', newline='\n')
-        self.assertTrue(validate_catalog(root))
+        self.assertIn('project-design: SKILL.md needs matching name frontmatter', validate_catalog(root))
         skill.write_text(original, encoding='utf-8', newline='\n')
         extra = root / 'skills/uncataloged/SKILL.md'
         extra.parent.mkdir()
         extra.write_text(original, encoding='utf-8', newline='\n')
-        self.assertTrue(validate_catalog(root))
+        self.assertIn('Uncataloged skill: skills/uncataloged/SKILL.md', validate_catalog(root))
 
     def test_rejects_cycles_duplicates_or_service_without_skill(self):
         root = self.fixture()
         before = (root / 'skills/catalog.json').read_text(encoding='utf-8')
-        changes = [lambda d: d['skills'].append(d['skills'][0]),
-                   lambda d: d['skills'][0].update(dependsOn=['project-design']),
-                   lambda d: d['skills'][0].update(dependsOn=['missing']),
-                   lambda d: d['services'][0].update(skillId='missing'),
-                   lambda d: d['services'].clear()]
-        for change in changes:
+        changes = [
+            (lambda d: d['skills'].append(d['skills'][0]),
+             ['Duplicate skill id: app-launchpad', 'Duplicate skill path: .agents/skills/app-launchpad/SKILL.md']),
+            (lambda d: d['skills'][0].update(dependsOn=['app-launchpad']),
+             ['skill dependency cycle: app-launchpad']),
+            (lambda d: d['skills'][0].update(dependsOn=['missing']),
+             ["skill app-launchpad: unknown dependency 'missing'"]),
+            (lambda d: d['services'][0].update(skillId='missing'),
+             ['foundation-tooling: needs a registered service skill']),
+            (lambda d: d['services'].clear(),
+             ['Service skill missing inventory entry: service-foundation-tooling']),
+        ]
+        for change, expected in changes:
             (root / 'skills/catalog.json').write_text(before, encoding='utf-8', newline='\n')
             self.catalog(root, change)
-            self.assertTrue(validate_catalog(root))
+            errors = validate_catalog(root)
+            for message in expected:
+                self.assertIn(message, errors)
 
     def test_active_service_requires_real_paths_owner_and_commands(self):
         root = self.fixture()
         self.catalog(root, lambda d: d['services'][0].update(status='active', owner='fixture-owner'))
         before = (root / 'skills/catalog.json').read_text(encoding='utf-8')
         self.assertEqual(validate_catalog(root), [])
-        changes = [{'owner': None}, {'testCommands': []}, {'entrypoints': []},
-                   {'sourcePaths': ['nonexistent']}, {'entrypoints': ['missing.py']},
-                   {'continuation': 'missing.md'}, {'lastReviewedRevision': 'fake'}]
-        for change in changes:
+        changes = [
+            ({'owner': None}, 'catalog $.services[0].owner: expected string'),
+            ({'testCommands': []}, 'catalog $.services[0].testCommands: needs at least 1 items'),
+            ({'entrypoints': []}, 'catalog $.services[0].entrypoints: needs at least 1 items'),
+            ({'sourcePaths': ['nonexistent']}, 'foundation-tooling.sourcePaths: Missing path: nonexistent'),
+            ({'entrypoints': ['missing.py']}, 'foundation-tooling.entrypoints: Missing path: missing.py'),
+            ({'continuation': 'missing.md'}, 'foundation-tooling.continuation: Missing path: missing.md'),
+            ({'lastReviewedRevision': 'fake'}, 'catalog $.services[0].lastReviewedRevision: invalid format'),
+        ]
+        for change, expected in changes:
             (root / 'skills/catalog.json').write_text(before, encoding='utf-8', newline='\n')
             self.catalog(root, lambda d: d['services'][0].update(change))
-            self.assertTrue(validate_catalog(root))
+            self.assertIn(expected, validate_catalog(root))
 
     def test_generation_rejects_unsafe_paths_existing_output_and_lock(self):
         root = self.fixture()

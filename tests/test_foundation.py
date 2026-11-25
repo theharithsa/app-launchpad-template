@@ -76,17 +76,22 @@ class FoundationTests(unittest.TestCase):
         root = self.fixture()
         (root / 'CHANGELOG.md').write_text('# Application changelog\n\n## [7.0.0]', encoding='utf-8', newline='\n')
         self.assertEqual(foundation.validate(root), [])
-        for name, replacement in [('TEMPLATE_VERSION', '1.09.0'), ('README.md', 'stale version'),
-                                  ('docs/template-changelog.md', '# Template changelog\n\n## [0.0.0]')]:
+        for name, replacement, error in [
+            ('TEMPLATE_VERSION', '1.09.0',
+             'TEMPLATE_VERSION: invalid SemVer (numeric identifiers cannot have leading zeros)'),
+            ('README.md', 'stale version', 'README template version differs from TEMPLATE_VERSION'),
+            ('docs/template-changelog.md', '# Template changelog\n\n## [0.0.0]',
+             'Newest template changelog version differs from TEMPLATE_VERSION'),
+        ]:
             file = root / name
             before = file.read_text(encoding='utf-8')
             file.write_text(replacement, encoding='utf-8', newline='\n')
-            self.assertTrue(foundation.validate(root), name)
+            self.assertIn(error, foundation.validate(root), name)
             file.write_text(before, encoding='utf-8', newline='\n')
         project = json.loads((root / 'project.json').read_text(encoding='utf-8'))
         project['template']['version'] = '0.0.0'
         (root / 'project.json').write_text(json.dumps(project), encoding='utf-8', newline='\n')
-        self.assertTrue(foundation.validate(root))
+        self.assertIn('Project template version differs from TEMPLATE_VERSION', foundation.validate(root))
 
     def test_non_json_numeric_constants_are_rejected(self):
         root = self.fixture()
@@ -125,6 +130,33 @@ class FoundationTests(unittest.TestCase):
             file.write_text(altered, encoding='utf-8', newline='\n')
             self.assertEqual(foundation.check_released_changelog(root, 'HEAD'),
                              ['Released template changelog section changed: v1.14.3'])
+
+    def test_bundled_skill_edits_require_the_app_and_dt_obs_version_bumps(self):
+        root = self.fixture()
+
+        def git(*args):
+            return subprocess.check_output(['git', *args], cwd=root, encoding='utf-8', timeout=15).strip()
+
+        def commit(label):
+            git('add', '.')
+            git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.test',
+                '-c', 'commit.gpgsign=false', 'commit', '-qm', label)
+
+        git('init', '-q')
+        commit('Published template')
+        base = git('rev-parse', 'HEAD')
+        skill = root / '.agents/skills/dt-obs/SKILL.md'
+        source = skill.read_text(encoding='utf-8')
+        skill.write_text(source + '\nA candidate-only example.\n', encoding='utf-8')
+        commit('Changed bundled skill')
+        template_error = 'Bump TEMPLATE_VERSION when changing a bundled skill'
+        dt_error = 'Bump dt-obs metadata.version when changing the bundled dt-obs skill'
+        self.assertEqual(foundation.check_skill_release(root, base), [template_error, dt_error])
+        (root / 'TEMPLATE_VERSION').write_text('99.0.0\n', encoding='utf-8')
+        self.assertEqual(foundation.check_skill_release(root, base), [dt_error])
+        skill.write_text(source.replace(f'version: "{foundation.skill_version(source)}"', 'version: "99.0.0"'),
+                         encoding='utf-8')
+        self.assertEqual(foundation.check_skill_release(root, base), [])
 
     def test_semver_identifiers(self):
         from contracts import SEMVER_PATTERN

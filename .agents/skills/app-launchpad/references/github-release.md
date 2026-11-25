@@ -86,7 +86,7 @@ Let GitHub remove eligible merged head branches. Branch protection and rulesets 
 - After verifying the tag/release, reconcile shipped issues and merged PRs to the release milestone. Close that milestone only when every intended item is resolved; keep unfinished work visible in its next agreed milestone. Remove released work from backlog triage, and verify the milestone state on GitHub.
 
 - After deployment check exact version/SHA/artifact, service revisions/health and safe protected-route denial. Verify docs publication separately. For a package or template, verify the published tag, commit and package or release page as applicable.
-- Follow [observability](observability.md#github-signals) for CI, deployment and runtime evidence. Leave a handoff linking the issue, PR, checks, publication and recovery instructions with the known limits.
+- Follow [dt-obs CI and release evidence](../../dt-obs/references/github-actions.md) for CI, deployment and runtime evidence. Leave a handoff linking the issue, PR, checks, publication and recovery instructions with the known limits.
 
 ### Weekly production releases with frequent staging
 

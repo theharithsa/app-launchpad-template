@@ -1,20 +1,9 @@
 # Skills catalog
 
-Read [catalog.json](catalog.json), choose relevant workflow/service skills, then open the affected continuation. [AGENTS.md](../AGENTS.md) routes tools here even when they only auto-discover `.agents/skills`.
-
-| Task | Skill |
-| --- | --- |
-| Overall lifecycle | [App Launchpad](../.agents/skills/app-launchpad/SKILL.md) |
-| Product/UI/contracts | [Design](project-design/SKILL.md) |
-| Code | [Implementation](project-implementation/SKILL.md) |
-| Tests | [Testing](project-testing/SKILL.md) |
-| Release/rollback | [Deployment](project-deployment/SKILL.md) |
-| Portable Dynatrace runtime and CI instrumentation | [dt-obs](../.agents/skills/dt-obs/SKILL.md) |
-| Dynatrace | [Observability](project-observability/SKILL.md) |
-| Resume/continue | [Handoff](project-handoff/SKILL.md) |
-| README/docs | [Documentation](project-documentation/SKILL.md) |
-| Useful explanatory images | [Ian Xiaohei](ian-xiaohei-illustrations/SKILL.md) |
-| This template's tooling module | [Foundation tooling](service-foundation-tooling/SKILL.md) |
+Use [App Launchpad task routing](../.agents/skills/app-launchpad/SKILL.md#task-routing)
+for the canonical workflow and its project checklist. Use the
+[catalog](catalog.json) to find affected service skills, dependencies and
+continuation records.
 
 ## Register a service
 

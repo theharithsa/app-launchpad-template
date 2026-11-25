@@ -1,6 +1,6 @@
 # Policy ownership map
 
-Read only the owner relevant to the task; entrypoints and workflow skills route here instead of carrying alternate policies.
+Use the [App Launchpad task routing](../.agents/skills/app-launchpad/SKILL.md#task-routing) to select the workflow and repository checklist. This map identifies the owner of each shared contract.
 
 | Rule or contract | Single owner |
 | --- | --- |
@@ -12,7 +12,7 @@ Read only the owner relevant to the task; entrypoints and workflow skills route 
 | Shared evidence stages and source authority | [Evidence](../.agents/skills/app-launchpad/references/evidence.md) |
 | API/policy/data, UI and settings implementation | [Build](../.agents/skills/app-launchpad/references/build.md) |
 | Actual test coverage and case/result handling | [Testing](../.agents/skills/app-launchpad/references/testing.md) |
-| Dynatrace signal payload, delivery and verification mechanics | [Observability](../.agents/skills/app-launchpad/references/observability.md) |
+| Dynatrace signal payload, delivery and verification mechanics | [dt-obs](../.agents/skills/dt-obs/SKILL.md) |
 | Service skills, ownership and continuation upkeep | [Services](../.agents/skills/app-launchpad/references/services.md) |
 | Illustration selection and integration | [Illustrations](../.agents/skills/app-launchpad/references/illustrations.md) |
 | Template versions and consumer upgrades | [Versioning](versioning.md) |

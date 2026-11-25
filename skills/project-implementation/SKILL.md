@@ -9,3 +9,4 @@ description: Implement agreed application changes using affected service contrac
 - Build the accepted vertical slice with shared domain/policy logic. [Build](../../.agents/skills/app-launchpad/references/build.md).
 - Add applicable checks and instrumentation. [Testing](../../.agents/skills/app-launchpad/references/testing.md).
 - Deliver the change through its issue and PR. [Delivery](../../.agents/skills/app-launchpad/references/github-release.md).
+- Verify the normal entrypoint with supported older records and retry behavior. Preserve existing side effects and access boundaries.

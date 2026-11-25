@@ -69,10 +69,11 @@ depth of troubleshooting. Use that comparison to identify content gaps.
 Record the path, tested revision or environment, commands or actions, expected
 and observed outcomes, and any unresolved gap in the PR or linked evidence.
 Fix inaccurate or unclear instructions and repeat the affected path on the
-candidate before merge. After authorized publication, open the live guides at
-desktop and phone widths and repeat the public entry-point and task checks.
-Keep clean-checkout, demo, synthetic and live observations distinct. Mark
-live verification as pending when publication or access is outside scope.
+candidate before merge. Until publication and verification succeed, list the
+pending live desktop and phone-width walkthroughs in the PR or handoff.
+After authorized publication, open the live guides at both widths and repeat
+the public entry-point and task checks. Keep clean-checkout, demo, synthetic
+and live observations distinct.
 A successful build or link check alone does not complete this review.
 
 ## Repository guides
@@ -84,7 +85,13 @@ A successful build or link check alone does not complete this review.
 ## Screenshots and video
 
 - Capture the real product in its public demo or an isolated test account with fictional data. Check the images for identifiers, credentials, private URLs, and real records before publication. Use the same reviewed assets in the README and landing page.
-- Use the installed `/brag` skill to record the complete primary workflow. Start at the public entry, perform the main actions with fictional data and show the resulting persisted state or calculation. Include connected modules when they change the outcome. Choose a duration that lets a first-time viewer follow the controls, add chapters, captions and a text transcript, and verify playback and seeking on phone and desktop. A short teaser is an optional additional asset. Use `/brag-slim` if that is the installed variant. Show the starting point, a representative action, and its result. Verify readable text, playback, and audio when used. Keep a poster and share copy with the launch deliverables.
+- Use a recording workflow when a tour materially helps the reader. The external
+  /brag and /brag-slim skills are optional. With either tool, capture the public
+  entry, a representative action and its verified outcome using synthetic data.
+- If those skills are unavailable, record the same journey in the existing screen
+  recorder and add captions or a transcript. When a recording is unavailable,
+  publish the reviewed screenshots and written steps and record video as pending.
+  Verify readable controls, playback and seeking where applicable.
 - Put the approved screenshots, poster, and web-ready video under `site/media/`. Keep rendering inputs, intermediate files, and test data outside the public artifact. If product footage is pending, publish only the material that has been reviewed and record the missing deliverable.
 
 ## GitHub Pages

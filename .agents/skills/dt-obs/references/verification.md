@@ -11,10 +11,10 @@ Test representative journeys and failure invariants, not string matches against 
 | Propagation | Valid W3C context continues or links correctly; malformed headers are bounded; third-party propagation remains restricted |
 | Gateway | Unauthenticated, disallowed-origin, spoofed-identity, invalid span IDs/time bounds, oversized batches and rate limits tested |
 | RUM | Logged-out, restored login, account switch, sign-out, blocked storage, agent late/missing, route changes, success/error and API-unavailable behavior; each caller outcome literal reaches the exported action property unchanged; declared properties are visible in the tenant; boundary/global errors and API failures appear as RUM errors with the request ID hint |
-| Error classification | Each application error code, vendor error (Firebase, gRPC, timeout, parse) and status class maps to a bounded `error.type` on span, log and metric; the catch-all share in exported spans is near zero |
+| Error classification | Each application error code, vendor error (provider, transport, timeout, parse) and status class maps to a bounded `error.type` on span, log and metric; the catch-all share in exported spans is near zero |
 | Dependencies | LLM/database/messaging spans carry their semantic attributes and token/collection/model dimensions; a decoded export shows them populated, not only span names |
 | Workers | Every scheduled queue exports outcome counters, lag histogram and backlog/oldest-age gauges; a forced backlog is visible as a metric, not only as a log attribute |
-| Canonical events | Commit success/failure, repeated trigger, duplicate delivery, concurrent workers, lost response, expired lease and scheduled retry; no double awards or accidental partial-success marking |
+| Canonical events | Commit success/failure, repeated trigger, duplicate delivery, concurrent workers, lost response, expired lease and scheduled retry; one logical outcome per stable identity and correct partial-success handling |
 | Lifecycle | Corrections, reversals, removals and background recovery preserve business semantics and sensitive-field exclusions |
 | SDLC | Source-confirmed issue/PR/review/merge/resolution events; partial and many-to-many links, reopened issues, duplicates/out-of-order webhooks, observer recovery, and tenant joins through merge/artifact/deployment to runtime; see [SDLC](sdlc.md) |
 | CI/CD | Real failed/skipped test reporter, missing/partial reports, untrusted archive guards, source/attempt checks, failed/partial deployment and published tag/revision matching; independently searchable execution/test/release signals |
@@ -49,6 +49,6 @@ Stop blind retries on persistent 400/401/403 and diagnose protocol, scopes/ownin
 
 ## Documentation and final report
 
-Use an evidence table with date, environment, scenario, signal, expected result, observed result and safe ID/reference. Mark separately: implemented, locally verified, deployed, ingest accepted, tenant searchable and RUM correlation verified. If query access is absent, say so and leave that stage unverified.
+Use an evidence table with date, environment, scenario, signal, expected result, observed result and safe ID/reference. Record implementation, local verification, deployment, ingest acceptance and tenant searchability separately. When RUM is in scope, explicitly report the state of the tenant query join and native action-to-backend navigation. Without tenant access, keep both checks pending.
 
 Document signal routing, resource attributes, event authority/dedup rules, metric units/cardinality, identity/consent, secrets by name, flags, queue/retry/retention, pending-event recovery, rollback and known trace boundaries. Dashboards, alerts and SLOs need their own actual configuration/validation; instrumentation alone does not create them. Ensure owners know where export failures and pending queue age are visible.

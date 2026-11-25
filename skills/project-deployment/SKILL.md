@@ -9,3 +9,4 @@ description: Prepare, execute and verify authorized releases and rollback. Use w
 - Resolve provider/environment/identity and authorization. [Boundaries](../../.agents/skills/app-launchpad/references/safety.md).
 - Follow current-head checks, immutable delivery and rollback steps. [Release procedure](../../.agents/skills/app-launchpad/references/github-release.md).
 - Record source/deployment/runtime states separately. [Evidence](../../.agents/skills/app-launchpad/references/evidence.md).
+- Match the checked artifact or source to the release candidate and record the least-risk recovery target before promotion.
