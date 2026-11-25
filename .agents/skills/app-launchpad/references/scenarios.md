@@ -1,7 +1,7 @@
 # Behavioral walkthroughs
 
 
-Validate skill changes against these scenarios without external side effects:
+The template checkout contains runnable fixtures in `evals/app-launchpad/` for these scenarios. Use the runner and capture procedure described in [the evaluation guide](https://github.com/theharithsa/app-launchpad-template/blob/main/evals/app-launchpad/README.md). Validate without external side effects.
 
 1. “Build a booking app” with no stack/repo/tenant: ask about actors, booking/payment rules and platform constraints; recommend choices, no invented inventory/payments/cloud resources.
 2. “Static portfolio, no login, deploy later”: build static content with confirmed brand/assets; no database/business outbox; local validation only until deployment is authorized.

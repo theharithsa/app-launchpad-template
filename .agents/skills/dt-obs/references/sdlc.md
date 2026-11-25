@@ -19,9 +19,72 @@ Adopt a versioned project contract such as the types below. These are custom eve
 
 Track rejected approvals, blocked merges, failed deployment and unsuccessful runtime verification explicitly with bounded status/reason codes. Report planned/not-run work as coverage state, not invented completed events. Do not export every edit/keystroke or private developer conversation. Define which material issue/PR updates warrant events and rate/cost limits.
 
+## Choose the event route
+
+Use these routes for different release evidence. Start with the
+[authentication matrix](otel.md#ingestion-endpoints-and-authentication) to
+choose the endpoint, token scope and header format.
+
+| Evidence | Route | Verification |
+| --- | --- | --- |
+| Native deployment annotation on an observed deployment | Davis Events API v2, POST `/api/v2/events/ingest` | Require successful per-event status in the response and use the [Davis event recipe](dql-verification.md#davis-deployment-annotation). |
+| Software delivery and deployment workflow | OpenPipeline built-in SDLC, POST `/platform/ingest/v1/events.sdlc` | Record acceptance and use the [SDLC recipe](dql-verification.md#sdlc-source-event) to verify source identity and outcome. |
+| Durable domain outcome | [Business events](business-events.md) | Verify the original event identity and provider using the [deduplication recipe](dql-verification.md#one-committed-business-event). |
+
+Send a native Davis deployment annotation only when the owning deployment
+system confirms the transition. Set its actual epoch-millisecond `startTime`
+and a narrow `entitySelector` when the deployment applies to specific monitored
+entities. Example synthetic body for the Events v2 JSON API:
+
+```json
+{
+  "eventType": "CUSTOM_DEPLOYMENT",
+  "title": "example-profile 1.4.0 deployment",
+  "entitySelector": "entityId(SERVICE-0000000000000000)",
+  "properties": {
+    "deployment.environment.name": "preprod",
+    "deployment.id": "example-run-42",
+    "service.version": "1.4.0"
+  }
+}
+```
+
+The SDLC endpoint accepts JSON, and the built-in source assigns
+`event.kind=SDLC_EVENT`. Use Dynatrace's documented deployment event fields
+for release views and preserve your original delivery facts in allowlisted
+fields. Use the source revision associated with the deployment and retain the
+checked head-to-deployed artifact mapping in the source evidence. A synthetic
+deployment finished record:
+
+```json
+{
+  "event.category": "task",
+  "event.type": "deployment",
+  "event.status": "finished",
+  "event.provider": "github-actions",
+  "event.version": "1.0.0",
+  "cicd.deployment.id": "example-run-42",
+  "cicd.deployment.name": "example-profile",
+  "cicd.deployment.release_stage": "staging",
+  "cicd.deployment.status": "succeeded",
+  "vcs.ref.base.revision": "<deployed-commit>",
+  "sdlc.event.id": "example-profile:run-42:deployment:finished"
+}
+```
+
+Set the outcome from the real deployment. Issue, PR and review activity can
+use the project's explicit lifecycle types with the approved ingestion contract.
+Keep a verified custom legacy route only where it is already supported and
+the owner has chosen it. Keep application business outcomes under their own
+provider.
+
+[Events v2 request](https://docs.dynatrace.com/docs/dynatrace-api/environment-api/events-v2/post-event) ·
+[Built-in SDLC ingest](https://docs.dynatrace.com/docs/platform/openpipeline/reference/openpipeline-ingest-api/sdlc-events/events-sdlc-builtin) ·
+[SDLC semantic fields](https://docs.dynatrace.com/docs/semantic-dictionary/model/sdlc-events)
+
 ## Event and correlation contract
 
-Use a dedicated provider such as `<project>.sdlc` and a separate observer `service.name`. Choose the tenant's supported event ingest/store and verify routing before implementation. Structured BizEvents are suitable for lifecycle facts; reserve native deployment events/markers for actual deployments. Keep application business outcomes under their own provider. See [official ingest documentation](https://docs.dynatrace.com/docs/observe/business-observability/bo-events-capturing/bo-events-capturing-external-sources).
+Use a dedicated provider such as `<project>.sdlc` and a separate observer `service.name`. Choose the tenant's [event route](#choose-the-event-route) and verify its storage and permissions before implementation.
 
 Define allowlisted fields and types, for example:
 

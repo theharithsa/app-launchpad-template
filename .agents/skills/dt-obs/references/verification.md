@@ -34,6 +34,17 @@ Use an isolated identifiable transaction to verify:
 5. Navigate an actual RUM action to its backend trace if supported/configured. A custom trace field or successful beacon is insufficient proof. Confirm the propagation header the browser sends is the one the server extracts, then join one action to one server span by `request.id` in a tenant query.
 6. Rehearse a controlled failure and recovery, then remove only the authorized synthetic source fixtures, preserving audit evidence and excluding that test session from analytics.
 
+## Tenant verification queries
+
+| Evidence | Bounded recipe |
+| --- | --- |
+| Exact trace or log match | [Span by release and trace](dql-verification.md#trace-and-release) and [trace-log join](dql-verification.md#logs-joined-to-a-trace) |
+| Durable outcome | [One committed event](dql-verification.md#one-committed-business-event) |
+| Numeric metric sample | [Custom request counter](dql-verification.md#custom-request-counter) |
+| RUM/backend correlation | [Request join](dql-verification.md#rum-and-backend-join), then check native navigation separately |
+| Verified deployment and source transition | [Davis annotation](dql-verification.md#davis-deployment-annotation) and [SDLC event](dql-verification.md#sdlc-source-event) |
+| Monitored service | [Smartscape service](dql-verification.md#smartscape-service) |
+
 Stop blind retries on persistent 400/401/403 and diagnose protocol, scopes/owning-user permissions, endpoint and secret binding. For 404, check `.apps` and duplicated/missing paths. For missing events, check capture settings, outbox state, occurrence time, sampling and query permissions. Do not modify roles or switch credentials merely to conceal an authorization failure.
 
 ## Documentation and final report

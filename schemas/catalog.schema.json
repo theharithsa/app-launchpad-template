@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
+  "additionalProperties": false,
   "title": "Skill and service catalog",
   "required": [
     "schemaVersion",
@@ -8,6 +9,7 @@
     "services"
   ],
   "properties": {
+    "$schema": {"type": "string"},
     "$schema": {
       "type": "string"
     },
@@ -19,6 +21,7 @@
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
           "id",
           "kind",
@@ -62,6 +65,7 @@
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
           "id",
           "skillId",

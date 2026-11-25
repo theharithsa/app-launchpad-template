@@ -29,6 +29,8 @@ Leave released changelog sections frozen. Put clarifications in the next candida
 
 ## Consumer migration
 
+Follow the [worked upgrade](upgrading.md) for a tag-to-tag comparison and selective adoption.
+
 - Record source template version/commit on generation; retain provenance when app versions change.
 - Adopt selected template updates through a reviewed PR, preserving product/service-specific decisions, data and skill content. Update provenance only for changes actually adopted.
 - Root CHANGELOG.md may become the app history; retain template history separately in docs/template-changelog.md.

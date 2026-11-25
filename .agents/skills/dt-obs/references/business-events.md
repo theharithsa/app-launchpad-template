@@ -14,18 +14,16 @@ Derive attribution from verified backend callers, trusted server fields or provi
 
 ## Contract
 
-Use CloudEvents or the target API's supported schema. Keep stable id/source/type/specversion, original occurrence time and a versioned bounded data contract. If the tenant routes or segments by `service.namespace`, `service.name` or `event.provider`, carry those fields on every event class, including deployment and CI events, so nothing falls back to default buckets. Example shape (metavariables must be populated from real context):
+Use CloudEvents or the target API's supported schema. Keep stable id/source/type/specversion, original occurrence time and a versioned bounded data contract. If the tenant routes or segments by `service.namespace`, `service.name` or `event.provider`, carry those fields on every event class, including deployment and CI events, so nothing falls back to default buckets. Dynatrace maps CloudEvents `id`, `source` and `type` to `event.id`, `event.provider` and `event.type`. Keep those values in the envelope. Example shape:
 
 ```json
 {
   "specversion": "1.0",
   "id": "<stable-event-id>",
-  "source": "<service-provider>",
-  "type": "com.example.credits.awarded",
+  "source": "example.profile-api",
+  "type": "com.example.profile.updated",
   "time": "<original-UTC-occurrence-time>",
   "data": {
-    "event.id": "<same-stable-event-id>",
-    "event.provider": "<canonical-provider>",
     "event.authority": "server-confirmed",
     "schema.version": 1,
     "transaction.id": "<logical-operation-id>",
@@ -33,8 +31,7 @@ Use CloudEvents or the target API's supported schema. Keep stable id/source/type
     "span_id": "<real-origin-or-audit-span-id>",
     "correlation.origin": "backend-request",
     "actor.id": "<verified-caller>",
-    "participant.id": "<affected-student>",
-    "credits.delta": 100
+    "profile.id": "<updated-profile>"
   }
 }
 ```
@@ -45,7 +42,7 @@ Use explicit field extraction. Export bounded numerical answers only when approv
 
 ## Delivery
 
-Choose the Business events endpoint and credential using the [authentication matrix](otel.md#ingestion-endpoints-and-authentication). Use the business-event API for durable domain outcomes.
+Choose the Business events endpoint and credential using the [authentication matrix](otel.md#ingestion-endpoints-and-authentication). For a single CloudEvent use `Content-Type: application/cloudevent+json`. For a JSON array of CloudEvents use `application/cloudevents-batch+json`. Check the documented media types for your endpoint. [Ingest business events via API](https://docs.dynatrace.com/docs/observe/business-observability/bo-events-capturing/bo-events-capturing-external-sources)
 
 Use server-owned outbox records, delivery leases with expiry/ownership checks, bounded scheduled draining, retained attempt/status/nextAttemptAt fields and backoff with jitter. Only a documented full-acceptance response marks delivered (currently 202). A batch 400 may partially accept valid events: reconcile per-record results or retry with stable IDs and consumer deduplication; never mark the entire batch delivered. Treat 429/5xx/timeouts as recoverable and honor Retry-After; repeated 400/401/403 require repair rather than a tight retry loop. Retain failures and an operator recovery path.
 
@@ -59,7 +56,7 @@ Acceptance followed by a lost response can duplicate delivery. Preserve event ID
 - Votes: latest valid choice per voter/team/activity, according to the domain contract.
 - Browser events: engagement/funnel observations, never authoritative award totals.
 
-For DQL, use installed dt-dql-essentials/dt-obs query skills when available and relevant. Validate field types and actual tenant data before saving queries; do not assume custom trace strings have the same type as native trace.id.
+Use the [business event deduplication recipe](dql-verification.md#one-committed-business-event). Validate field types and actual tenant data before saving queries; do not assume custom trace strings have the same type as native trace.id.
 
 Primary references (rechecked 21 October 2026):
 - https://docs.dynatrace.com/docs/dynatrace-api/environment-api/business-analytics-v2

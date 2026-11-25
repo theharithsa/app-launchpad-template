@@ -43,6 +43,20 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(check['required'],list(CHECK_REQUIRED))
         self.assertEqual(check['properties']['status']['enum'],list(CHECK_STATUSES))
 
+    def test_unknown_schema_keyword_in_optional_property_is_rejected(self):
+        invalid = {'type': 'object', 'properties': {'optional': {'type': 'string', 'maxLenght': 10}}}
+        self.assertEqual(validate_shape({}, invalid), [
+            "$schema.properties.optional: unsupported schema keyword 'maxLenght'",
+        ])
+
+    def test_records_reject_unexpected_keys_and_trailing_newline_shas(self):
+        data = json.loads((ROOT / 'project.json').read_text(encoding='utf-8'))
+        data['decisoins'] = {}
+        data['template']['revision'] = 'a' * 40 + '\n'
+        errors = validate_record(ROOT, 'project', data)
+        self.assertIn('$.decisoins: additional property is not allowed', errors)
+        self.assertIn('$.template.revision: invalid format', errors)
+
     def test_shape_constraints_accumulate_and_reject_wrong_types(self):
         record={'schemaVersion':True,'application':'','checks':[{'status':'imaginary'}], 'lifecycle':[]}
         errors=validate_record(ROOT,'evidence',record)

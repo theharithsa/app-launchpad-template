@@ -31,6 +31,18 @@ expected value, and the check you will use afterward.
 - At release, review issue/PR membership, classification and milestone scope. Backfill only with verified release evidence. Close released milestones after all intended work is resolved and record the destination of any agreed carryover.
 - At intake, use the issue forms and [staged delivery walkthrough](https://github.com/theharithsa/app-launchpad-template/blob/main/docs/promotion-walkthrough.md), or open `docs/promotion-walkthrough.md` in the generated app.
 
+## Intake automation
+
+The bundled classification job reads the event issue and fills missing type
+metadata. It preserves existing type labels and native types. Automatic repair
+scans open work. Use the existing Project fields and classifications for
+historical work.
+
+The milestone job uses the event item or the open unassigned list. It preserves
+assigned milestones, uses dependency maintenance for Dependabot PRs and reopens
+a named intake milestone if required. Reconcile historical releases against
+verified evidence separately.
+
 ## Keep the Project useful
 
 - Record where to file work, who maintains the board and how often the owner reviews sprint capacity.

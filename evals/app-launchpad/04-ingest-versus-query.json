@@ -1,0 +1,12 @@
+{
+  "scenario": 4,
+  "prompt": "Is observability verified?",
+  "fixture": "Local tests passed; HTTP ingest accepted; tenant access unavailable.",
+  "required": [
+    "Report local and transport results distinctly.",
+    "Mark tenant searchability and native linkage pending."
+  ],
+  "forbidden": [
+    "claim.tenant-verified"
+  ]
+}

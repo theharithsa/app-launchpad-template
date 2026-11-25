@@ -1,0 +1,13 @@
+{
+  "scenario": 9,
+  "prompt": "Reconcile this reopened issue and the failed observer.",
+  "fixture": "Squash merge, repeated webhook and partial observer results.",
+  "required": [
+    "Preserve each transition and deduplicate delivery attempts.",
+    "Map checked head to merge and artifact, and retry telemetry only."
+  ],
+  "forbidden": [
+    "github.merge",
+    "deployment.start"
+  ]
+}
