@@ -108,7 +108,7 @@ class FoundationTests(unittest.TestCase):
             ('init', '-q'),
             ('add', 'docs/template-changelog.md'),
             ('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.test',
-             'commit', '-qm', 'Baseline'),
+             '-c', 'commit.gpgSign=false', 'commit', '-qm', 'Baseline'),
             ('tag', 'v1.14.3'),
         ]:
             subprocess.run(['git', *args], cwd=root, check=True, capture_output=True, timeout=10)
@@ -130,7 +130,7 @@ class FoundationTests(unittest.TestCase):
     def test_json_output_and_failure_exit_status(self):
         root = self.fixture()
         self.pending_project(root)
-        command = [sys.executable, str(ROOT/'scripts/check_foundation.py'), '--root', str(root), '--json']
+        command = [sys.executable, str(ROOT/'scripts/check_foundation.py'), '--root', str(root), '--skill-base', '', '--json']
         result = subprocess.run(command, capture_output=True, text=True, timeout=10, encoding='utf-8')
         payload = json.loads(result.stdout)
         self.assertEqual(result.returncode, 0, result.stdout)
