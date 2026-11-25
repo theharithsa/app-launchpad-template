@@ -3,4 +3,4 @@ interface:
   short_description: "Generate weird, clean, Xiaohei-branded English article illustrations"
   default_prompt: "Use $ian-xiaohei-illustrations to implement the approved Xiaohei illustration direction for this English article."
 policy:
-  allow_implicit_invocation: true
+  allow_implicit_invocation: false
