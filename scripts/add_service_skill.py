@@ -29,11 +29,15 @@ def main():
         before = registry.read_text(encoding='utf-8')
         data = json.loads(before)
         name = 'service-' + a.id
+        description = (
+            f'Maintain the {a.id} service. Use when changing its source, tests or delivery. '
+            'Do not use for work unrelated to this service.'
+        )
         destination = safe_path(root, 'skills/' + name)
         if destination.exists() or destination.is_symlink() or any(s['id'] == a.id for s in data['services']) or any(s['id'] == name for s in data['skills']):
             raise ValueError('Refusing duplicate service or existing output')
         data['skills'].append({'id': name, 'kind': 'service', 'path': f'skills/{name}/SKILL.md',
-                              'description': f'Maintain the {a.id} service; read its implementation and continuation context.',
+                              'description': description,
                               'dependsOn': ['project-implementation', 'project-testing', 'project-deployment', 'project-observability']})
         data['services'].append({'id': a.id, 'skillId': name, 'sourcePaths': [a.source_path],
                                  'entrypoints': [], 'owner': None, 'status': 'planned', 'dependsOn': [],
@@ -56,7 +60,7 @@ def main():
                 created = True
                 (destination / 'SKILL.md').write_text(f'''---
 name: {name}
-description: Maintain the {a.id} service from actual source and operations context.
+description: {description}
 ---
 
 # {a.id} service

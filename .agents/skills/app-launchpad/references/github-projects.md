@@ -1,25 +1,40 @@
 # GitHub Project tracking
 
-When using GitHub Projects, keep one primary board. Reuse a board that serves the repository. For a new board, confirm ownership and visibility before creating it. Keep confidential content out of public descriptions, drafts, fields, and updates. Record the Project URL, visibility, and repository in the delivery documentation.
+Use the existing primary board when it serves the project. If the owner chooses repository issues without a board, record that choice and track delivery with repository milestones. Keep private details out of public board fields and updates.
 
-1. Link the repository to the Project and set it as the default repository for new issues. Configure auto-add for issues and pull requests from the linked repository, including drafts and Dependabot. Import existing issues and pull requests, including historical items. Verify membership against GitHub, since auto-add does not backfill history.
-2. Classify every issue at intake. Use the organization's native Issue Type when available and show the Type field in issue views. For personal repositories, apply one of `type: bug`, `type: feature`, or `type: task` and show Labels in the Project. Bug covers broken existing behavior. Feature covers a new or improved capability. Task covers maintenance, research, and operational work. Backfill existing issues from their scope. Use issue forms to apply a type and keep the template's personal-repository workflow or an equivalent rule for issues opened through the API or Project. Revisit the Task fallback during triage when needed.
-3. Plan milestones around a release or a defined outcome. Give each milestone a scope, acceptance criteria, and a target date when one is known. Give every issue and PR a repository milestone. Use an active triage milestone while scope or timing is open and an active dependency maintenance milestone for unplanned Dependabot PRs.
-4. Save Milestones, Sprint planning, Roadmap, and Kanban views. Group Milestones by the native Milestone field. Use the Sprint iteration for planned work and show its start and end on the Roadmap, or choose explicit start and target date fields when releases have independent dates. Keep unscheduled work visible in a backlog or Issues view. Use a board grouped by Status for Kanban and show the issue type on cards where supported. Record the Project and planning view links in the delivery documentation.
-5. Assign current work to the appropriate sprint and review unfinished work before carrying it forward. Use the milestone for the outcome and the sprint for when the team plans to work on it. Schedule a dependent pilot or rollout after its prerequisite acceptance gates. For example, verify tenant isolation and rehearse and validate data migration before a multi-tenant pilot. Keep independent preparation in an earlier sprint when useful. Record hard gates as native GitHub issue dependencies. When dates move, update the affected issues and milestones together, make release gates visible on the roadmap, and verify the saved roadmap and sprint views against the new order. Dates are planning targets. A slip in a prerequisite moves the dependent target unless the team changes scope.
-6. Give implementation PRs an explicit issue link and the same milestone where they deliver the same work. Dependabot PRs can serve as the tracked work item. Attach them to the applicable milestone and Project without manufacturing duplicate issues. Use the template milestone assignment workflow or an equivalent rule to fill missing milestones and preserve existing assignments.
-7. Backfill historical items against verified release tags and linked issues. Give closed proposals or work without release evidence a history milestone that preserves their GitHub state. Close milestones when their work is resolved, and keep the relevant release and closure evidence.
-8. At setup, sprint review, and release, check repository issues and PRs for Project membership and milestone assignment, check issues for a type, and check that each milestone has tracked work. Include open and closed items and Dependabot intake. Verify that the Roadmap displays scheduled dates and Kanban columns reflect Status. When GitHub access prevents setup, record the exact missing step and verify it once access is restored.
+## Check access
 
-GitHub documents [repository linking](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-your-project/adding-your-project-to-a-repository), [auto-add](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/adding-items-automatically), [organization issue types](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/managing-issue-types-in-an-organization), [milestones](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones), and [Roadmap date fields](https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-roadmap-layout).
+Use `gh auth status --hostname github.com` to confirm the account and its GitHub CLI OAuth scopes locally. The CLI uses `read:project` for reads and `project` for changes. Verify the selected board with `gh project view NUMBER --owner OWNER`. When using a fine-grained token or another connector, check the selected owner's Projects permission and the board role separately. A successful read does not establish write access.
+
+If the authorized account needs broader scope, the owner can approve `gh auth refresh --hostname github.com --scopes project`. Keep credential values out of the handoff. If access is missing or a step needs an administrator, add a pending entry to the existing issue or handoff with the board, exact operation, required role or scope, owner and a read-back check. Continue available repository-level issue and milestone work.
+
+## Set up the board
+
+| Where | Step and evidence |
+| --- | --- |
+| API or CLI | With approval for the owner and visibility, reuse or create the board. Add or import existing issues and PRs, including historical items and dependency PRs. Verify membership. |
+| GitHub UI | Link the repository, select its default repository for new issues, and configure auto-add for the agreed scope. Auto-add handles new entries. Import earlier work separately. |
+| API or CLI | Use native issue types when the owner has them. Otherwise apply the configured fallback labels. Bug covers broken behavior, Feature covers product capability and Task covers research, operations or maintenance. Treat epics as parent rollups. |
+| API or CLI | Create milestones for planned outcomes and versions. Give each a scope and acceptance criteria, and a target date where known. Use active triage and dependency maintenance milestones for intake. |
+| GitHub UI | Save milestone, sprint planning, roadmap and Kanban views. Show native Milestone, Sprint or Iteration, and execution Status. Check the selected date source in the Roadmap and keep unscheduled work visible. |
+| GitHub UI | Verify built-in workflows for item closed, PR merged and item reopened. Keep issue closure tied to issue acceptance or its closing PR. |
+| API or CLI | Read back item assignments, issue/PR links, milestone, iteration and status. Record board and view links in the delivery documentation. |
+
+For UI work handed off to the owner, give them the board link, setting or view to open,
+expected value, and the check you will use afterward.
+
+## Plan and verify delivery
+
+- Use a milestone for the outcome and an iteration for the work window. Assign current work to one appropriate sprint. Keep cross-sprint epics as rollups and review unfinished work before moving it.
+- Record hard gates as native issue dependencies. Schedule dependent pilots after isolation, migration or other prerequisite acceptance. If dates move, reconcile dependent issues, milestones and saved views.
+- Link an implementation PR to the issue and its milestone. Use a non-closing reference while acceptance is pending. Verify issue closure against its agreed outcome.
+- At release, review issue/PR membership, classification and milestone scope. Backfill only with verified release evidence. Close released milestones after all intended work is resolved and record the destination of any agreed carryover.
+- At intake, use the issue forms and [staged delivery walkthrough](https://github.com/theharithsa/app-launchpad-template/blob/main/docs/promotion-walkthrough.md), or open `docs/promotion-walkthrough.md` in the generated app.
 
 ## Keep the Project useful
 
-Follow [GitHub Projects best practices](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/best-practices-for-projects).
+- Record where to file work, who maintains the board and how often the owner reviews sprint capacity.
+- Reuse native assignees, dependencies, issue types, milestones and one field for each planning question. Use priority and estimates where they support a real decision.
+- Keep views focused. Use a status limit only when the team has an agreed capacity. Archive completed work when its retention and reporting policy allows it.
 
-- Write the Project description and README with the purpose, where to file work, how to use the views and the sprint review cadence. Post a concise status update when the plan, risk, or progress materially changes. Link the work and evidence from GitHub.
-- Use issue and PR discussions for decisions. Set an assignee when ownership is established. Break large work into independently verifiable sub-issues, expose Parent issue and Sub-issues progress, and record actual blockers with GitHub dependencies.
-- Reuse native assignees, labels, milestones and issue state. Use Project Status for execution and one iteration or date source for each planning question. Add a Priority, estimate or date field only when a view or planning decision uses it.
-- Give each view a purpose. Keep a focused open-work or triage view alongside the full inventory. Group Kanban by Status and set an In Progress limit when there is a known capacity or an agreed focus limit. Use Insights to answer a specific progress question and verify that its filter excludes irrelevant history or PRs. Treat item counts as workload indicators.
-- Verify native auto-add and [built-in workflows](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/using-the-built-in-automations) before adding custom automation. Set **Item closed** and **Pull request merged** to move items to **Done**. Enable **Item reopened** for issues and PRs and return them to the Project's triage status, such as **Todo** or **Ready**. Keep **Auto-close issue** off so issue closure comes from the issue or a linked PR merge.
-- Archive completed items only when the Project has a defined retention policy and its historical reporting remains available. Reuse an organization Project template where supported. After creating from a template, link the new repository and configure auto-add for it.
+[GitHub CLI Project help](https://cli.github.com/manual/gh_project) · [GitHub Projects best practices](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/best-practices-for-projects) · [GitHub Project automation](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/using-the-built-in-automations)

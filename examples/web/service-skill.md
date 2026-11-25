@@ -1,8 +1,3 @@
----
-name: example-web
-description: Demonstrate a synthetic single-page web service skill.
----
-
 # Synthetic web service — not implemented
 
 - Owner: example-owner; source: hypothetical `src/web`; entrypoint: hypothetical `src/web/main.ts`.

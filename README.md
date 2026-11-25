@@ -1,6 +1,6 @@
 # App Launchpad Template
 
-Template version: **1.14.3** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
+Template version: **1.15.0** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
 
 See the [production documentation checklist](docs/release-plan.md#production-documentation-review). [SalesDrone](https://github.com/theharithsa/SalesDrone) is an existing app that uses App Launchpad delivery practices.
 
@@ -12,7 +12,7 @@ with your chosen stack after [discovery](docs/getting-started.md).
 
 ## Prerequisites
 
-- Python **3.11+**, Git, and a POSIX shell. On Windows, install Python and Git for Windows (including Git Bash), or use WSL with Python and Git installed inside it.
+- Python (see the [supported minimum](pyproject.toml)), Git, and a POSIX shell. On Windows, install Python and Git for Windows (including Git Bash), or use WSL with Python and Git installed inside it.
 - [GitHub CLI (`gh`)](https://cli.github.com/) for the repository-creation command below; authenticate with `gh auth login`. The GitHub web template button is an alternative to the CLI.
 - Check `python3 --version` and `git --version` in your shell. In Windows Git Bash, use `python --version` if Python is installed as `python`; run the checks with `PYTHON=python sh scripts/check.sh`. If the command is unavailable, install Python and reopen the shell before continuing.
 

@@ -71,6 +71,7 @@ class CatalogTests(unittest.TestCase):
 
     def test_active_service_requires_real_paths_owner_and_commands(self):
         root = self.fixture()
+        self.catalog(root, lambda d: d['services'][0].update(status='active', owner='fixture-owner'))
         before = (root / 'skills/catalog.json').read_text(encoding='utf-8')
         self.assertEqual(validate_catalog(root), [])
         changes = [{'owner': None}, {'testCommands': []}, {'entrypoints': []},
@@ -176,7 +177,7 @@ class CatalogTests(unittest.TestCase):
     def test_multiple_errors_are_reported_together_in_stable_order(self):
         root = self.fixture()
         self.catalog(root, lambda d: (d['skills'][0].update(dependsOn=['missing-one']),
-                                     d['services'][0].update(owner=None, entrypoints=['missing-entrypoint.py'],
+                                     d['services'][0].update(status='active', owner=None, entrypoints=['missing-entrypoint.py'],
                                                              continuation='missing-continuation.md')))
         errors = validate_catalog(root)
         self.assertEqual(errors, sorted(set(errors)))
@@ -187,6 +188,12 @@ class CatalogTests(unittest.TestCase):
         errors = validate_catalog(root)
         self.assertTrue(any('missing-skill.md' in error for error in errors), errors)
         self.assertTrue(any('skills[0].id' in error for error in errors), errors)
+
+    def test_catalog_description_must_match_skill(self):
+        root = self.fixture()
+        self.catalog(root, lambda d: d['skills'][0].update(description='A stale catalog entry'))
+        skill = json.loads((root / 'skills/catalog.json').read_text(encoding='utf-8'))['skills'][0]['id']
+        self.assertIn(f'{skill}: catalog description differs from SKILL.md', validate_catalog(root))
 
     def test_examples_are_not_discovered_as_live_skills(self):
         root = self.fixture()

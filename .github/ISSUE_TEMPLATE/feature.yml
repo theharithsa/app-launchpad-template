@@ -5,14 +5,16 @@ type: Feature
 labels: ["type: feature"]
 body:
   - type: textarea
-    id: goal
+    id: outcome
     attributes:
-      label: Who needs this and what should they be able to do?
+      label: User outcome
+      description: Who needs this capability and what should they be able to do?
     validations:
       required: true
   - type: textarea
     id: acceptance
     attributes:
-      label: Acceptance criteria and scope
+      label: Scope and acceptance checks
+      description: Describe observable success and how to verify it. Link a relevant parent or dependency when known.
     validations:
       required: true

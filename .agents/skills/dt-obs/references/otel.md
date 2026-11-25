@@ -1,10 +1,47 @@
 # OTel signals, context and runtime integration
 
+## Ingestion endpoints and authentication
+
+Choose a host for the actual environment. For SaaS use
+`https://<environment-id>.live.dynatrace.com` for Environment API and OpenPipeline
+ingest. An Environment ActiveGate uses
+`https://<activegate-host>:9999/e/<environment-id>` with its configured port.
+A containerized ActiveGate can expose the environment path on its configured
+HTTPS endpoint. A Managed Environment API base takes the form
+`https://<managed-domain>/e/<environment-id>`. Confirm each signal's availability
+in the environment's API Explorer. Use the documented ActiveGate route for OTLP.
+OpenPipeline and Grail require the corresponding platform functionality.
+
+| Signal | POST path on supported host | Platform scope (Bearer) | Classic scope (Api-Token) |
+| --- | --- | --- | --- |
+| OTLP traces | `/api/v2/otlp/v1/traces` | `openpipeline:traces:ingest` | `openTelemetryTrace.ingest` |
+| OTLP metrics | `/api/v2/otlp/v1/metrics` | `openpipeline:metrics:ingest` | `metrics.ingest` |
+| OTLP logs | `/api/v2/otlp/v1/logs` | `openpipeline:logs:ingest` | `logs.ingest` |
+| JSON logs | `/api/v2/logs/ingest` | `openpipeline:logs:ingest` | `logs.ingest` |
+| Line-protocol metrics | `/api/v2/metrics/ingest` | `openpipeline:metrics:ingest` | `metrics.ingest` |
+| Business events | `/api/v2/bizevents/ingest` | `openpipeline:bizevents:ingest` | `bizevents.ingest` |
+| Davis custom events | `/api/v2/events/ingest` | `openpipeline:events.davis:ingest` | `events.ingest` |
+| Built-in SDLC events | `/platform/ingest/v1/events.sdlc` | `openpipeline:events.sdlc:ingest` | `openpipeline.sdlc` |
+
+Set `Authorization: Bearer <platform-token>` or
+`Authorization: Api-Token <classic-token>` as appropriate. Platform scopes also
+need the underlying user or service-user permissions. Where an API supports
+OAuth, use its access token in the Bearer header. The BizEvents proxy at
+`https://<environment-id>.apps.dynatrace.com/platform/classic/environment-api/v2/bizevents/ingest`
+requires OAuth. Use separate read credentials and policies for Grail queries.
+Browser RUM uses its configured beacon endpoint and tag.
+
+Verify the environment, endpoint, enabled signals and token type before changing
+configuration. See [supported OTLP endpoints](https://docs.dynatrace.com/docs/ingest-from/opentelemetry/otlp-api),
+[OpenPipeline ingest scopes](https://docs.dynatrace.com/docs/platform/openpipeline/reference/api-ingestion-reference),
+and [Business Events API authentication](https://docs.dynatrace.com/docs/observe/business-observability/bo-events-capturing/bo-events-capturing-external-sources).
+
 ## Transport and configuration
 
-Dynatrace SaaS OTLP base: `https://<environment-id>.live.dynatrace.com/api/v2/otlp`. Signal paths: `/v1/traces`, `/v1/metrics`, `/v1/logs`. The `.apps` UI URL is not the ingestion URL. Direct Dynatrace OTLP requires HTTP binary protobuf; gRPC/JSON require an appropriate intermediary/conversion. Check whether each SDK exporter appends its signal path; do not append twice. Gzip is optional; verify actual exporter/server support.
-
-For platform tokens, use `Authorization: Bearer <secret>` with `openpipeline:traces:ingest`, `openpipeline:metrics:ingest`, and `openpipeline:logs:ingest` as needed. For classic tokens, verify that the target endpoint supports `Authorization: Api-Token <secret>` and the applicable `openTelemetryTrace.ingest`, `metrics.ingest`, or `logs.ingest` scopes. Use explicit auth configuration. Query permissions are separate from ingest permissions.
+The Dynatrace OTLP base is the approved ingest host and environment path followed
+by `/api/v2/otlp`. Direct export uses HTTP with binary Protobuf. Use a Collector
+or another supported intermediary for gRPC. Check whether the SDK appends its
+signal path or takes a complete URL. Verify gzip support for the chosen path.
 
 Configure server-side secret injection, environment, stable service name/namespace and release version. Use placeholders in examples:
 

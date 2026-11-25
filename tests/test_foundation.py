@@ -89,6 +89,27 @@ class FoundationTests(unittest.TestCase):
                         encoding='utf-8', newline='\n')
         self.assertEqual(foundation.validate(root), [])
 
+    def test_released_changelog_sections_are_frozen(self):
+        root = self.fixture()
+        file = root / 'docs/template-changelog.md'
+        old = '# Changelog\n\n## [1.14.3] - released\n\n- Published notes.\n'
+        file.write_text(old, encoding='utf-8', newline='\n')
+        for args in [
+            ('init', '-q'),
+            ('add', 'docs/template-changelog.md'),
+            ('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.test',
+             'commit', '-qm', 'Baseline'),
+            ('tag', 'v1.14.3'),
+        ]:
+            subprocess.run(['git', *args], cwd=root, check=True, capture_output=True, timeout=10)
+        next_release = old.replace('## [1.14.3]', '## [1.15.0] - Unreleased\n\n- New work.\n\n## [1.14.3]')
+        file.write_text(next_release, encoding='utf-8', newline='\n')
+        self.assertEqual(foundation.check_released_changelog(root, 'HEAD'), [])
+        for altered in (next_release.replace('Published notes.', 'Changed notes.'), next_release.split('## [1.14.3]')[0]):
+            file.write_text(altered, encoding='utf-8', newline='\n')
+            self.assertEqual(foundation.check_released_changelog(root, 'HEAD'),
+                             ['Released template changelog section changed: v1.14.3'])
+
     def test_semver_identifiers(self):
         from contracts import SEMVER_PATTERN
         for good in ('0.0.0','1.9.0','1.10.0','1.9.0-rc.1','1.9.0+build.09'):

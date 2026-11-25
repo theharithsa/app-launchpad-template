@@ -1,6 +1,6 @@
 ---
 name: project-design
-description: Design product journeys, UI and service contracts.
+description: Design product journeys, interfaces and service contracts. Use when defining the behavior, states or acceptance criteria of a change. Do not use for a delivery-only task.
 ---
 
 # Project Design

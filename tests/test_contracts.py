@@ -1,9 +1,21 @@
 import json
-from pathlib import Path
 import unittest
 from unittest.mock import patch
 import test_foundation as fixtures
-from contracts import *
+from contracts import (
+    CATALOG_REQUIRED,
+    CHECK_REQUIRED,
+    CHECK_STATUSES,
+    DECISION_STATUSES,
+    DECISIONS,
+    EVIDENCE_REQUIRED,
+    PROJECT_REQUIRED,
+    SCHEMA_VERSION,
+    SEMVER_PATTERN,
+    SERVICE_REQUIRED,
+    SERVICE_STATUSES,
+    SKILL_REQUIRED,
+)
 from schema_validation import validate_shape, validate_record
 from check_links import check_links
 import repository_ruleset
@@ -69,7 +81,7 @@ class ContractTests(unittest.TestCase):
         data=json.loads((ROOT/'skills/catalog.json').read_text(encoding='utf-8'))
         service=next(s for s in data['services'] if s['id']=='foundation-tooling')
         import re
-        executed=re.findall(r'^\s+run:\s*(.+)$',(ROOT/'.github/workflows/foundation.yml').read_text(encoding='utf-8').split('\n  foundation:', 1)[0],re.MULTILINE)
+        executed=re.findall(r'^\s+run:\s*(.+)$',(ROOT/'.github/workflows/foundation.yml').read_text(encoding='utf-8').split('\n  platform:', 1)[1].split('\n  foundation:', 1)[0],re.MULTILINE)
         self.assertEqual(service['testCommands'],executed)
         self.assertEqual(executed,['sh scripts/check.sh'])
         # Exercise the entrypoint's execution/early-exit contract without recursively running tests.

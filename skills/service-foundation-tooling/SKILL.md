@@ -1,6 +1,6 @@
 ---
 name: service-foundation-tooling
-description: Maintain the foundation validators, service registration and opt-in ruleset tooling.
+description: Maintain template validators, service registration and opt-in ruleset tooling. Use when changing or diagnosing the App Launchpad foundation scripts or CI. Do not use for product features.
 ---
 
 # Foundation tooling

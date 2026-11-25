@@ -1,6 +1,6 @@
 ---
 name: project-testing
-description: Select and run meaningful project and service tests.
+description: Choose and run risk-based checks for project and service changes. Use when verifying a candidate or reproducing a behavior in a controlled test. Do not use to approve production promotion.
 ---
 
 # Project Testing

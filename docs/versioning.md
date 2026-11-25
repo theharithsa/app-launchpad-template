@@ -8,6 +8,18 @@ Use [SemVer 2.0.0](https://semver.org/): patch for compatible fixes, minor for c
 
 The first valid template release is **1.9.0**. Earlier source carried the explicitly requested custom label `1.09.0`; issue #18 replaces that convention. No tag/release was published under the old label. Record that correction without inventing historical releases.
 
+## Classify skill and documentation changes
+
+| Change | Version |
+| --- | --- |
+| Correct an example, broken link or auth scope within an existing workflow | Patch |
+| Add a compatible workflow, new issue form or required check to the starter | Minor |
+| Replace a contract in a way that requires consumers to migrate | Major |
+
+Group related work in the existing release milestone. An in-progress candidate may receive multiple commits under the same proposed version. For a canonical skill-changing PR, update the version metadata as part of that candidate. Publish the checked candidate through the approved release path when its scope is ready.
+
+Leave released changelog sections frozen. Put clarifications in the next candidate's notes. The canonical PR check compares versions tagged on the base branch with their existing sections and rejects edits, removals and duplicates.
+
 ## Update and release
 
 - Follow the [delivery owner](../.agents/skills/app-launchpad/references/github-release.md) and [authorization owner](../.agents/skills/app-launchpad/references/safety.md).

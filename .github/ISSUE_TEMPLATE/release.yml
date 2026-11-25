@@ -1,0 +1,28 @@
+name: Release or promotion
+description: Track a release candidate through verification and recovery
+title: "[Release] "
+type: Task
+labels: ["type: task"]
+body:
+  - type: textarea
+    id: scope
+    attributes:
+      label: Release scope
+      description: Name the release owner and target. Link the milestone and included issues or PRs when known.
+    validations:
+      required: true
+  - type: textarea
+    id: candidate
+    attributes:
+      label: Candidate and pre-production evidence
+      description: Add the source SHA or digest, artifact, deployment, exact-candidate checks and evidence links during delivery.
+  - type: textarea
+    id: decision
+    attributes:
+      label: Promotion decision and recovery target
+      description: Record the authorized decision, risks, rollout or hold, and the previous verified version or artifact.
+  - type: textarea
+    id: verification
+    attributes:
+      label: Production or publication verification
+      description: Link the release or deployment run, served version or installation, representative checks and any recovery evidence. Update this record on retry.

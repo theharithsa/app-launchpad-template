@@ -1,6 +1,6 @@
 # Foundation checks
 
-Python 3.11+ and a POSIX shell (Git Bash or WSL on Windows); standard library only.
+Use the [supported Python version](../pyproject.toml) and a POSIX shell (Git Bash or WSL on Windows). The foundation scripts use the standard library. CI checks the minimum and latest stable Python on Windows and Linux, and runs pinned Ruff and actionlint.
 Git is needed for revision diagnostics and their tests. The required `foundation`
 check aggregates Linux and Windows jobs; both must pass. Each job runs with
 default-encoding warnings treated as errors.

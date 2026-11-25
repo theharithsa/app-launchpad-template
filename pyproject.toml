@@ -1,0 +1,7 @@
+[project]
+name = "app-launchpad-template"
+dynamic = ["version"]
+requires-python = ">=3.11"
+
+[tool.ruff.lint]
+select = ["E9", "F"]

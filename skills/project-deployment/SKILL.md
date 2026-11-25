@@ -1,6 +1,6 @@
 ---
 name: project-deployment
-description: Prepare, execute and verify authorized releases and rollback.
+description: Prepare, execute and verify authorized releases and rollback. Use when publishing, deploying or restoring a checked App Launchpad candidate. Do not use for ordinary feature implementation.
 ---
 
 # Project Deployment
