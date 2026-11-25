@@ -69,10 +69,11 @@ depth of troubleshooting. Use that comparison to identify content gaps.
 Record the path, tested revision or environment, commands or actions, expected
 and observed outcomes, and any unresolved gap in the PR or linked evidence.
 Fix inaccurate or unclear instructions and repeat the affected path on the
-candidate before merge. After authorized publication, open the live guides at
-desktop and phone widths and repeat the public entry-point and task checks.
-Keep clean-checkout, demo, synthetic and live observations distinct. Mark
-live verification as pending when publication or access is outside scope.
+candidate before merge. Until publication and verification succeed, list the
+pending live desktop and phone-width walkthroughs in the PR or handoff.
+After authorized publication, open the live guides at both widths and repeat
+the public entry-point and task checks. Keep clean-checkout, demo, synthetic
+and live observations distinct.
 A successful build or link check alone does not complete this review.
 
 ## Repository guides
