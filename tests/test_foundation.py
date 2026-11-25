@@ -31,11 +31,21 @@ class FoundationTests(unittest.TestCase):
                             ignore=shutil.ignore_patterns('__pycache__'))
         return root
 
+    def pending_project(self, root):
+        file = root / 'project.json'
+        project = json.loads(file.read_text(encoding='utf-8'))
+        project['name'] = None
+        project['template']['revision'] = None
+        for key in foundation.DECISIONS:
+            project['decisions'][key] = {'status': 'needs-user-input', 'value': None, 'approval': None}
+        file.write_text(json.dumps(project), encoding='utf-8', newline='\n')
+        return project
+
     def test_discovery_gate_requires_decisions_and_provenance(self):
         root = self.fixture()
+        project = self.pending_project(root)
         self.assertEqual(foundation.validate(root), [])
-        self.assertTrue(foundation.validate(root, ready=True))
-        project = json.loads((root / 'project.json').read_text(encoding='utf-8'))
+        self.assertIn('Record the source template commit SHA', foundation.validate(root, ready=True))
         project['name'] = 'Synthetic app'
         project['template']['revision'] = 'a' * 40
         for key in foundation.DECISIONS:
@@ -118,7 +128,9 @@ class FoundationTests(unittest.TestCase):
             self.assertIsNone(re.fullmatch(SEMVER_PATTERN, bad), bad)
 
     def test_json_output_and_failure_exit_status(self):
-        command = [sys.executable, str(ROOT/'scripts/check_foundation.py'), '--root', str(ROOT), '--json']
+        root = self.fixture()
+        self.pending_project(root)
+        command = [sys.executable, str(ROOT/'scripts/check_foundation.py'), '--root', str(root), '--json']
         result = subprocess.run(command, capture_output=True, text=True, timeout=10, encoding='utf-8')
         payload = json.loads(result.stdout)
         self.assertEqual(result.returncode, 0, result.stdout)
