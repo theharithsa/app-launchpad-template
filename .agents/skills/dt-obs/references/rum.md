@@ -1,25 +1,59 @@
 # Browser RUM and identity
 
-Install the app-approved Dynatrace JavaScript tag in every HTML entrypoint, before app modules. Use a placeholder when a tag is not yet supplied. Ensure CDN/beacon URLs are permitted by CSP, shared helper modules are published, and static routes and hash routes are covered. Inspect the installed RUM generation and its supported APIs rather than assuming Classic APIs apply to every agent.
+Identify the deployed generation before choosing an API. Bind the approved
+tag to the correct Classic application or latest frontend. Use one injection
+method, check CSP and beacon reachability, and verify that each UI entrypoint
+and route has the expected coverage.
 
-For the Classic agent:
-- `dtrum.identifyUser(value)` has a capital U. Handle agent readiness with a bounded retry and cancellation on identity changes. Failure cannot block sign-in.
-- On restored/new authenticated sessions, identify by a stable UID or approved email. Clear the former identity on account switch/sign-out. When approved, use `browser:<random UUID>` for anonymous visits and restore it after sign-out. Persist per origin with a page-lifetime fallback when storage fails. It is a pseudonymous browser identifier, not a hardware/device fingerprint or cross-site identity.
-- Keep monitoring consent and session capture settings intact. An anonymous Firebase UID and the anonymous RUM browser ID are different concepts.
-- Use bounded semantic action names, meaningful completion/error actions, and route names without query secrets. Pair every manual enter/leave action on success, failure and cancellation; avoid duplicating automatically captured actions.
-- Capture safe control type/ID and normalized operation outcomes. Do not scrape labels/DOM/form values or capture every keystroke. Broad click events can be noisy; use them only for a defined coverage need.
-- Define the outcome vocabulary once and import it in both the caller and the recorder; test that each caller literal reaches the exported property unchanged. A recorder allowlist that differs from the caller's strings silently exports `other` for every request. Add the HTTP status class and the bounded application error code to failed request actions so a browser failure can be matched to its server span.
-- Declare every custom action/session property name the code sends in the RUM application's session and user action property settings; undeclared properties are discarded with no client-side error. Record that declaration as a provisioning step and verify a property appears in the tenant before relying on it.
-- Report caught failures to RUM: render error boundaries and global `error`/`unhandledrejection` handlers call `dtrum.reportError`; API failures (network error, 5xx, selected 4xx) call `dtrum.reportCustomError(<bounded code>, <bounded message>, <request.id as hint>)`. Feature-detect and never block the UI. Disabling automatic action detection also disables automatic error attribution, so manual error reporting becomes mandatory, not optional.
-- When automatic actions are off, wrap the user's intent (`Archive lead`, `Commit import`) as the parent action and the API calls as children so the journey is readable as intent, not as a list of endpoints.
-- `window.dynatrace.sendBizEvent(type, attributes)` is the native business-event API for this implementation. `sendEvent` is not an equivalent BizEvents API. Feature-detect and fail safely. Only monitored sessions produce these events; no guaranteed delivery on unload/offline.
+## Classic RUM
 
-Browser event fields should use a distinct provider and `event.authority=client-observed`, stable schema version, event ID, transaction ID, safe page/control/operation and applicable domain IDs. Attach real trace/span IDs only for instrumented operations. A click is an attempt; distinguish it from response completion and committed server outcome.
+| Task | Classic API or setting |
+| --- | --- |
+| Enable | Provision the application and its approved RUM JavaScript tag. Apply the app's consent mode and CSP settings. |
+| Actions and errors | Use `dtrum.enterAction` and `dtrum.leaveAction` for bounded manual intent, including failure and cancellation. Feature-detect `dtrum.reportError` or `dtrum.reportCustomError` for sanitized errors. |
+| Identity | Apply the approved pseudonym through `dtrum.identifyUser(value)` after consent and verified sign-in. Check the session reset boundary on sign-out and account switch. |
+| Properties | Define Classic user action and session properties in application settings, then use the matching JavaScript API. Verify actual tenant capture of each property. |
+| Cross-origin linking | Use the supported Classic linking mode. Confirm the actual request header or cookie, allowed first-party origins and backend instrumentation. |
 
-For browser-to-server OTel forwarding, use an authenticated same-origin gateway; never ship Dynatrace ingestion secrets. Validate Firebase/OIDC tokens, replace claimed actor identity with verified identity, allowlist operations/attributes, bound payload/timestamp/duration/span counts and rate-limit. Origin checks supplement authentication. Flush queues or partition them on account changes so users cannot inherit each other's queued telemetry. Anonymous RUM may remain enabled even when this gateway deliberately requires sign-in.
+Open the synthetic session in the Classic RUM experience. Follow the captured
+action to its server-side trace where supported, and check the selected action
+property and sanitized failure. [Classic JavaScript API](https://docs.dynatrace.com/javascriptapi/doc/types/dtrum.html) · [Classic cross-origin linking](https://docs.dynatrace.com/docs/observe/digital-experience-classic/rum-classic/web-applications/initial-setup/link-cross-origin-xhrs)
 
-Propagate W3C context only to approved first-party endpoints. Verify CORS, RUM frontend/backend-linking settings and sampling; do not enable broad propagation to Google/Firebase or arbitrary third parties. Explicit browser OTel traces are not automatically children of a RUM action. Confirm the ingress extracts the header the deployed agent actually sends (W3C `traceparent` versus vendor headers such as `x-dtc`) and that same-origin propagation covers the API path; otherwise the backend accepts a header the browser never sets.
+## Latest RUM
 
-Primary references (rechecked 21 October 2026; reverify for the target agent):
-- https://docs.dynatrace.com/javascriptapi/doc/types/dtrum.html
-- https://docs.dynatrace.com/docs/observe/business-observability/bo-events-capturing/web-and-mobile-rum
+| Task | Latest RUM API or setting |
+| --- | --- |
+| Enable | Configure the intended frontend in Experience Vitals. Use the approved injection method and opt-in behavior for that frontend. |
+| Events and actions | Use `sendEvent` from `@dynatrace/rum-javascript-sdk/api` for a custom event. Use the installed SDK's User Actions or Interactions APIs when those event types fit. |
+| Identity | Use the SDK's `identifyUser` with an approved pseudonym. Check `isEnabled()` before opt-in-dependent work. Use the supported session/identity boundary and verify guest and account-switch behavior. |
+| Properties | Submit approved event fields with the `event_properties.` prefix and set up session properties in the intended frontend. Test capture and visibility with the tenant audience. |
+| Backend linking | Confirm the agent propagates W3C trace context to the approved endpoint and the backend extracts it. When manually reporting a request, the SDK Native HTTP API accepts a real W3C `traceParent`. |
+
+Check a synthetic event and its session in `user.events` and `user.sessions`.
+Use the [latest RUM recipes](dql-verification.md#latest-rum-event-and-session)
+for exact IDs. Verify native trace navigation for the same request in the
+tenant UI when supported. A custom request-property join establishes
+application correlation. [Latest RUM SDK](https://docs.dynatrace.com/javascriptapi/doc-latest/documents/rum-javascript-sdk_Documentation.RUM_JavaScript_SDK_Overview.html)
+
+## Consent, identity and propagation
+
+Choose a pseudonym appropriate to the app. Enable real-person identifiers and
+replay only under their own approved privacy decisions. Check masking at
+capture and property visibility in the tenant. Test guest, restored session,
+sign-in, sign-out, account switch and a late or absent tag. Verify that a
+transition leaves no previous user's identity or queued events behind.
+Anonymous identity, when approved, can use a per-origin random value with a
+page-lifetime fallback. Avoid device fingerprinting and cross-site identity.
+
+Keep event names and outcomes bounded. Use safe request identifiers for
+correlation and avoid DOM text, auth credentials and form values. Track an
+observed attempt separately from the committed server outcome. Follow the
+[documented RUM business-event API](https://docs.dynatrace.com/docs/observe/business-observability/bo-events-capturing/web-and-mobile-rum)
+for the chosen version.
+
+For browser OTLP forwarding use an authenticated, rate-limited first-party
+gateway. Validate identity and replace client-supplied actor fields from
+verified auth. Limit attributes, payload size, timestamps and event counts.
+Keep ingest credentials server-side. Allow propagation only to approved
+endpoints, check CORS and capture the actual header on a synthetic request.
+The deploying app owns authentication. The tracing header carries context.

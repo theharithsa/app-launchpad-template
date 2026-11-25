@@ -65,7 +65,7 @@ so concurrent instances are distinguishable; it is not a request or user ID.
 See [Dynatrace aggregation requirements](https://docs.dynatrace.com/docs/ingest-from/opentelemetry/otlp-api/about-metrics-ingest)
 and [OTel temporality preference semantics](https://opentelemetry.io/docs/specs/otel/metrics/sdk_exporters/otlp/).
 
-Never place authorization in `VITE_*`, public runtime config, Firestore client documents, ZIP artifacts or screenshots. Secret rotation must update all consumers; some serverless providers require redeploying functions bound to a new secret version. Respect existing variable precedence to avoid silently retaining an old token.
+Never place authorization in `VITE_*`, public runtime config, client-readable records, ZIP artifacts or screenshots. Secret rotation must update all consumers; some serverless providers require redeploying functions bound to a new secret version. Respect existing variable precedence to avoid silently retaining an old token.
 
 ## Backend SDK
 
@@ -77,7 +77,7 @@ Use active OTel context/AsyncLocalStorage rather than a mutable global current u
 
 At the API error boundary, set `error.type` on the server span from the application error code (a finite set such as `UNAUTHENTICATED`, `CONFLICT`, `AI_RATE_LIMIT`, `MAINTENANCE_LOCK`; unknown errors become `INTERNAL`), include it in the completion log, and add it as a dimension on the request counter. Two 503s with different causes must be separable without reading response bodies. Log 4xx rejections at WARN with the code; they are the attempted-but-refused half of the journey.
 
-Dependency spans need semantic attributes, not only a name and duration. Database: `db.system.name`, `db.operation.name`, `db.collection.name` (allowlisted), transaction attempt count. For model calls, use the GenAI contract below. Normalize vendor errors into the bounded `error.type` set before the generic fallback: Firebase `messaging/…`/`auth/…` strings, gRPC numeric codes (`ABORTED`, `DEADLINE_EXCEEDED`, `RESOURCE_EXHAUSTED`, `UNAVAILABLE`), `AbortSignal` `TimeoutError`, schema/parse failures. Contention, timeouts and quota exhaustion are the signals operators most need and the ones a catch-all hides.
+Dependency spans need semantic attributes, not only a name and duration. Database: `db.system.name`, `db.operation.name`, `db.collection.name` (allowlisted), transaction attempt count. For model calls, use the GenAI contract below. Normalize vendor errors into the bounded `error.type` set before the generic fallback: provider-specific categories, gRPC status codes (`ABORTED`, `DEADLINE_EXCEEDED`, `RESOURCE_EXHAUSTED`, `UNAVAILABLE`), `AbortSignal` `TimeoutError`, schema/parse failures. Contention, timeouts and quota exhaustion are the signals operators most need and the ones a catch-all hides.
 
 When `autoDetectResources` is off for a serverless/container runtime, set the resource identity explicitly from the platform environment: `cloud.provider`, `cloud.platform`, `cloud.region`, `faas.name`, `faas.version` or revision. Without them a regression cannot be tied to a deployed revision.
 
@@ -88,12 +88,12 @@ When `autoDetectResources` is off for a serverless/container runtime, set the re
 | request.id | One HTTP attempt; useful in response headers |
 | transaction.id | One logical business operation and its downstream events |
 | event.id | Stable durable event, unchanged on retry |
-| user.id/email or actor.id/email | Verified caller; distinguish affected student/customer |
-| order.id / workshop.session.id / entity.id | Domain correlation, not metric labels |
+| user.id/email or actor.id/email | Verified caller and affected account |
+| order.id / subscription.id / entity.id | Domain correlation, not metric labels |
 
 Generate a new request ID per attempt. Preserve the transaction ID through retries and async messages without treating it as authentication or idempotency authorization. Validate length/format of incoming IDs; reject/replace malformed values. Use a distinct idempotency key when the business API needs it.
 
-For async work, persist originating context with the committed outbox/message when available. Start a producer/consumer span or link as appropriate; keep original operation context and delivery-attempt context distinguishable. If Firestore writes lack browser context, create an actual audit-consumer span and mark `correlation.origin=firestore-audit`; do not claim an unbroken browser trace. Sampling may mean a valid ID has no stored span.
+For async work, persist originating context with the committed outbox/message when available. Start a producer/consumer span or link as appropriate; keep original operation context and delivery-attempt context distinguishable. For a stored change without originating context, record the real consumer span and mark its actual capture origin. Sampling may mean a valid ID has no stored span.
 
 ## GenAI clients and agents
 

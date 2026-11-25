@@ -5,7 +5,7 @@ window that covers the scenario. Replace the synthetic values in these examples.
 Keep results limited to safe fields. Increase the window only to cover an
 explained ingestion delay or a recorded occurrence time.
 
-Verified the syntax of these eight statements against a Dynatrace tenant on
+Verified the syntax of these statements against a Dynatrace tenant on
 26 November 2026. Each statement has a bounded timeframe. Synthetic values
 remain placeholders for the adopter's data and field mappings. Use the actual
 tenant results to decide whether a signal is searchable.
@@ -68,14 +68,33 @@ Use an approved request ID property present on both the RUM event and server spa
 
 ```dql
 fetch user.events, from: -15m, to: now()
-| filter request.id == "<request-id>"
-| fields rum_time = timestamp, request.id, event.type
+| filter frontend.name == "example-profile" and event_properties.request_id == "<request-id>"
+| fields rum_time = timestamp, request_key = toString(event_properties.request_id)
 | join [
     fetch spans, from: -15m, to: now()
     | filter service.name == "example-profile" and service.version == "1.4.0" and request.id == "<request-id>"
-    | fields request.id, trace.id, span.id, span.name
-  ], on: {request.id}, kind: inner, fields: {trace.id, span.id, span.name}
+    | fields request_key = toString(request.id), trace.id, span.id, span.name
+  ], on: {request_key}, kind: inner, fields: {trace.id, span.id, span.name}
 | limit 20
+```
+
+## Latest RUM event and session
+
+Use an approved event property and the observed session ID. Keep the actual
+frontend and timeframe in the verification record.
+
+```dql
+fetch user.events, from: -15m, to: now()
+| filter frontend.name == "example-profile" and event_properties.request_id == "<request-id>"
+| fields timestamp, frontend.name, dt.rum.session.id, event_properties.request_id
+| limit 20
+```
+
+```dql
+fetch user.sessions, from: -15m, to: now()
+| filter toString(dt.rum.session.id) == "<session-id>"
+| fields start_time, dt.rum.session.id, frontend.name
+| limit 5
 ```
 
 ## Davis deployment annotation

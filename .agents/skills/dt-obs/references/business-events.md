@@ -2,13 +2,17 @@
 
 Define an event catalog from actual committed schemas and lifecycle transitions. Include creation, changes, reversals, deletion/completion/reopening and administrative decisions. Preserve the difference between caller and affected entity. Decide which event owns a numerical total; snapshots, grading, ledger deltas and browser observations may describe the same outcome.
 
-Distinguish two event classes and emit both. Committed-write summaries (`records.written`, `records.stage_changed=1` per transaction) are integrity and audit evidence: they prove a transaction committed and how much it touched. Semantic business events (`leads.stage_changed` with `stage.from`/`stage.to`/`lead.source`, `activities.logged` with `activity.type`/`outcome`, `tasks.completed` with `task.kind`/`overdue`/lateness, `imports.completed` with totals) are what funnel, conversion, outcome-mix and time-in-stage analytics require. Their dimension values come from the domain's finite option lists (defaults or admin-configured), never free text, and they carry the entity ID and verified actor so an event joins to the trace and logs of the same transaction. Summaries alone force consumers to reconstruct business meaning from write counts, which they cannot.
+Keep audit summaries and domain outcomes distinct. A committed-write summary
+records which approved operation persisted and how many records it touched.
+A domain outcome such as an order cancellation or subscription change carries
+the relevant state transition and stable event identity. Emit the classes
+that the project needs, with finite outcome fields from the actual contract.
 
 Refused attempts are part of the journey. Version conflicts, capability denials, rate limits and maintenance locks should surface as bounded events or WARN logs with the application error code and the same transaction/request IDs, so "attempted but rejected" is distinguishable from "never attempted" and from "committed".
 
 Preferred capture:
 - Backend-owned mutations: write domain state and outbox entry atomically in the same transaction. Do not make external ingestion calls inside a retried database transaction.
-- Direct Firebase SDK writes: capture committed changes with trusted triggers and deterministic IDs derived from source event identity plus semantic event index/type. Triggers are asynchronous, can repeat and arrive out of order. Their capture is separate from the original commit; document that gap and recovery options.
+- Direct managed-store SDK writes: capture committed changes through trusted provider events and derive stable IDs from source identity plus transition type. Triggers are asynchronous, can repeat and arrive out of order. Their capture is separate from the original commit; document that gap and recovery options.
 
 Derive attribution from verified backend callers, trusted server fields or provider-supported trigger metadata. Do not turn arbitrary client actor/email fields into server-confirmed identity. When attribution is unavailable, record system/unknown explicitly without inventing an actor.
 
@@ -50,15 +54,13 @@ Acceptance followed by a lost response can duplicate delivery. Preserve event ID
 
 ## Analytics correctness
 
-- Award totals: sum committed signed deltas, including reversals, once per event ID.
-- Score snapshots: latest appropriate snapshot, not the sum of snapshots.
-- Survey comparisons: latest response per unique participant and stage; report denominators and missing pairs. NPS, confidence scales and workshop rating are distinct measures.
-- Votes: latest valid choice per voter/team/activity, according to the domain contract.
-- Browser events: engagement/funnel observations, never authoritative award totals.
+- Order totals: sum committed signed amounts, including reversals, once per event ID.
+- Account or subscription state: use the latest valid state snapshot at the specified time.
+- Funnel stages: define eligible transitions and denominators. Handle late or duplicate records and distinguish attempts from completed outcomes.
+- Browser events: use client-observed events for engagement and attempts. Use server-confirmed events for authoritative totals.
 
 Use the [business event deduplication recipe](dql-verification.md#one-committed-business-event). Validate field types and actual tenant data before saving queries; do not assume custom trace strings have the same type as native trace.id.
 
 Primary references (rechecked 21 October 2026):
 - https://docs.dynatrace.com/docs/dynatrace-api/environment-api/business-analytics-v2
 - https://docs.dynatrace.com/docs/observe/business-observability/bo-events-capturing/web-and-mobile-rum
-- https://firebase.google.com/docs/functions/firestore-events

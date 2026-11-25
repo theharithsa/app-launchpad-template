@@ -91,6 +91,38 @@ class ContractTests(unittest.TestCase):
         (root/'missing.md').write_text('resolved', encoding='utf-8', newline='\n')
         self.assertEqual(check_links(root),[])
 
+    def test_task_routing_uses_the_catalog_and_a_single_documented_index(self):
+        import re
+        root = ROOT / '.agents/skills/app-launchpad/SKILL.md'
+        routing = root.read_text(encoding='utf-8').split('## Task routing', 1)[1]
+        catalog = json.loads((ROOT / 'skills/catalog.json').read_text(encoding='utf-8'))
+        expected = {item['id'] for item in catalog['skills'] if item['id'].startswith('project-')}
+        mapped = re.findall(r'\| `(project-[a-z-]+)` \|', routing)
+        self.assertEqual(sorted(mapped), sorted(expected))
+        for entry in ('docs/policy-map.md', 'skills/README.md'):
+            source = (ROOT / entry).read_text(encoding='utf-8')
+            self.assertIn('app-launchpad/SKILL.md#task-routing', source)
+            self.assertNotRegex(source, r'\]\(project-[a-z-]+/SKILL\.md\)')
+
+    def test_markdown_code_forms_and_fragments(self):
+        root = self.base / 'links'
+        root.mkdir()
+        (root / 'guide.md').write_text(
+            '# Café and start\n\n## Run `setup`\n\n## Run `setup`\n\nFinish\n------\n',
+            encoding='utf-8',
+        )
+        (root / 'README.md').write_text(
+            '# Home\n\n'
+            '[read](guide.md#caf%C3%A9-and-start) [step](guide.md#run-setup-1)\n'
+            '[finish](guide.md#finish) [home](#home) [missing](guide.md#absent)\n\n'
+            '````md\n```\n[example](four-backticks.md)\n````\n'
+            '~~~text\n[example](tilde-fence.md#bad)\n~~~\n\n'
+            '    [example](indented-code.md)\n'
+            '`[example](inline-code.md)` and [`actual`](guide.md#run-setup)\n',
+            encoding='utf-8',
+        )
+        self.assertEqual(check_links(root), ['README.md: missing local anchor guide.md#absent'])
+
     def test_ci_and_catalog_share_the_check_entrypoint(self):
         data=json.loads((ROOT/'skills/catalog.json').read_text(encoding='utf-8'))
         service=next(s for s in data['services'] if s['id']=='foundation-tooling')

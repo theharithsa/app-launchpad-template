@@ -2,7 +2,7 @@
 name: app-launchpad
 description: Build or adopt an issue-to-release delivery workflow for an app. Use when starting a project, integrating an existing repository, or resuming a delivery task with App Launchpad. Do not use for standalone incident queries or unrelated code changes.
 metadata:
-  version: "1.17.0"
+  version: "1.18.0"
 ---
 
 # App Launchpad
@@ -17,16 +17,19 @@ metadata:
 
 ## Task routing
 
-| Task | Owner |
-| --- | --- |
-| Product, stack, architecture decisions | [Discovery](references/discovery.md) |
-| UI, API, auth, data and dependencies | [Build](references/build.md) |
-| Test suites and real execution | [Testing](references/testing.md) |
-| Dynatrace RUM/OTel/events/SDLC | [Observability](references/observability.md) |
-| GitHub Project, issue types, roadmap, Kanban, milestones and sprints | [Project tracking](references/github-projects.md) |
-| Solo or team delivery, adoption, PRs, release cadence and recovery | [Delivery](references/github-release.md) |
-| PR documentation, public guides, launch media, and GitHub Pages | [Documentation and launch](references/product-launch.md) |
-| Trust, secrets, cost, authorization, delegation | [Safety](references/safety.md) |
-| Evidence states and signal authority | [Evidence](references/evidence.md) |
-| Per-service skills and continuation | [Services](references/services.md) |
-| Useful Ian/Xiaohei images in docs/sites/app content | [Illustrations](references/illustrations.md) |
+In a template checkout, use the listed project checklist from skills/. The policy references also work from an installed copy.
+
+| Task | Policy owner | Repository checklist |
+| --- | --- | --- |
+| Product, stack, architecture decisions | [Discovery](references/discovery.md) | `project-design` |
+| UI, API, auth, data and dependencies | [Build](references/build.md) | `project-implementation` |
+| Test suites and real execution | [Testing](references/testing.md) | `project-testing` |
+| Dynatrace RUM/OTel/events/SDLC | [Observability](references/observability.md) | `project-observability` |
+| GitHub Project, issue types, roadmap, Kanban, milestones and sprints | [Project tracking](references/github-projects.md) | |
+| Solo or team delivery, adoption, PRs, release cadence and recovery | [Delivery](references/github-release.md) | `project-deployment` |
+| PR documentation, public guides, launch media, and GitHub Pages | [Documentation and launch](references/product-launch.md) | `project-documentation` |
+| Resume or hand off | [Completion](references/completion.md) | `project-handoff` |
+| Trust, secrets, cost, authorization, delegation | [Safety](references/safety.md) | |
+| Evidence states and signal authority | [Evidence](references/evidence.md) | |
+| Per-service skills and continuation | [Services](references/services.md) | |
+| Useful Ian/Xiaohei images in docs/sites/app content | [Illustrations](references/illustrations.md) | |
