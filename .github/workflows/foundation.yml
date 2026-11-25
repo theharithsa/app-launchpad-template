@@ -10,11 +10,46 @@ concurrency:
   group: foundation-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      python-floor: ${{ steps.versions.outputs.floor }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.x'
+      - name: Read supported Python floor
+        id: versions
+        shell: bash
+        run: |
+          python - <<'PYTHON' >> "$GITHUB_OUTPUT"
+          import re
+          import tomllib
+          with open('pyproject.toml', 'rb') as metadata:
+              requirement = tomllib.load(metadata)['project']['requires-python']
+          floor = re.fullmatch(r'>=(3\.\d+)', requirement)
+          if floor is None:
+              raise SystemExit('Expected an explicit minimum Python minor version')
+          print(f'floor={floor[1]}')
+          PYTHON
+      - name: Lint Python
+        run: |
+          python -m pip install --disable-pip-version-check ruff==0.17.6
+          ruff check scripts tests
+      - name: Lint GitHub Actions workflows
+        run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+
   platform:
+    needs: lint
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
+        python: ["${{ needs.lint.outputs.python-floor }}", '3.x']
     runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     steps:
@@ -24,7 +59,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
-          python-version: '3.12'
+          python-version: ${{ matrix.python }}
       - name: Check foundation, links and tests
         env:
           APP_LAUNCHPAD_RELEASE_BASE: ${{ github.repository == 'theharithsa/app-launchpad-template' && github.event.pull_request.base.sha || '' }}
@@ -36,11 +71,12 @@ jobs:
 
   foundation:
     if: always()
-    needs: platform
+    needs: [lint, platform]
     runs-on: ubuntu-latest
     timeout-minutes: 1
     steps:
-      - name: Require successful Linux and Windows checks
+      - name: Require lint and successful Linux and Windows checks
         env:
+          LINT_RESULT: ${{ needs.lint.result }}
           PLATFORM_RESULT: ${{ needs.platform.result }}
-        run: test "$PLATFORM_RESULT" = success
+        run: test "$LINT_RESULT" = success && test "$PLATFORM_RESULT" = success

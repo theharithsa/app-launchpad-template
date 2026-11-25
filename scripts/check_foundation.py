@@ -49,6 +49,30 @@ def check_skill_release(root, base):
     return errors
 
 
+def check_released_changelog(root, base):
+    def git(*args):
+        return subprocess.run(['git', *args], cwd=root, check=True, capture_output=True,
+                              text=True, encoding='utf-8', timeout=15).stdout
+
+    def sections(changelog):
+        headings = list(re.finditer(r'^## \[([^\]]+)\]', changelog, re.MULTILINE))
+        entries = {}
+        for index, heading in enumerate(headings):
+            end = headings[index + 1].start() if index + 1 < len(headings) else len(changelog)
+            entries.setdefault(heading[1], []).append(changelog[heading.start():end].rstrip())
+        return entries
+
+    tags = git('tag', '--merged', base, '--list', 'v*').splitlines()
+    path = 'docs/template-changelog.md'
+    before = sections(git('show', f'{base}:{path}'))
+    after = sections((root / path).read_text(encoding='utf-8'))
+    return [
+        f'Released template changelog section changed: {tag}'
+        for tag in tags
+        if tag[1:] in before and before[tag[1:]] != after.get(tag[1:])
+    ]
+
+
 def read_record(root, filename, name, errors):
     try:
         value = load_json(root / filename)
@@ -123,9 +147,10 @@ def main():
     errors = validate(args.root, args.ready)
     if args.skill_base and not errors:
         try:
-            errors = sorted(check_skill_release(args.root, args.skill_base))
-        except (OSError, subprocess.CalledProcessError):
-            errors = ['Could not compare bundled skill changes against the base revision']
+            errors = sorted(check_skill_release(args.root, args.skill_base)
+                            + check_released_changelog(args.root, args.skill_base))
+        except (OSError, subprocess.SubprocessError):
+            errors = ['Could not verify release metadata against the base revision']
     if args.json_output:
         print(json.dumps({'ok': not errors, 'errors': errors, 'ready': args.ready}, indent=2))
     else:

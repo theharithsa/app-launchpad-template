@@ -1,5 +1,13 @@
 # Template changelog
 
+## [1.15.0] - Unreleased
+
+- Add intake forms and a worked app and package release walkthrough, with a record for the checked candidate, promotion decision, recovery and runtime evidence.
+- Make GitHub Projects conditional, check board access explicitly and remove template-maintainer settings and evidence from copied adopter records.
+- Clarify skill discovery and validate catalog descriptions against frontmatter. Run foundation checks on the supported Python floor and latest stable Python on Linux and Windows, with Ruff and actionlint.
+- Classify template changes by compatibility, freeze released changelog sections and centralize Dynatrace endpoint and credential guidance in bundled dt-obs 1.4.3.
+- Existing projects can adopt the forms, documentation, CI and skills through reviewed PRs. Preserve project-specific ownership and delivery records.
+
 ## [1.14.3] - 2026-11-25
 
 - Repair the public launch starter. The landing page, guides, policy pages and branded recovery screens use the same navigation. Generated applications can point visitors to their own sign-in and retain their host’s 404 status.

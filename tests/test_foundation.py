@@ -31,11 +31,21 @@ class FoundationTests(unittest.TestCase):
                             ignore=shutil.ignore_patterns('__pycache__'))
         return root
 
+    def pending_project(self, root):
+        file = root / 'project.json'
+        project = json.loads(file.read_text(encoding='utf-8'))
+        project['name'] = None
+        project['template']['revision'] = None
+        for key in foundation.DECISIONS:
+            project['decisions'][key] = {'status': 'needs-user-input', 'value': None, 'approval': None}
+        file.write_text(json.dumps(project), encoding='utf-8', newline='\n')
+        return project
+
     def test_discovery_gate_requires_decisions_and_provenance(self):
         root = self.fixture()
+        project = self.pending_project(root)
         self.assertEqual(foundation.validate(root), [])
-        self.assertTrue(foundation.validate(root, ready=True))
-        project = json.loads((root / 'project.json').read_text(encoding='utf-8'))
+        self.assertIn('Record the source template commit SHA', foundation.validate(root, ready=True))
         project['name'] = 'Synthetic app'
         project['template']['revision'] = 'a' * 40
         for key in foundation.DECISIONS:
@@ -89,6 +99,27 @@ class FoundationTests(unittest.TestCase):
                         encoding='utf-8', newline='\n')
         self.assertEqual(foundation.validate(root), [])
 
+    def test_released_changelog_sections_are_frozen(self):
+        root = self.fixture()
+        file = root / 'docs/template-changelog.md'
+        old = '# Changelog\n\n## [1.14.3] - released\n\n- Published notes.\n'
+        file.write_text(old, encoding='utf-8', newline='\n')
+        for args in [
+            ('init', '-q'),
+            ('add', 'docs/template-changelog.md'),
+            ('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.test',
+             '-c', 'commit.gpgSign=false', 'commit', '-qm', 'Baseline'),
+            ('tag', 'v1.14.3'),
+        ]:
+            subprocess.run(['git', *args], cwd=root, check=True, capture_output=True, timeout=10)
+        next_release = old.replace('## [1.14.3]', '## [1.15.0] - Unreleased\n\n- New work.\n\n## [1.14.3]')
+        file.write_text(next_release, encoding='utf-8', newline='\n')
+        self.assertEqual(foundation.check_released_changelog(root, 'HEAD'), [])
+        for altered in (next_release.replace('Published notes.', 'Changed notes.'), next_release.split('## [1.14.3]')[0]):
+            file.write_text(altered, encoding='utf-8', newline='\n')
+            self.assertEqual(foundation.check_released_changelog(root, 'HEAD'),
+                             ['Released template changelog section changed: v1.14.3'])
+
     def test_semver_identifiers(self):
         from contracts import SEMVER_PATTERN
         for good in ('0.0.0','1.9.0','1.10.0','1.9.0-rc.1','1.9.0+build.09'):
@@ -97,7 +128,9 @@ class FoundationTests(unittest.TestCase):
             self.assertIsNone(re.fullmatch(SEMVER_PATTERN, bad), bad)
 
     def test_json_output_and_failure_exit_status(self):
-        command = [sys.executable, str(ROOT/'scripts/check_foundation.py'), '--root', str(ROOT), '--json']
+        root = self.fixture()
+        self.pending_project(root)
+        command = [sys.executable, str(ROOT/'scripts/check_foundation.py'), '--root', str(root), '--skill-base', '', '--json']
         result = subprocess.run(command, capture_output=True, text=True, timeout=10, encoding='utf-8')
         payload = json.loads(result.stdout)
         self.assertEqual(result.returncode, 0, result.stdout)

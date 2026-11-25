@@ -48,6 +48,8 @@ jobs:
             | .number')
           while read -r number; do
             [[ -n "$number" ]] || continue
+            # The variables in this filter are jq bindings.
+            # shellcheck disable=SC2016
             label=$(gh api "$repo/issues/$number" --jq '
               [.labels[].name | ascii_downcase] as $labels
               | (.title | ascii_downcase) as $title

@@ -1,6 +1,6 @@
 ---
 name: project-observability
-description: Maintain Dynatrace runtime and development lifecycle instrumentation.
+description: Maintain Dynatrace runtime and delivery instrumentation. Use when adding or verifying signals for a project change. Do not use for standalone exploratory queries.
 ---
 
 # Project Observability

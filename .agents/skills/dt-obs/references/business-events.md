@@ -45,7 +45,7 @@ Use explicit field extraction. Export bounded numerical answers only when approv
 
 ## Delivery
 
-Endpoint: `https://<environment-id>.live.dynatrace.com/api/v2/bizevents/ingest`, separate from OTLP. Classic token: `Api-Token`, scope `bizevents.ingest`. Platform/OAuth: Bearer with current `openpipeline:bizevents:ingest` permission (verify tenant policy).
+Choose the Business events endpoint and credential using the [authentication matrix](otel.md#ingestion-endpoints-and-authentication). Use the business-event API for durable domain outcomes.
 
 Use server-owned outbox records, delivery leases with expiry/ownership checks, bounded scheduled draining, retained attempt/status/nextAttemptAt fields and backoff with jitter. Only a documented full-acceptance response marks delivered (currently 202). A batch 400 may partially accept valid events: reconcile per-record results or retry with stable IDs and consumer deduplication; never mark the entire batch delivered. Treat 429/5xx/timeouts as recoverable and honor Retry-After; repeated 400/401/403 require repair rather than a tight retry loop. Retain failures and an operator recovery path.
 

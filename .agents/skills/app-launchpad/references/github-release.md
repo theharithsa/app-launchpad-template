@@ -2,6 +2,8 @@
 
 Apply [authorization and safety](safety.md), [evidence](evidence.md) and [service ownership](services.md).
 
+For worked staged-app and CLI examples, open `docs/promotion-walkthrough.md` in the generated repository. [Template walkthrough](https://github.com/theharithsa/app-launchpad-template/blob/main/docs/promotion-walkthrough.md)
+
 ## Choose the delivery path
 
 | Project setup | Path |

@@ -1,4 +1,5 @@
 """Validate declared skill/service ownership, accumulating deterministic diagnostics."""
+import json
 from pathlib import Path, PurePosixPath, PureWindowsPath
 import re
 import subprocess
@@ -101,8 +102,19 @@ def validate_catalog(root):
             name = re.search(r'^name:\s*[\'"]?([a-z][a-z0-9-]*)[\'"]?\s*$', frontmatter, re.MULTILINE)
             if target.name != 'SKILL.md' or not name or name.group(1) != item['id']:
                 errors.append(f'{item["id"]}: SKILL.md needs matching name frontmatter')
-            if not re.search(r'^description:\s*\S', frontmatter, re.MULTILINE):
-                errors.append(f'{item["id"]}: description frontmatter missing')
+            match = re.search(r'^description:[ \t]*(\S[^\r\n]*)$', frontmatter, re.MULTILINE)
+            description = match[1].strip() if match else ''
+            if description.startswith('"') and description.endswith('"'):
+                try:
+                    description = json.loads(description)
+                except ValueError:
+                    description = ''
+            elif description.startswith("'") and description.endswith("'"):
+                description = description[1:-1].replace("''", "'")
+            if not description or description in ('|', '>', '|-', '>-'):
+                errors.append(f'{item["id"]}: SKILL.md needs a single-line description')
+            elif description != item.get('description'):
+                errors.append(f'{item["id"]}: catalog description differs from SKILL.md')
         except (OSError, UnicodeError) as error:
             errors.append(f'{item["id"]}: {error}')
     discovered = {p.relative_to(root).as_posix() for base in ('skills', '.agents/skills')

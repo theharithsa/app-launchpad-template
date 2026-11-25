@@ -1,6 +1,6 @@
 ---
 name: project-handoff
-description: Resume work or record verified context for the next agent.
+description: Record or resume App Launchpad work from verified source and evidence. Use when handing off a task or restoring its current state. Do not use as a substitute for release verification.
 ---
 
 # Project Handoff

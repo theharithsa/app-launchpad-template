@@ -47,8 +47,7 @@ Shared boundaries: [safety](safety.md), [evidence](evidence.md), [service owners
 - Exercise actual failures; self-observability is best effort during exporter failure, so retain sanitized platform diagnostics as well.
 
 - Use server-side secrets, native-runtime SDKs and supported OTLP transport.
-- Resolve tenant auth realm/scopes/endpoint using official docs and existing secure configuration.
-- For Dynatrace SaaS, commonly OTLP /api/v2/otlp/v1/{traces,metrics,logs} and business events /api/v2/bizevents/ingest; verify the actual destination and supported protocol/auth rather than interpolating an unconfirmed tenant.
+- Use the [dt-obs authentication matrix](../../dt-obs/references/otel.md#ingestion-endpoints-and-authentication) for the target environment's endpoints, scopes and header format. Check the actual environment configuration.
 - Never ship ingestion credentials in VITE/NEXT_PUBLIC/browser variables.
 
 ## Canonical events

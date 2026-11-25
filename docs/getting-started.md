@@ -1,13 +1,34 @@
 # Getting started
 
 1. Read [AGENTS.md](../AGENTS.md), the [catalog](../skills/README.md) and the task's [policy owner](policy-map.md).
-2. Generate from the confirmed GitHub template destination; the partial bootstrap no longer exists. Record source TEMPLATE_VERSION and exact source commit in `project.json`.
-3. Select and link the [GitHub Project](../.agents/skills/app-launchpad/references/github-projects.md) and set up milestones, sprint planning, and automatic intake.
-4. Complete the brief and [decisions](decisions.md). See [synthetic examples](../examples/README.md) for shape, never actual facts. Run `sh scripts/check.sh` and the `--ready` discovery gate documented in README.
-5. Review licensing: root LICENSE covers inherited template material; keep that notice and all third-party notices. Choose the new application's license separately before distribution; `project.json.decisions.license` starts needs-user-input. An app-specific root license must not discard inherited notices.
-6. Replace `.github/CODEOWNERS` with the confirmed owner/team for the new repository and review inherited tooling ownership in the catalog. Template author attribution and current maintenance ownership are separate.
-7. Register each real service/module with `scripts/add_service_skill.py`, populate its skill from actual source, and maintain the [inventory](services.md). The [service contract](../.agents/skills/app-launchpad/references/services.md) owns upkeep and continuation requirements.
-8. Select current stack/runtime versions from official docs, scaffold the actual app and lock dependencies. Python in this template is tooling, not a selected application backend.
-9. Follow [build](../.agents/skills/app-launchpad/references/build.md), [tests](../.agents/skills/app-launchpad/references/testing.md), [Dynatrace](../.agents/skills/app-launchpad/references/observability.md), [illustration](illustrations.md) and [delivery](delivery.md) procedures for the accepted vertical slice.
-10. Set up the [PR documentation and Pages workflow](../.agents/skills/app-launchpad/references/product-launch.md). Replace the starter public guides with project facts, review the curated output and configure Pages when ready. Use approved synthetic product media for public launch.
-11. Repository protection, provider configuration and telemetry destinations require their own authorized setup. Use the [opt-in ruleset procedure](repository-ruleset.md); it never runs on generation or in CI.
+2. Generate the confirmed GitHub repository from the template, then complete the reset below.
+3. Complete the [project brief](project-brief.md) and [decisions](decisions.md). Use the [synthetic examples](../examples/README.md) for structure. Run `sh scripts/check.sh` and use the [discovery gate](../README.md) before scaffolding the app.
+4. If the project uses GitHub Projects, follow the [Project setup and permissions check](../.agents/skills/app-launchpad/references/github-projects.md). For an issue-only workflow, use repository issues and delivery milestones and record the chosen workflow in [delivery](delivery.md).
+5. Register each actual service with `scripts/add_service_skill.py` and maintain the [service inventory](services.md). Select approved runtime and dependency versions and build the first vertical slice.
+6. Choose the [delivery path](delivery.md). Follow the [release walkthrough](promotion-walkthrough.md) to track a staged app or a package from intake through verification. Customize the [public guides and site](../.agents/skills/app-launchpad/references/product-launch.md) before enabling Pages.
+7. Confirm the scope and authorization for repository protection, providers and telemetry. The [opt-in ruleset procedure](repository-ruleset.md) is separate from generation.
+
+## First 30 minutes after generation
+
+| File or setting | Action |
+| --- | --- |
+| `project.json` | Record the app name, the source template's version and exact commit, and the app's own decisions. Leave unresolved decisions marked needs-user-input. |
+| `.github/CODEOWNERS` | Add the confirmed owner or team for the new repository. |
+| `docs/decisions.md` and `docs/delivery.md` | Record only this app's decisions, delivery path, owners and optional Project view links. |
+| `skills/catalog.json` and the foundation-tooling continuation | Keep inherited tooling paths and commands. Record a real owner, verification and source revision before activating that inventory entry. |
+| `qa/evidence.json` | Record checks for the new project. Start from the inherited pending record until there is evidence. |
+| `site/` and `docs/public-guides.json` | Replace the template's product copy and examples with approved project facts before publication. |
+| `LICENSE` and third-party notices | Retain inherited license notices. Decide the app's license before distributing it. |
+| GitHub settings | Check the default branch, milestone/Project setup, labels, ruleset and workflow permissions on the new repository. These settings are configured separately. |
+
+For a known source tag, resolve its commit with the GitHub CLI and copy the
+40-character output into `project.json.template.revision`. Set
+`project.json.template.version` to the version from that same tag.
+
+```sh
+gh api repos/theharithsa/app-launchpad-template/commits/v1.14.3 --jq .sha
+```
+
+Replace the example tag with the one used for generation. The new repository's
+initial commit has its own SHA. If the generator used an untagged template
+revision, record the exact source SHA supplied by the generator.

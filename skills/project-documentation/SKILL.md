@@ -1,6 +1,6 @@
 ---
 name: project-documentation
-description: Update project documentation from actual behavior and decisions.
+description: Update project docs from actual behavior and decisions. Use when writing or verifying changed delivery, product or developer guides. Do not use for source implementation.
 ---
 
 # Project Documentation

@@ -1,16 +1,7 @@
 # Foundation tooling continuation
 
-Issue #99 adds the shared public shell, verified private reporting link, same-host sign-in configuration and branded HTTP recovery documents. Run the public-docs tests for both hosting modes before publication.
+Inherited template tooling is ready for a local foundation check. The new repository's owner, CI results, ruleset and Project settings need their own evidence.
 
-- Scope: Iteration 2 issues #46, #47, #52, #53, #58, #63, #67, #73, #74, #75 and #83; portability, tooling inventory, documentation/provenance and metric configuration.
-- Source reviewed: the full `origin/main` commit recorded as `lastReviewedRevision` in [catalog](../catalog.json), the v1.14.1 baseline. It is an inspected source pointer, not proof of this candidate's CI.
-- Implemented: cross-platform relative-path rejection and bounded traversal; lock handle closed before deletion; explicit UTF-8/LF I/O; configurable Python executable; bounded test subprocesses; isolated privilege-sensitive symlink test; root changelog version guard; Git-backed review-revision warnings.
-- CI: Linux and Windows run the shared check command with encoding warnings as errors. The required `foundation` gate waits for both jobs. PR evidence must identify the checked head and actual run; inspect it before merge.
-- Verification: local candidate checks and remote CI are recorded in the implementing PR. A passing foundation gate covers repository tooling and curated docs, not a generated application's behavior or runtime telemetry.
-- Verified tooling candidate: [PR #94](https://github.com/theharithsa/app-launchpad-template/pull/94), head `b9e6b8c5e76554af2ef817ab74f5d8700288bb6c`. [Windows/Linux CI](https://github.com/theharithsa/app-launchpad-template/actions/runs/44141269401) passed all 31 tests on both platforms; Windows completed the suite in 8.936 seconds. Later candidates need their own check evidence.
-- Follow-up candidate: template 1.14.2 and dt-obs 1.4.2; README prerequisites, direct documentation-policy links and anchor regression, delta metrics/runtime identity, released-milestone safeguard, pinned illustration provenance and owner-approved removal of example PNGs. No schema or application-data migration.
-- GitHub metadata reconciliation for #63 on November 17, 2026: released milestones v1.13.1/v1.13.2 closed after checking zero unresolved items; both #41 and its implementing PR #42 moved from Backlog triage to v1.14.0. Candidate release v1.14.2 remains open and unpublished.
-- Delivery: issue-linked implementation PR; merge, release and any resulting Pages publication are separate evidence states. No application runtime, database migration, ingestion credentials or tenant writes are involved.
-- Recovery: revert the implementing commit through a PR. After interrupted generation inspect active processes, catalog and output before removing a stale `.catalog.lock` or `.catalog.next`. Never delete another process's lock or existing output.
-- Remaining: the later CI/lint expansion (#54), validator/link-checker hardening and skill-quality epics remain outside this patch. Consumer projects adopt selected updates through reviewed PRs and preserve their own configuration.
-- Next action: check the implementing PR's current-head Windows/Linux results, then perform the authorized merge/release procedure. Do not infer publication from a local check or an open PR.
+- Run sh scripts/check.sh on the current source. Confirm the required check and branch rules on GitHub if configured.
+- Record the reviewer, source SHA, check links and any pending setup in this file. Set the service owner and status in the catalog after verification.
+- Change tooling through an issue-linked PR. If service registration stops midway, inspect the working tree and active processes before recovering a stale catalog lock.

@@ -2,7 +2,7 @@
 
 These are reference shapes only. Identifiers, timestamps, revision zeroes and outcomes are fabricated fixtures, never real execution, approvals or deployment evidence. Do not copy them as project facts.
 
-- [Service skill](web/SKILL.md)
+- [Service skill](web/service-skill.md)
 - [Continuation](web/continuation.md)
 - [Decision entry](decisions.md)
 - [Evidence record](evidence.json)

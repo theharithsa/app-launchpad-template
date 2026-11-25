@@ -1,8 +1,8 @@
 ---
 name: app-launchpad
-description: Build, improve, or adopt a delivery workflow for an app using App Launchpad, issue-linked PRs, risk-based checks, and Dynatrace observability.
+description: Build or adopt an issue-to-release delivery workflow for an app. Use when starting a project, integrating an existing repository, or resuming a delivery task with App Launchpad. Do not use for standalone incident queries or unrelated code changes.
 metadata:
-  version: "1.14.3"
+  version: "1.15.0"
 ---
 
 # App Launchpad

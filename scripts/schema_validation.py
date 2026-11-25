@@ -6,7 +6,6 @@ are supported. No instance-supplied $schema URI is loaded and no network is used
 from datetime import datetime
 import json
 import math
-from pathlib import Path
 import re
 
 

@@ -1,6 +1,6 @@
 ---
 name: project-implementation
-description: Implement application changes using the affected service contracts.
+description: Implement agreed application changes using affected service contracts. Use when changing code in an App Launchpad project. Do not use for release-only or planning-only work.
 ---
 
 # Project Implementation

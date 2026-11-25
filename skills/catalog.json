@@ -6,21 +6,21 @@
       "id": "app-launchpad",
       "kind": "workflow",
       "path": ".agents/skills/app-launchpad/SKILL.md",
-      "description": "Overall project discovery and issue-to-release workflow",
+      "description": "Build or adopt an issue-to-release delivery workflow for an app. Use when starting a project, integrating an existing repository, or resuming a delivery task with App Launchpad. Do not use for standalone incident queries or unrelated code changes.",
       "dependsOn": []
     },
     {
       "id": "dt-obs",
       "kind": "workflow",
       "path": ".agents/skills/dt-obs/SKILL.md",
-      "description": "Instrument and verify Dynatrace signals and Thoth execution telemetry.",
+      "description": "Plan, implement and verify Dynatrace browser RUM, OpenTelemetry, business events and delivery telemetry. Use when instrumenting an app, service, worker or CI workflow. Do not use for routine telemetry investigation without instrumentation changes.",
       "dependsOn": []
     },
     {
       "id": "project-design",
       "kind": "workflow",
       "path": "skills/project-design/SKILL.md",
-      "description": "Design product journeys, UI and service contracts before changing application behavior.",
+      "description": "Design product journeys, interfaces and service contracts. Use when defining the behavior, states or acceptance criteria of a change. Do not use for a delivery-only task.",
       "dependsOn": [
         "app-launchpad",
         "ian-xiaohei-illustrations"
@@ -30,7 +30,7 @@
       "id": "project-implementation",
       "kind": "workflow",
       "path": "skills/project-implementation/SKILL.md",
-      "description": "Implement or enhance application code using the affected service skills and verified contracts.",
+      "description": "Implement agreed application changes using affected service contracts. Use when changing code in an App Launchpad project. Do not use for release-only or planning-only work.",
       "dependsOn": [
         "app-launchpad"
       ]
@@ -39,7 +39,7 @@
       "id": "project-testing",
       "kind": "workflow",
       "path": "skills/project-testing/SKILL.md",
-      "description": "Select and execute meaningful project and service tests, preserving actual results and limitations.",
+      "description": "Choose and run risk-based checks for project and service changes. Use when verifying a candidate or reproducing a behavior in a controlled test. Do not use to approve production promotion.",
       "dependsOn": [
         "app-launchpad"
       ]
@@ -48,7 +48,7 @@
       "id": "project-deployment",
       "kind": "workflow",
       "path": "skills/project-deployment/SKILL.md",
-      "description": "Prepare, execute when authorized, and verify project-specific releases, deployments and rollback.",
+      "description": "Prepare, execute and verify authorized releases and rollback. Use when publishing, deploying or restoring a checked App Launchpad candidate. Do not use for ordinary feature implementation.",
       "dependsOn": [
         "app-launchpad"
       ]
@@ -57,7 +57,7 @@
       "id": "project-observability",
       "kind": "workflow",
       "path": "skills/project-observability/SKILL.md",
-      "description": "Maintain service runtime and development lifecycle observability with bounded verification evidence.",
+      "description": "Maintain Dynatrace runtime and delivery instrumentation. Use when adding or verifying signals for a project change. Do not use for standalone exploratory queries.",
       "dependsOn": [
         "app-launchpad",
         "dt-obs"
@@ -67,7 +67,7 @@
       "id": "project-handoff",
       "kind": "workflow",
       "path": "skills/project-handoff/SKILL.md",
-      "description": "Resume work or leave a verified continuation record for the next AI agent.",
+      "description": "Record or resume App Launchpad work from verified source and evidence. Use when handing off a task or restoring its current state. Do not use as a substitute for release verification.",
       "dependsOn": [
         "app-launchpad"
       ]
@@ -76,7 +76,7 @@
       "id": "service-foundation-tooling",
       "kind": "service",
       "path": "skills/service-foundation-tooling/SKILL.md",
-      "description": "Maintain the foundation-tooling service; read its implementation and continuation context.",
+      "description": "Maintain template validators, service registration and opt-in ruleset tooling. Use when changing or diagnosing the App Launchpad foundation scripts or CI. Do not use for product features.",
       "dependsOn": [
         "project-implementation",
         "project-testing",
@@ -88,14 +88,14 @@
       "id": "ian-xiaohei-illustrations",
       "kind": "workflow",
       "path": "skills/ian-xiaohei-illustrations/SKILL.md",
-      "description": "Ian/Xiaohei explanatory illustrations for useful documentation and website visuals; select by content need.",
+      "description": "Generate Ian-style English article illustrations. Use when a request needs weird, clean, hand-drawn body images, article illustrations, shot lists, or edit/remove-title tasks for English articles, posts, blogs, Notion docs, workflows, methods, structures, states, metaphors, or viewpoints. Default to the Xiaohei IP, pure white hand-drawn look, sparse red/orange/blue annotations, and a clean but imaginative visual style. Do not use for generic illustration, PPT, commercial brand art, children's cartoons, or non-Xiaohei image requests unless the user explicitly asks for Ian/Xiaohei style.",
       "dependsOn": []
     },
     {
       "id": "project-documentation",
       "kind": "workflow",
       "path": "skills/project-documentation/SKILL.md",
-      "description": "Maintain project and user documentation with accurate examples, useful illustrations and versioned handoff context.",
+      "description": "Update project docs from actual behavior and decisions. Use when writing or verifying changed delivery, product or developer guides. Do not use for source implementation.",
       "dependsOn": [
         "app-launchpad",
         "ian-xiaohei-illustrations"
@@ -118,8 +118,8 @@
         "scripts/add_service_skill.py",
         "scripts/repository_ruleset.py"
       ],
-      "owner": "theharithsa",
-      "status": "active",
+      "owner": null,
+      "status": "planned",
       "dependsOn": [],
       "contracts": [
         "schemas/catalog.schema.json",
@@ -131,7 +131,7 @@
         "sh scripts/check.sh"
       ],
       "continuation": "skills/service-foundation-tooling/continuation.md",
-      "lastReviewedRevision": "aabff5c415e37b0d446f5998ecff760206a2ca4d"
+      "lastReviewedRevision": null
     }
   ]
 }

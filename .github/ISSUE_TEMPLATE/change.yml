@@ -5,19 +5,20 @@ type: Task
 labels: ["type: task"]
 body:
   - type: textarea
-    id: problem
+    id: outcome
     attributes:
-      label: Problem and expected behavior
+      label: Outcome and affected component
     validations:
       required: true
   - type: textarea
     id: acceptance
     attributes:
-      label: Acceptance criteria and scope
+      label: Completion check
+      description: Record the result, test or decision that will establish completion.
     validations:
       required: true
   - type: textarea
-    id: validation
+    id: delivery
     attributes:
-      label: Tests, observability and release impact
-      description: Record unknown decisions; never include secrets or customer data.
+      label: Delivery impact and dependencies
+      description: Link affected releases, risks or unresolved decisions as they become known.
