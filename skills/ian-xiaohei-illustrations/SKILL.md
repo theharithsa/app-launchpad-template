@@ -1,6 +1,6 @@
 ---
 name: ian-xiaohei-illustrations
-description: Generate Ian-style English article illustrations. Use when a request needs weird, clean, hand-drawn body images, article illustrations, shot lists, or edit/remove-title tasks for English articles, posts, blogs, Notion docs, workflows, methods, structures, states, metaphors, or viewpoints. Default to the Xiaohei IP, pure white hand-drawn look, sparse red/orange/blue annotations, and a clean but imaginative visual style. Do not use for generic illustration, PPT, commercial brand art, children's cartoons, or non-Xiaohei image requests unless the user explicitly asks for Ian/Xiaohei style.
+description: Generate Ian-style English article illustrations. Use when the user or project has selected the Ian Xiaohei style for an English article, guide or explainer. Default to the Xiaohei IP, pure white hand-drawn look, sparse red/orange/blue annotations, and a clean but imaginative visual style. Do not use for generic illustration, PPT, commercial brand art, children's cartoons, or non-Xiaohei image requests unless the user explicitly asks for Ian/Xiaohei style.
 ---
 
 # Ian Xiaohei Weird Article Illustrations
@@ -9,7 +9,7 @@ description: Generate Ian-style English article illustrations. Use when a reques
 
 Design and generate 16:9 horizontal article illustrations for English-language content. The goal is not commercial illustration, PPT infographic design, or cute cartoon art. Turn the article's key judgments, workflows, structures, states, or metaphors into a clean, weird, creative hand-drawn explainer that reads clearly without looking like a manual.
 
-If the user asks for generic illustration, PPT or slide graphics, commercial brand art, children's cartoons, or non-Xiaohei images, do not force this style. Use this skill only if the user explicitly asks for Ian/Xiaohei style or accepts that direction.
+If the user asks for generic illustration, PPT or slide graphics, commercial brand art, children's cartoons, or non-Xiaohei images, do not force this style. Invoke this skill explicitly when the user asks for Ian/Xiaohei style or the project has recorded that choice.
 
 Unless the user explicitly asks for another language, all handwritten annotations and labels on the image should be in English.
 

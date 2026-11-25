@@ -79,7 +79,7 @@ Shared boundaries: [safety](safety.md), [evidence](evidence.md), [service owners
 
 ## GitHub signals
 
-- Use [Thoth](../../dt-obs/references/github-actions.md) for GitHub Actions execution telemetry.
+- Choose a [GitHub Actions execution exporter](../../dt-obs/references/github-actions.md) for the repository’s evidence and trust requirements.
 - Use a trusted reporting job that runs after applicable jobs settle. Read allowlisted runner artifacts or trusted GitHub APIs for actual workflow, check and leaf-case outcomes, including failures and skips.
 - Key events by repository, revision, run, originating attempt and check/case ID as applicable. Include actual status, occurrence time and available duration. Test report parsing against real passed, failed, skipped and nested cases. Exclude free text and command output from exports. Keep high-cardinality IDs out of metric dimensions.
 - Preserve the original execution attempt through reporting retries. Use stable event IDs, bounded backoff and sanitized receipts. Stop retrying persistent authorization or schema rejections. Keep report-processing spans distinct from original test execution.

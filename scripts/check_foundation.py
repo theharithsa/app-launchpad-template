@@ -83,6 +83,23 @@ def read_record(root, filename, name, errors):
     return value
 
 
+def claude_entry(root, name):
+    canonical = root / '.agents/skills' / name / 'SKILL.md'
+    description = re.search(r'^description: (.+)$', canonical.read_text(encoding='utf-8'), re.MULTILINE)
+    if not description:
+        raise ValueError(f'Canonical skill description is missing: {name}')
+    target = f'../../../.agents/skills/{name}/SKILL.md'
+    return f'''---
+name: {name}
+description: {description[1]}
+---
+
+# {name}
+
+Read the [canonical {name} skill]({target}) and use its relevant references for the task.
+'''
+
+
 def validate(root, ready=False):
     root = root.resolve()
     errors = []
@@ -134,6 +151,13 @@ def validate(root, ready=False):
                             errors.append(f'{key} needs {field}')
     read_record(root, 'qa/evidence.json', 'evidence', errors)
     errors.extend(validate_catalog(root))
+    for skill in ('app-launchpad', 'dt-obs'):
+        path = root / '.claude/skills' / skill / 'SKILL.md'
+        try:
+            if path.read_text(encoding='utf-8') != claude_entry(root, skill):
+                errors.append(f'Claude entry differs from canonical skill: {skill}')
+        except (OSError, ValueError) as error:
+            errors.append(f'Cannot validate Claude entry for {skill}: {error}')
     return sorted(set(errors))
 
 

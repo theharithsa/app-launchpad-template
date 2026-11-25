@@ -1,7 +1,20 @@
 # Feature and signal coverage
 
-Per feature record acceptance criteria; contract/permissions; data concurrency/migration; UI states/settings; logs/spans/metrics; committed events or reason inapplicable; actual automated suite and manual case IDs; docs/skill owner; completion status.
+Record the agreed contract before testing. Keep execution evidence in
+[qa/evidence.json](../qa/evidence.json).
 
-Per signal record service/resource identity, schema/name/unit, allowlisted fields, bounded dimensions, secret reference, retention, recovery and expected verification. CI/test/release events are automation observations; business outcomes require committed authority.
+| Feature | Record |
+| --- | --- |
+| Outcome | Acceptance criteria, user-visible states and release scope |
+| Access and data | Permissions, concurrency and migration behavior |
+| Ownership | Service, docs, settings and completion status |
+| Verification | Automated suites, manual cases and observed outcomes |
 
-Planned coverage is not evidence. Record execution separately in qa/evidence.json.
+| Signal | Record |
+| --- | --- |
+| Identity | Service, resource, schema and unit |
+| Data | Allowlisted fields, bounded dimensions and retention |
+| Operations | Secret reference, recovery and expected verification |
+| Authority | Source system, committed outcome and correlation evidence |
+
+[Delivery evidence contract](../.agents/skills/app-launchpad/references/evidence.md)

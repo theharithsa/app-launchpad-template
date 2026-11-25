@@ -1,6 +1,6 @@
 # Decisions and unresolved questions
 
-For each consequential decision record: question; proposed options/tradeoff; status (proposed/approved/needs-user-input); chosen value; approval source; consequences.
+Record machine-readable decision status and selected value in `project.json`. Use this guide for rationale, alternatives, approval source and consequences.
 
 Decision areas: product rules, stack/runtime versions, deployment/cloud/project/region, auth/roles/tenancy, storage/jobs/integrations, design/brand, repository owner/visibility/main, Dynatrace tenant/RUM consent/identity, costs/retention, release/merge permissions.
 

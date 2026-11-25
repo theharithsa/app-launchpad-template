@@ -77,7 +77,7 @@ Use active OTel context/AsyncLocalStorage rather than a mutable global current u
 
 At the API error boundary, set `error.type` on the server span from the application error code (a finite set such as `UNAUTHENTICATED`, `CONFLICT`, `AI_RATE_LIMIT`, `MAINTENANCE_LOCK`; unknown errors become `INTERNAL`), include it in the completion log, and add it as a dimension on the request counter. Two 503s with different causes must be separable without reading response bodies. Log 4xx rejections at WARN with the code; they are the attempted-but-refused half of the journey.
 
-Dependency spans need semantic attributes, not only a name and duration. Database: `db.system.name`, `db.operation.name`, `db.collection.name` (allowlisted), transaction attempt count. LLM calls: `gen_ai.system`, `gen_ai.request.model`, `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens`, `gen_ai.response.finish_reasons`, `http.response.status_code`, `server.address`; never prompt or completion text. Normalize vendor errors into the bounded `error.type` set before the generic fallback: Firebase `messaging/…`/`auth/…` strings, gRPC numeric codes (`ABORTED`, `DEADLINE_EXCEEDED`, `RESOURCE_EXHAUSTED`, `UNAVAILABLE`), `AbortSignal` `TimeoutError`, schema/parse failures. Contention, timeouts and quota exhaustion are the signals operators most need and the ones a catch-all hides.
+Dependency spans need semantic attributes, not only a name and duration. Database: `db.system.name`, `db.operation.name`, `db.collection.name` (allowlisted), transaction attempt count. For model calls, use the GenAI contract below. Normalize vendor errors into the bounded `error.type` set before the generic fallback: Firebase `messaging/…`/`auth/…` strings, gRPC numeric codes (`ABORTED`, `DEADLINE_EXCEEDED`, `RESOURCE_EXHAUSTED`, `UNAVAILABLE`), `AbortSignal` `TimeoutError`, schema/parse failures. Contention, timeouts and quota exhaustion are the signals operators most need and the ones a catch-all hides.
 
 When `autoDetectResources` is off for a serverless/container runtime, set the resource identity explicitly from the platform environment: `cloud.provider`, `cloud.platform`, `cloud.region`, `faas.name`, `faas.version` or revision. Without them a regression cannot be tied to a deployed revision.
 
@@ -95,11 +95,30 @@ Generate a new request ID per attempt. Preserve the transaction ID through retri
 
 For async work, persist originating context with the committed outbox/message when available. Start a producer/consumer span or link as appropriate; keep original operation context and delivery-attempt context distinguishable. If Firestore writes lack browser context, create an actual audit-consumer span and mark `correlation.origin=firestore-audit`; do not claim an unbroken browser trace. Sampling may mean a valid ID has no stored span.
 
+## GenAI clients and agents
+
+Target the [OpenTelemetry GenAI semantic conventions v0.1.0](https://github.com/open-telemetry/semantic-conventions-genai/releases/tag/v0.1.0).
+Check the installed SDK's emitted attribute and instrument names before changing
+your pipeline. Prefer standard client spans with `gen_ai.provider.name`,
+`gen_ai.operation.name`, `gen_ai.request.model` and `gen_ai.response.model`.
+When the provider returns usage, record input and output token counts and bounded
+finish reasons. Record actual agent operations and tool executions as their own
+spans where supported. Preserve genuine parentage or links across asynchronous work.
+
+Use `gen_ai.client.operation.duration` as a duration histogram in seconds and
+`gen_ai.client.token.usage` as a token-usage histogram with `gen_ai.token.type`
+for input or output. Verify instrument units and supported dimensions with
+the installed SDK. Reuse instruments provided by auto-instrumentation.
+
+Prompt, completion and tool payload capture require explicit opt-in and
+reviewed privacy boundaries. Prefer numeric usage and bounded identities.
+Check decoded exports for content, identifiers and high-cardinality values.
+
 ## Metrics and operational health
 
 Use counters for requests/outcomes, explicit-bucket histograms for latency with clear units (normally seconds), gauges for current queues/pools/backlog age, and runtime CPU/memory/event-loop metrics where useful. Verify delta temporality and histogram compatibility against the actual Dynatrace exporter path. Resource/runtime metrics do not substitute for VM/host monitoring.
 
-Every scheduled or queued worker (reminders, AI analysis, scoring, cleanup, outbox) needs the same treatment as the telemetry outbox: a counter per outcome (`sent`, `failed`, `cancelled`, `skipped`), a histogram for processing lag (processed time − due time), and gauges for backlog depth and oldest pending age sampled at drain start. Numeric attributes on a `worker.completed` log are not metrics, and attributes outside the log allowlist are dropped without warning; keep the allowlist and the worker result keys in one shared contract. LLM dependencies additionally need request count, duration and token counters dimensioned by model, operation and outcome.
+Every scheduled or queued worker (reminders, AI analysis, scoring, cleanup, outbox) needs the same treatment as the telemetry outbox: a counter per outcome (`sent`, `failed`, `cancelled`, `skipped`), a histogram for processing lag (processed time − due time), and gauges for backlog depth and oldest pending age sampled at drain start. Numeric attributes on a `worker.completed` log are not metrics, and attributes outside the log allowlist are dropped without warning; keep the allowlist and the worker result keys in one shared contract. For model calls, use the GenAI instruments below and derive operation counts from the duration histogram when appropriate.
 
 Allow bounded dimensions such as normalized route, method, outcome and error category. Keep emails, UID, event/transaction/order/session IDs, raw URLs and exception text out of dimensions. Record metric outcomes exactly once at the owning layer; do not count browser observations plus backend outcomes as a single total.
 

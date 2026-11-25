@@ -18,4 +18,4 @@ Read only the owner relevant to the task; entrypoints and workflow skills route 
 | Template versions and consumer upgrades | [Versioning](versioning.md) |
 | Machine-readable field shapes | [Schemas](../schemas/README.md) |
 
-Technical procedures link to these shared boundaries; they may add task-specific mechanics, not redefine them. The bundled app-launchpad references are canonical so an installed copy remains self-contained. Root docs and tool-specific pointer files route into that same tree.
+Technical procedures link to these shared boundaries; they may add task-specific mechanics, not redefine them. The bundled references own the shared agent workflow. Repository-level records own versioning, decisions and project evidence.

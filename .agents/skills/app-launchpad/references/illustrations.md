@@ -2,7 +2,9 @@
 
 ## Selection
 
-- Ian Xiaohei Illustrations is the standing preference when images materially clarify README/docs, websites, onboarding, app explainers or related project content. Do not ask for repeated style approval.
+- Use illustrations when they materially clarify the content.
+- For App Launchpad's own documentation in `theharithsa/app-launchpad-template`, use Ian Xiaohei Illustrations by default.
+- In a generated app, choose its illustration approach during discovery and record that choice with the branding guidance. Invoke Ian Xiaohei Illustrations explicitly when the user or project selects that style.
 - Read the actual `ian-xiaohei-illustrations` skill and mode-specific references. Template projects bundle it at `skills/ian-xiaohei-illustrations/SKILL.md`; otherwise discover the installed skill. If unavailable, record that dependency and continue independent work.
 - Prefer the smallest useful set, one core concept per image; this preference overrides generic image quotas. Skip decorative repetition. Exact diagrams/charts, code examples and synthetic screenshots remain appropriate for precise information.
 - Respect explicit product branding, language and image requirements; this preference does not replace logos/brand assets. The skill defaults to English labels, 16:9, white background, black hand-drawn lines, sparse annotation and Xiaohei participating in the action. Use original metaphors, not recycled example compositions.

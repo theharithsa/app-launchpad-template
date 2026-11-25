@@ -55,5 +55,7 @@ commit in [delivery](delivery.md). Retain accurate baseline provenance.
 Run `sh scripts/check.sh`, the app's relevant tests and any affected
 deployment workflow checks. Record the result and open the app's PR.
 
+For a read-only list of upstream changes and local overlap, run `python3 scripts/template_upgrade.py --to v1.14.3` after fetching the refs above. The command reads your recorded source commit and existing Git refs. Review each reported overlap in your adoption PR.
+
 The [template changelog](template-changelog.md) describes versioned changes.
 Use the tag-to-tag diff for the exact paths in older releases.

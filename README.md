@@ -1,6 +1,6 @@
 # App Launchpad Template
 
-Template version: **1.16.0** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
+Template version: **1.17.0** · [changelog](docs/template-changelog.md) · [MIT license](LICENSE)
 
 See the [production documentation checklist](docs/release-plan.md#production-documentation-review). [SalesDrone](https://github.com/theharithsa/SalesDrone) is an existing app that uses App Launchpad delivery practices.
 
@@ -55,7 +55,7 @@ Build the starter and its five public guides with `python3 scripts/build_public_
 
 Run **`sh scripts/check.sh`** locally and in CI: metadata validation, local Markdown links and safety/contract tests. For machine-readable diagnostics use `python3 scripts/check_foundation.py --json`; `--ready` adds discovery checks. Foundation success does not certify an application's behavior, deployment or tenant signals.
 
-GitHub template generation copies files, not repository settings or future updates. Adopt upgrades through reviewed PRs and retain project-specific choices. See [versioning and migration](docs/versioning.md), [delivery](docs/delivery.md) and [service inventory](docs/services.md). The partial planning bootstrap was removed; use GitHub template generation or record adoption pending.
+GitHub template generation copies files. Configure the new repository’s settings and adopt later updates separately. Adopt upgrades through reviewed PRs and retain project-specific choices. See [versioning and migration](docs/versioning.md), [delivery](docs/delivery.md) and [service inventory](docs/services.md).
 
 ## Licensing
 

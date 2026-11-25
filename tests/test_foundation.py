@@ -26,7 +26,7 @@ class FoundationTests(unittest.TestCase):
             output = root / name
             output.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, output)
-        for name in ('scripts', 'skills', '.agents', '.github', 'schemas', 'docs'):
+        for name in ('scripts', 'skills', '.agents', '.claude', '.github', 'schemas', 'docs'):
             shutil.copytree(ROOT / name, root / name, dirs_exist_ok=True,
                             ignore=shutil.ignore_patterns('__pycache__'))
         return root
@@ -55,6 +55,12 @@ class FoundationTests(unittest.TestCase):
         project['decisions']['hosting']['approval'] = None
         (root / 'project.json').write_text(json.dumps(project), encoding='utf-8', newline='\n')
         self.assertTrue(foundation.validate(root, ready=True))
+
+    def test_claude_entry_rejects_drift(self):
+        root = self.fixture()
+        entry = root / '.claude/skills/app-launchpad/SKILL.md'
+        entry.write_text(entry.read_text(encoding='utf-8') + 'drift\n', encoding='utf-8')
+        self.assertIn('Claude entry differs from canonical skill: app-launchpad', foundation.validate(root))
 
     def test_malformed_configuration_and_missing_files_fail(self):
         root = self.fixture()

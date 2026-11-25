@@ -2,7 +2,7 @@
 name: dt-obs
 description: Plan, implement and verify Dynatrace browser RUM, OpenTelemetry, business events and delivery telemetry. Use when instrumenting an app, service, worker or CI workflow. Do not use for routine telemetry investigation without instrumentation changes.
 metadata:
-  version: "1.5.0"
+  version: "1.6.0"
 ---
 
 # Dynatrace application and development lifecycle observability
@@ -24,7 +24,7 @@ Use [the plan template](assets/observability-plan.md). Resolve missing tenant/ta
 - Scores, payments, votes, surveys, certificates or other durable domain outcomes: read [business events](references/business-events.md).
 - For sample boundaries in a static app, Node service and Firebase workspace, read the [worked patterns](references/worked-patterns.md).
 - Issue intake, development milestones, PRs, reviews, merges, issue resolution and correlation to deployed runtime: read [software development lifecycle](references/sdlc.md).
-- GitHub Actions execution telemetry: always use [Thoth](https://github.com/plengauer/Thoth) and follow [GitHub Actions observability](references/github-actions.md) for trust, Dynatrace export, and evidence. Use the same reference for structured test, deployment, and changelog events.
+- GitHub Actions execution telemetry: follow [GitHub Actions observability](references/github-actions.md) to select an exporter, establish trust and verify execution, test and deployment evidence.
 - Auditing an already-instrumented app for what still blocks detection and log/trace/metric/event correlation: read [gap review](references/gap-review.md) and walk the code paths, not the observability document.
 - Before declaring completion, follow [verification and release](references/verification.md) and use the [bounded DQL recipes](references/dql-verification.md).
 
