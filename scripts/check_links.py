@@ -10,6 +10,9 @@ import unicodedata
 from urllib.parse import unquote, urlsplit
 
 
+QUOTE_MARKER = r' {0,3}> ?'
+QUOTES = re.compile(rf'^(?:{QUOTE_MARKER})+')
+LIST_ITEM = re.compile(r'^ {0,3}(?:[-+*]|[0-9]{1,9}[.)]) {1,4}(?=\S)')
 FENCE = re.compile(r'^[ ]{0,3}(`{3,}|~{3,})(.*)$')
 INLINE_CODE = re.compile(r'(?<!`)(`+)(?!`).*?(?<!`)\1(?!`)', re.DOTALL)
 ATX = re.compile(r'^ {0,3}#{1,6}[ \t]+(.*)$')
@@ -26,20 +29,43 @@ def visible_markdown(text):
             lines = [''] * (end + 1) + lines[end + 1:]
     output = []
     fence = None
-    for line in lines:
-        block = re.sub(r'^(?: {0,3}> ?)+', '', line)
-        marker = FENCE.match(block)
+    quote_depth = 0
+    list_indents = []
+    for raw_line in lines:
+        line = raw_line.expandtabs(4)
         if fence:
-            if marker and marker[1][0] == fence[0] and len(marker[1]) >= len(fence) and not marker[2].strip():
-                fence = None
-            output.append('')
-        elif marker:
-            fence = marker[1]
-            output.append('')
-        elif block.expandtabs(4).startswith('    '):
-            output.append('')
-        else:
-            output.append(block)
+            opening, quote_prefix, indent = fence
+            prefix = quote_prefix.match(line)
+            if prefix:
+                tail = line[prefix.end():]
+                if not tail.strip() or tail.startswith(' ' * indent):
+                    marker = FENCE.match(tail[indent:])
+                    if marker and marker[1][0] == opening[0] and len(marker[1]) >= len(opening) and not marker[2].strip():
+                        fence = None
+                    output.append('')
+                    continue
+            # An unclosed fence ends with its enclosing quote or list item.
+            fence = None
+        prefix = QUOTES.match(line)
+        depth = prefix[0].count('>') if prefix else 0
+        if depth != quote_depth:
+            list_indents.clear()
+            quote_depth = depth
+        block = line[prefix.end():] if prefix else line
+        if block.strip():
+            while list_indents and not block.startswith(' ' * list_indents[-1]):
+                list_indents.pop()
+        indent = list_indents[-1] if list_indents else 0
+        block = block[indent:]
+        item = LIST_ITEM.match(block)
+        if item:
+            indent += item.end()
+            list_indents.append(indent)
+            block = block[item.end():]
+        marker = FENCE.match(block)
+        if marker:
+            fence = (marker[1], re.compile(rf'^(?:{QUOTE_MARKER}){{{quote_depth}}}'), indent)
+        output.append('' if marker or block.startswith('    ') else block)
     return '\n'.join(output)
 
 

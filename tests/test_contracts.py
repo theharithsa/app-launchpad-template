@@ -123,6 +123,25 @@ class ContractTests(unittest.TestCase):
         )
         self.assertEqual(check_links(root), ['README.md: missing local anchor guide.md#absent'])
 
+    def test_markdown_checks_prose_inside_lists_and_after_code_containers(self):
+        root = self.base / 'container-links'
+        root.mkdir()
+        (root / 'guide.md').write_text('# Guide\n', encoding='utf-8')
+        (root / 'README.md').write_text(
+            '10. List item\n\n'
+            '    [nested link](guide.md#in-list)\n\n'
+            '    ~~~markdown\n    [example](list-fence.md)\n    ~~~\n\n'
+            '        [example](indented-list-code.md)\n\n'
+            '> ~~~markdown\n> [example](quoted-fence.md)\n\n'
+            '[link after quote](guide.md#after-quote)\n\n'
+            '~~~markdown\n> [example](literal-quote.md)\n~~~\n',
+            encoding='utf-8',
+        )
+        self.assertEqual(check_links(root), [
+            'README.md: missing local anchor guide.md#after-quote',
+            'README.md: missing local anchor guide.md#in-list',
+        ])
+
     def test_ci_and_catalog_share_the_check_entrypoint(self):
         data=json.loads((ROOT/'skills/catalog.json').read_text(encoding='utf-8'))
         service=next(s for s in data['services'] if s['id']=='foundation-tooling')
