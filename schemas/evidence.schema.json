@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
+  "additionalProperties": false,
   "title": "Execution evidence (plans are separate)",
   "required": [
     "schemaVersion",
@@ -12,6 +13,7 @@
     "lifecycle"
   ],
   "properties": {
+    "$schema": {"type": "string"},
     "$schema": {
       "type": "string"
     },
@@ -41,6 +43,7 @@
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
           "id",
           "status",
@@ -115,6 +118,7 @@
     },
     "lifecycle": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "issueUrl",
         "pullRequestUrl",

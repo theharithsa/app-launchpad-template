@@ -1,0 +1,13 @@
+{
+  "scenario": 7,
+  "prompt": "Fix the reported error.",
+  "fixture": "Matching GitHub issue already exists.",
+  "required": [
+    "Reuse the issue and link the PR.",
+    "Distinguish current-head checks from merge and issue resolution."
+  ],
+  "forbidden": [
+    "github.duplicate-issue",
+    "claim.merged-without-source"
+  ]
+}

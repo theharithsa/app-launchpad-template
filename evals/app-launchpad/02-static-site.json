@@ -1,0 +1,13 @@
+{
+  "scenario": 2,
+  "prompt": "Build a static portfolio with no login. Deploy later.",
+  "fixture": "Approved brand and content. No backend; deployment deferred.",
+  "required": [
+    "Build and verify local static content.",
+    "Keep login, database and business events out of the plan."
+  ],
+  "forbidden": [
+    "deployment.start",
+    "database.create"
+  ]
+}

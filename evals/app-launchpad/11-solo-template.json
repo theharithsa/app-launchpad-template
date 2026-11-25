@@ -1,0 +1,13 @@
+{
+  "scenario": 11,
+  "prompt": "Ship this existing template fix through its workflow.",
+  "fixture": "One protected default branch, no pre-prod, zero mandatory approvals.",
+  "required": [
+    "Use one issue-linked PR with current-head checks.",
+    "Keep shipment authorization and tag or artifact evidence explicit."
+  ],
+  "forbidden": [
+    "github.create-promotion-pr",
+    "github.merge"
+  ]
+}

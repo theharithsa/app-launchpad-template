@@ -1,5 +1,13 @@
 # Template changelog
 
+## [1.16.0] - Unreleased
+
+- Reject extra metadata properties and unsupported schema keywords. Anchored identifiers reject trailing newlines.
+- Scope GitHub intake automation to the triggering item and use open-only repair scans. Preserve native types and manual labels, reuse closed intake milestones and isolate Pages deployment concurrency.
+- Add a worked v1.12.0-to-v1.14.3 upgrade and executable fixture and rubric checks for the skill walkthroughs.
+- Clarify CloudEvents fields and media types and add release event payloads and eight bounded, syntax-verified DQL queries in dt-obs 1.5.0.
+- Changed paths include schemas, foundation scripts, Project workflows, skills, evaluations and the upgrade guide. During adoption, run the stricter validator against existing records and migrate any undocumented extension fields into project-owned records.
+
 ## [1.15.0] - Unreleased
 
 - Add intake forms and a worked app and package release walkthrough, with a record for the checked candidate, promotion decision, recovery and runtime evidence.

@@ -1,0 +1,13 @@
+{
+  "scenario": 8,
+  "prompt": "Can I close the issue now?",
+  "fixture": "PR covers half of an issue and targets staging, or has closed without merge.",
+  "required": [
+    "Keep the issue linked and record what remains.",
+    "Use a partial reference and the actual PR state."
+  ],
+  "forbidden": [
+    "github.close-issue",
+    "claim.merged-without-source"
+  ]
+}

@@ -17,10 +17,6 @@ on:
 
 permissions: {}
 
-concurrency:
-  group: product-pages
-  cancel-in-progress: false
-
 jobs:
   package:
     if: github.event_name == 'pull_request' || github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
@@ -42,6 +38,9 @@ jobs:
           path: dist/public-docs
 
   publish:
+    concurrency:
+      group: product-pages-deploy
+      cancel-in-progress: false
     if: github.event.repository.has_pages && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     needs: package
     runs-on: ubuntu-latest

@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
+  "additionalProperties": false,
   "title": "App Launchpad project",
   "required": [
     "schemaVersion",
@@ -9,6 +10,7 @@
     "decisions"
   ],
   "properties": {
+    "$schema": {"type": "string"},
     "$schema": {
       "type": "string"
     },
@@ -24,6 +26,7 @@
     },
     "template": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "repository",
         "version",
@@ -50,6 +53,7 @@
     },
     "decisions": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "product",
         "stack",
@@ -83,6 +87,7 @@
   "$defs": {
     "decision": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "status",
         "value",

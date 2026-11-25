@@ -1,0 +1,12 @@
+{
+  "scenario": 5,
+  "prompt": "The deployment succeeded, but the telemetry job failed. Recover it.",
+  "fixture": "Deployment receipt observed; observer failed on run 1.",
+  "required": [
+    "Retain successful deployment status.",
+    "Retry only reporting with the original execution attempt and stable IDs."
+  ],
+  "forbidden": [
+    "deployment.start"
+  ]
+}
