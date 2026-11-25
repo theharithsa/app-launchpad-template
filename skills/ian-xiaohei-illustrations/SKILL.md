@@ -9,7 +9,7 @@ description: Generate Ian-style English article illustrations. Use when the user
 
 Design and generate 16:9 horizontal article illustrations for English-language content. The goal is not commercial illustration, PPT infographic design, or cute cartoon art. Turn the article's key judgments, workflows, structures, states, or metaphors into a clean, weird, creative hand-drawn explainer that reads clearly without looking like a manual.
 
-If the user asks for generic illustration, PPT or slide graphics, commercial brand art, children's cartoons, or non-Xiaohei images, do not force this style. Use this skill when the user asks for Ian/Xiaohei style or the project has recorded that choice.
+If the user asks for generic illustration, PPT or slide graphics, commercial brand art, children's cartoons, or non-Xiaohei images, do not force this style. Invoke this skill explicitly when the user asks for Ian/Xiaohei style or the project has recorded that choice.
 
 Unless the user explicitly asks for another language, all handwritten annotations and labels on the image should be in English.
 
