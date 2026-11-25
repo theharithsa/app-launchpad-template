@@ -9,7 +9,7 @@ metadata:
 
 ## Start or resume
 
-1. Inspect AGENTS.md, Git status/remotes, the handoff and current issue/PR. Apply [safety and decision authority](references/safety.md) and use [discovery](references/discovery.md) for missing decisions.
+1. Inspect AGENTS.md, Git status/remotes, the handoff and current issue/PR. Apply [safety and decision authority](references/safety.md) and use [discovery](references/discovery.md) for missing decisions. Continue authorized local implementation and checks while remote access, configuration or approval is pending.
 2. For a new repository, confirm the owner, name, visibility and empty destination. Generate from [app-launchpad-template](https://github.com/theharithsa/app-launchpad-template) by default and record the source version and commit. For an existing repository, follow [adoption](references/github-release.md#adopt-or-audit-the-workflow). Record pending adoption when GitHub is unavailable or the work is local-only.
 3. Follow the [delivery path that matches the project](references/github-release.md#choose-the-delivery-path). Use issue-linked PRs and checks sized to the risk. Use the [selected GitHub Project](references/github-projects.md) when the project tracks work there.
 4. Select the relevant references below. In template projects, read `skills/catalog.json` and the affected service skills. For new app work, prove an end-to-end slice with real checks for the chosen stack.

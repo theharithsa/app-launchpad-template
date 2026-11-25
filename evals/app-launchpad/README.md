@@ -1,6 +1,6 @@
 # App Launchpad skill evaluations
 
-Each numbered fixture mirrors a scenario in the [skill walkthroughs](../../.agents/skills/app-launchpad/references/scenarios.md). Use a disposable repository, mocked remote state and a reviewer who can inspect the actual response and actions. Run the assistant with the proposed skill and the fixture only.
+Each numbered fixture mirrors a scenario in the [skill walkthroughs](../../.agents/skills/app-launchpad/references/scenarios.md). Use a disposable repository, mocked remote state and a reviewer who can inspect the actual response and actions. Run the assistant with the proposed skill and the fixture only. Supply synthetic project files for scenarios that require local changes or executable checks. Allow writes only in the disposable repository and record the fixture setup and commands with the results.
 
 1. Run `python3 scripts/skill_evals.py --case 1` to get the prompt and environment facts.
 2. Capture the response and tool calls. Use `--case 1 --rubric` after the run to inspect the required outcomes and prohibited action identifiers.
