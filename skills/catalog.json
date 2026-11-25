@@ -88,7 +88,7 @@
       "id": "ian-xiaohei-illustrations",
       "kind": "workflow",
       "path": "skills/ian-xiaohei-illustrations/SKILL.md",
-      "description": "Generate Ian-style English article illustrations. Use when a request needs weird, clean, hand-drawn body images, article illustrations, shot lists, or edit/remove-title tasks for English articles, posts, blogs, Notion docs, workflows, methods, structures, states, metaphors, or viewpoints. Default to the Xiaohei IP, pure white hand-drawn look, sparse red/orange/blue annotations, and a clean but imaginative visual style. Do not use for generic illustration, PPT, commercial brand art, children's cartoons, or non-Xiaohei image requests unless the user explicitly asks for Ian/Xiaohei style.",
+      "description": "Generate Ian-style English article illustrations. Use when the user or project has selected the Ian Xiaohei style for an English article, guide or explainer. Default to the Xiaohei IP, pure white hand-drawn look, sparse red/orange/blue annotations, and a clean but imaginative visual style. Do not use for generic illustration, PPT, commercial brand art, children's cartoons, or non-Xiaohei image requests unless the user explicitly asks for Ian/Xiaohei style.",
       "dependsOn": []
     },
     {

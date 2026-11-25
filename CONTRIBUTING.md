@@ -1,10 +1,14 @@
 # Contributing
 
-Start with an issue that describes the behavior, expected outcome, and a way to verify the change. Check the repository's linked GitHub Project for work already in progress.
+Find an existing issue or open one with the behavior, expected outcome and a way
+to verify it. Use the [private reporting route](SECURITY.md) for vulnerabilities.
 
-1. Branch from the default branch and keep the change focused on the linked issue.
-2. Follow the project README for setup and the [testing guide](docs/testing.md) for checks. Use isolated services and synthetic data for tests, screenshots, and recordings.
-3. Open a PR that explains the behavior change and the checks you ran. Use a closing keyword when the PR fully resolves its linked issue.
-4. Refresh affected documentation and public launch material when behavior changes.
+## Before opening a pull request
 
-See the [delivery procedure](docs/delivery.md) for issue and release tracking. Report suspected vulnerabilities through the private route in the [security policy](SECURITY.md).
+1. Install the prerequisites from [README](README.md) and branch from the default branch.
+2. Run `sh scripts/check.sh` and use synthetic data with isolated services where needed. Record the affected service checks.
+3. Link the issue in your PR and explain the behavior change. Use a closing keyword for a complete fix on the default branch.
+4. Complete **Documentation impact** in the PR template. Give the changed guides or explain why they still apply.
+5. Follow the [MIT license](LICENSE) for contributions. Include attribution and permission for any third-party material you add.
+
+Use [delivery](docs/delivery.md) for repository-specific planning and release tracking.

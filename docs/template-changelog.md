@@ -1,5 +1,13 @@
 # Template changelog
 
+## [1.17.0] - Unreleased
+
+- Add a read-only template upgrade report and Claude Code skill entrypoints derived from the canonical descriptions.
+- Separate template maintenance from adopter guidance. Clarify contribution and vulnerability reporting, coverage, disclosure and onboarding.
+- Document project-level illustration selection and preserve the template's own style policy.
+- Adopt the OpenTelemetry GenAI v0.1.0 contract and explain execution exporter choices in bundled dt-obs 1.6.0.
+- Changed paths include scripts, tests, onboarding and policy docs, Claude adapters and skill references. Adopters preserve their own settings and run the upgrade report before selecting changes.
+
 ## [1.16.0] - Unreleased
 
 - Reject extra metadata properties and unsupported schema keywords. Anchored identifiers reject trailing newlines.

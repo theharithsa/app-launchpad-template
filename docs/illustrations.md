@@ -1,6 +1,6 @@
 # Illustrations
 
-Use the [canonical selection and integration policy](../.agents/skills/app-launchpad/references/illustrations.md) and [Ian Xiaohei skill](../skills/ian-xiaohei-illustrations/SKILL.md).
+Generated apps choose their own illustration approach during discovery. Use the [canonical selection and integration policy](../.agents/skills/app-launchpad/references/illustrations.md) and [Ian Xiaohei skill](../skills/ian-xiaohei-illustrations/SKILL.md).
 The adapted package retains the local label 0.1.1; this is not a verified upstream
 release tag. Its [MIT license](../skills/ian-xiaohei-illustrations/LICENSE),
 [attribution notice](../skills/ian-xiaohei-illustrations/NOTICE.md) and

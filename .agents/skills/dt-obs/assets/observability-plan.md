@@ -38,7 +38,7 @@
 - Synthetic/local tests and actual source-to-tenant chain evidence:
 
 ## CI and release signals
-- Thoth observer action and SDK pins for GitHub Actions, trusted runs and separate CI service identity:
+- Selected CI exporter and its version/integrity evidence, trusted runs and separate CI service identity:
 - Test runner reports, case/scenario granularity, skipped/missing/failed outcomes:
 - Deployment owner and verified/partial/failed stage semantics:
 - Published changelog/tag revision and notes redaction/limits:

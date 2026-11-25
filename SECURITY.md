@@ -1,9 +1,15 @@
 # Security policy
 
-For App Launchpad, [report privately to the maintainer](https://github.com/theharithsa/app-launchpad-template/security/advisories/new).
+## Supported template versions
 
-For public GitHub projects with private vulnerability reporting enabled, open the repository's **Security** tab, choose **Advisories**, and select **Report a vulnerability**. Confirm this route during repository setup. For other repository or hosting choices, document the maintainer's verified private reporting channel here before accepting reports.
+Use the latest published App Launchpad release for security fixes and tooling updates. Include the affected version or commit when reporting an issue. [Published versions](https://github.com/theharithsa/app-launchpad-template/releases)
 
-Include the affected version or commit, the component involved, the observed behavior, and the likely impact. Use synthetic data or an isolated test account. Keep suspected vulnerabilities, credentials, and private records out of public issues and attachments.
+## Report a template vulnerability
 
-Describe the project's actual authentication, authorization, data storage, and secret handling here once those services are configured. Link the [service inventory](docs/services.md) and apply the [secrets and trust policy](.agents/skills/app-launchpad/references/safety.md) when preparing public materials.
+[Submit a private vulnerability report](https://github.com/theharithsa/app-launchpad-template/security/advisories/new). Include the affected component, observed behavior, likely impact, and an isolated reproduction with synthetic data. Keep credentials and customer records out of reports, and keep vulnerability details out of public issues.
+
+## Replace this section during app setup
+
+Record the generated app's own supported versions and verified private reporting route before inviting reports. Replace the template-specific routing above. Public GitHub projects can use private vulnerability reporting after the owner configures it. [GitHub reporting setup](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/configure-for-a-repository)
+
+Describe the app's access model and data-handling boundaries in its [service inventory](docs/services.md). Follow the [secrets and trust policy](.agents/skills/app-launchpad/references/safety.md) for published materials.
